@@ -1,0 +1,13 @@
+{
+  "minSecondsBetweenEdits": "60",
+  "maxEditAge": "3600",
+  "maxEdits": "0",
+  "maxHistoryFileSizeKB": "10000",
+  "editHistoryRootFolder": "",
+  "extensionWhitelist": ".md, .txt, .csv, .htm, .html",
+  "substringBlacklist": "",
+  "showOnStatusBar": true,
+  "diffDisplayFormat": "INLINE",
+  "showWhitespace": true,
+  "debugLevel": "warn"
+}
