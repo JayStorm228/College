@@ -1,5 +1,5 @@
 ---
-date: 2026-09-04
+date: <% tp.file.creation_date("YYYY-MM-DD") %>
 subject:
 teacher:
 type: лекция
