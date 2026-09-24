@@ -35,6 +35,8 @@ ATTACH_DIRS = [VAULT / "Вложения", VAULT / "Диаграммы"]
 # Папки, которые в проверку не входят: служебные и вложенные репозитории с кодом.
 SKIP_DIRS = {".obsidian", "_Экспорт", ".git", "node_modules"}
 VENDOR_MARKERS = ("pyproject.toml", ".gitignore", ".python-version")
+# Служебные заметки внутри дисциплин: это не учебный материал, YAML-контракт к ним не применяется.
+SERVICE_NAMES = {"README.md", "ПРОЧТИ_МЕНЯ.md"}
 
 RUN_ORDER = ["date", "subject", "teacher", "type", "related_lecture", "tags", "author", "status"]
 REQUIRED = ["date", "subject", "type", "tags", "author", "status"]
@@ -62,9 +64,11 @@ class Report:
 
 
 def is_skipped(path: Path) -> bool:
-    """Служебные папки и вложенные репозитории (папка с кодом — не заметка)."""
+    """Служебные папки, служебные заметки и вложенные репозитории (папка с кодом — не заметка)."""
     rel = path.relative_to(VAULT)
     if any(part in SKIP_DIRS for part in rel.parts):
+        return True
+    if path.name in SERVICE_NAMES:
         return True
     for parent in path.parents:
         if parent == VAULT:
