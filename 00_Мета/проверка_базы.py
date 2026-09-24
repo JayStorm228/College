@@ -285,7 +285,10 @@ def check_code(path: Path, body: str, rep: Report) -> tuple[int, int]:
         if lang not in ("python", "py"):
             continue
         total += 1
-        src = code.replace("\t", "    ")
+        # Код может лежать внутри врезки: каждая строка начинается с "> ". Снимаем префикс,
+        # иначе блок не компилируется и проверка ругается на исправный код.
+        src = "\n".join(re.sub(r"^\s*>\s?", "", line) for line in code.splitlines())
+        src = src.replace("\t", "    ")
         try:
             compile(src, f"{path.name}#{i}", "exec")
         except SyntaxError as e:
