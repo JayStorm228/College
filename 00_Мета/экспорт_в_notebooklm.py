@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Сборка базы конспектов в файлы-источники для NotebookLM (Gemini Notebook).
 
-Один файл на дисциплину. Берётся только папка 01_Дисциплины/.
+Один файл на дисциплину (01_Дисциплины/) и один на курс (02_Курсы/).
 Из текста вырезаются блоки dataview и строки блок-якорей Obsidian (^xxxxxx) —
 в выгрузке это шум, который не несёт учебного смысла.
 
@@ -17,6 +17,7 @@ from pathlib import Path
 
 VAULT = Path(__file__).resolve().parent.parent
 SUBJECTS_DIR = VAULT / "01_Дисциплины"
+COURSES_DIR = VAULT / "02_Курсы"
 
 DATAVIEW_BLOCK = re.compile(r"```dataview\n.*?```", re.DOTALL)
 BLOCK_ANCHOR = re.compile(r"^\^[A-Za-z0-9]{4,}\s*$", re.MULTILINE)
@@ -48,8 +49,8 @@ def in_vendored_repo(path: Path, stop: Path) -> bool:
     return False
 
 
-def build_subject(subject_dir: Path) -> tuple[str, int, int]:
-    """Склеивает все заметки дисциплины в один документ.
+def build_subject(subject_dir: Path, kind: str = "Дисциплина") -> tuple[str, int, int]:
+    """Склеивает все заметки дисциплины или курса в один документ.
 
     Возвращает (текст, число заметок, число пропущенных файлов вложенных репозиториев).
     """
@@ -57,7 +58,7 @@ def build_subject(subject_dir: Path) -> tuple[str, int, int]:
     notes = [p for p in all_md if not in_vendored_repo(p, subject_dir)]
     skipped = len(all_md) - len(notes)
     parts = [
-        f"# Дисциплина: {subject_dir.name}\n",
+        f"# {kind}: {subject_dir.name}\n",
         f"Всего материалов: {len(notes)}\n",
     ]
     for note in notes:
@@ -77,9 +78,13 @@ def main() -> None:
 
     total_words = 0
     total_skipped = 0
-    print(f"{'дисциплина':<44}{'заметок':>8}{'слов':>9}  файл")
-    for subject_dir in sorted(p for p in SUBJECTS_DIR.iterdir() if p.is_dir()):
-        body, n_notes, skipped = build_subject(subject_dir)
+    print(f"{'материал':<44}{'заметок':>8}{'слов':>9}  файл")
+    targets: list[tuple[Path, str]] = []
+    for base, kind in ((SUBJECTS_DIR, "Дисциплина"), (COURSES_DIR, "Курс")):
+        if base.is_dir():
+            targets += [(p, kind) for p in sorted(base.iterdir()) if p.is_dir()]
+    for subject_dir, kind in targets:
+        body, n_notes, skipped = build_subject(subject_dir, kind)
         target = out_dir / f"{subject_dir.name}.md"
         target.write_text(body, encoding="utf-8")
         words = word_count(body)

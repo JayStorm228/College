@@ -31,6 +31,7 @@ from pathlib import Path
 
 VAULT = Path(__file__).resolve().parent.parent
 SUBJECTS_DIR = VAULT / "01_Дисциплины"
+COURSES_DIR = VAULT / "02_Курсы"
 ATTACH_DIRS = [VAULT / "Вложения", VAULT / "Диаграммы"]
 # Папки, которые в проверку не входят: служебные и вложенные репозитории с кодом.
 SKIP_DIRS = {".obsidian", "_Экспорт", ".git", "node_modules"}
@@ -79,8 +80,11 @@ def is_skipped(path: Path) -> bool:
 
 
 def notes_under(subject_filter: str | None) -> list[Path]:
-    """Проверяемые заметки: всё под 01_Дисциплины, кроме служебного и вложенных репозиториев."""
-    roots = [p for p in sorted(SUBJECTS_DIR.iterdir()) if p.is_dir()]
+    """Проверяемые заметки: дисциплины и курсы, кроме служебного и вложенных репозиториев."""
+    roots: list[Path] = []
+    for base in (SUBJECTS_DIR, COURSES_DIR):
+        if base.is_dir():
+            roots += [p for p in sorted(base.iterdir()) if p.is_dir()]
     if subject_filter:
         roots = [p for p in roots if p.name.startswith(subject_filter)]
     return sorted(p for r in roots for p in r.rglob("*.md") if not is_skipped(p))
@@ -246,11 +250,19 @@ def check_links(
 ) -> tuple[int, int]:
     rel = path.relative_to(VAULT)
     checked = warnings = 0
+    # внутри блоков кода (```...```) ссылок нет: там примеры, TOML-таблицы и т.п.
+    searchable = re.sub(r"```.*?```", " ", body, flags=re.DOTALL)
     # внутри инлайн-кода (`...`) ссылки не работают и в Obsidian — там они просто текст
-    searchable = re.sub(r"`[^`\n]*`", " ", body)
+    searchable = re.sub(r"`[^`\n]*`", " ", searchable)
     for m in LINK.finditer(searchable):
         # в таблицах пайп экранируется: [[Заметка\|подпись]] — обратный слэш не часть имени
         target, section = m.group(1).strip().rstrip("\\").strip(), (m.group(2) or "").strip().rstrip("\\").strip()
+        # `[[0, 2, 4]]` — это индексация в примерах NumPy, а не вики-ссылка.
+        # Признак кода: ни одной буквы и есть запятая или пробел внутри.
+        # Имена заметок вида `[[23-09-2026]]` так не отсеиваются.
+        has_letter = re.search(r"[A-Za-zА-Яа-яЁё]", target)
+        if not has_letter and ("," in target or " " in target):
+            continue
         checked += 1
         if target.lower() in attachments:
             continue
@@ -301,7 +313,7 @@ def check_code(path: Path, body: str, rep: Report) -> tuple[int, int]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--subject", help="проверять только дисциплину с таким началом имени папки (например 02)")
+    parser.add_argument("--subject", help="проверять только дисциплину или курс с таким началом имени папки (например 02)")
     parser.add_argument("--no-code", action="store_true", help="не компилировать python-блоки")
     args = parser.parse_args()
 
