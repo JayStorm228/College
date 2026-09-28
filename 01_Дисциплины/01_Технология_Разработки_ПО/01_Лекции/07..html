@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестирование ПО — Самостоятельное изучение</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Roboto+Mono&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --purple: #8b5cf6;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #ecfdf5;
+            color: var(--dark);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            display: none;
+            flex: 1;
+            padding: 50px 70px;
+            overflow-y: auto;
+            animation: slideUp 0.5s ease-out;
+            background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
+        }
+
+        .slide.active { display: flex; flex-direction: column; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            width: fit-content;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .slide-title {
+            font-size: 42px;
+            font-weight: 900;
+            color: var(--dark);
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .slide-title .highlight {
+            color: var(--primary);
+            position: relative;
+        }
+
+        .slide-title .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: rgba(16, 185, 129, 0.2);
+            z-index: -1;
+            border-radius: 4px;
+        }
+
+        .slide-content {
+            font-size: 22px;
+            line-height: 1.7;
+            color: #374151;
+            flex: 1;
+        }
+
+        .slide-content p { margin-bottom: 18px; }
+        .slide-content strong { color: var(--dark); font-weight: 800; }
+
+        /* Definition Card */
+        .definition {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 35px;
+            margin: 25px 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border-left: 6px solid var(--primary);
+        }
+
+        .definition .def-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .definition .def-text {
+            font-size: 21px;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Analogy Card */
+        .analogy {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 28px 35px;
+            margin: 25px 0;
+            border-left: 6px solid var(--accent);
+        }
+
+        .analogy .label {
+            font-size: 14px;
+            font-weight: 800;
+            color: #92400e;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .analogy .text {
+            font-size: 20px;
+            color: #78350f;
+            line-height: 1.6;
+        }
+
+        /* Key Insight */
+        .insight {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 35px 40px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .insight p {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        /* Two Columns */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .col-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .col-card h4 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .col-card p, .col-card li {
+            font-size: 18px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .col-card ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .col-card li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+        }
+
+        .col-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .col-card.negative li::before {
+            content: '✗';
+            color: var(--danger);
+        }
+
+        /* Interactive Question */
+        .quiz-box {
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            border-radius: 20px;
+            padding: 30px 35px;
+            margin: 25px 0;
+            border-left: 6px solid var(--purple);
+        }
+
+        .quiz-box .quiz-label {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-box .quiz-question {
+            font-size: 21px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .quiz-answer-btn {
+            background: var(--purple);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 17px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .quiz-answer-btn:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .quiz-answer {
+            display: none;
+            margin-top: 20px;
+            padding: 20px 25px;
+            background: white;
+            border-radius: 12px;
+            font-size: 19px;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+
+        .quiz-answer.show { display: block; animation: slideUp 0.4s; }
+
+        /* Pyramid Visual */
+        .pyramid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin: 30px 0;
+        }
+
+        .pyramid-level {
+            color: white;
+            font-weight: 800;
+            text-align: center;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .pyramid-level:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .pyramid-level.top {
+            width: 30%;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .pyramid-level.middle {
+            width: 60%;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .pyramid-level.bottom {
+            width: 90%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        }
+
+        .pyramid-level .count {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Table */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .styled-table th {
+            background: var(--primary);
+            color: white;
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 800;
+            font-size: 17px;
+        }
+
+        .styled-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 17px;
+            color: #374151;
+        }
+
+        .styled-table tr:last-child td { border-bottom: none; }
+        .styled-table tr:hover { background: #f0fdf4; }
+
+        /* Test Case Card */
+        .test-case {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .test-case .tc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .test-case .tc-id {
+            background: var(--primary);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .test-case .tc-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .test-case .tc-row {
+            display: flex;
+            margin-bottom: 12px;
+            font-size: 17px;
+        }
+
+        .test-case .tc-label {
+            font-weight: 800;
+            color: var(--primary);
+            min-width: 200px;
+        }
+
+        .test-case .tc-value {
+            color: #4b5563;
+        }
+
+        /* Task Box */
+        .task-box {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-radius: 20px;
+            padding: 30px 35px;
+            margin: 25px 0;
+            border-left: 6px solid var(--danger);
+        }
+
+        .task-box .task-label {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--danger);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-box h4 {
+            font-size: 22px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .task-box p, .task-box li {
+            font-size: 18px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 70px;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-btn {
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gray);
+        }
+
+        .slide-counter span { color: var(--primary); }
+
+        .progress-bar {
+            height: 5px;
+            background: #d1fae5;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.4s ease;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title-slide .icon {
+            font-size: 90px;
+            margin-bottom: 30px;
+        }
+
+        .title-slide h1 {
+            font-size: 54px;
+            font-weight: 900;
+            color: var(--dark);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .title-slide .subtitle {
+            font-size: 24px;
+            color: var(--gray);
+            margin-bottom: 40px;
+        }
+
+        .title-slide .tags {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .title-slide .tag {
+            background: white;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Lists */
+        .slide-content ul.styled-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .slide-content ul.styled-list li {
+            padding: 12px 0 12px 35px;
+            position: relative;
+            font-size: 20px;
+            color: #374151;
+        }
+
+        .slide-content ul.styled-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 22px;
+        }
+
+        /* Scrollbar */
+        .slide::-webkit-scrollbar { width: 8px; }
+        .slide::-webkit-scrollbar-track { background: transparent; }
+        .slide::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active">
+            <div class="icon">🧪</div>
+            <h1>Тестирование программного обеспечения</h1>
+            <p class="subtitle">Материал для самостоятельного изучения</p>
+            <div class="tags">
+                <div class="tag">⏱️ 90 минут</div>
+                <div class="tag">📖 30 слайдов</div>
+                <div class="tag">✍️ Задание в конце</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Instruction -->
+        <div class="slide">
+            <span class="slide-badge">Как работать</span>
+            <div class="slide-title">Инструкция по <span class="highlight">изучению</span></div>
+            <div class="slide-content">
+                <p>Этот материал предназначен для самостоятельного изучения. Следуйте этим рекомендациям:</p>
+                <ul class="styled-list">
+                    <li><strong>Читайте внимательно.</strong> Не пропускайте слайды — каждый следующий опирается на предыдущий.</li>
+                    <li><strong>Отвечайте на вопросы.</strong> Встретив фиолетовый блок с вопросом, сначала подумайте сами, а потом нажимайте «Показать ответ».</li>
+                    <li><strong>Делайте заметки.</strong> Записывайте определения и ключевые мысли — это пригодится для выполнения задания.</li>
+                    <li><strong>Выполните задание в конце.</strong> После изучения всех слайдов вас ждёт задание для проверки усвоения.</li>
+                    <li><strong>Отправьте результат преподавателю.</strong> Ответы на задание сдаются на оценку.</li>
+                </ul>
+                <div class="insight">
+                    <p>Не торопитесь. Лучше медленно и с пониманием,<br>чем быстро и без него.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Why Testing -->
+        <div class="slide">
+            <span class="slide-badge">Введение</span>
+            <div class="slide-title">Зачем вообще <span class="highlight">тестировать?</span></div>
+            <div class="slide-content">
+                <p>Представьте ситуацию. Вы написали программу. Она компилируется, запускается, вроде бы что-то делает. Но вы <strong>не знаете</strong>:</p>
+                <ul class="styled-list">
+                    <li>Работает ли она правильно во всех случаях?</li>
+                    <li>Что произойдёт, если пользователь введёт некорректные данные?</li>
+                    <li>Не сломается ли она, если два пользователя обратятся к ней одновременно?</li>
+                    <li>Выдержит ли она нагрузку в 1000 пользователей?</li>
+                </ul>
+                <p>Без тестирования вы просто <strong>надеетесь</strong>, что всё работает. А надежда — это не стратегия разработки.</p>
+                <div class="insight">
+                    <p>Тестирование — это не поиск ошибок.<br>
+                    Тестирование — это процесс получения информации о качестве продукта.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Definition Testing -->
+        <div class="slide">
+            <span class="slide-badge">Определение 1</span>
+            <div class="slide-title">Что такое <span class="highlight">тестирование</span></div>
+            <div class="slide-content">
+                <div class="definition">
+                    <div class="def-label">📘 Определение</div>
+                    <div class="def-text">
+                        <strong>Тестирование программного обеспечения</strong> — это процесс исследования, испытания и проверки программного продукта с целью оценки его качества, выявления дефектов и подтверждения соответствия требованиям.
+                    </div>
+                </div>
+                <p>Обратите внимание на три глагола в этом определении:</p>
+                <div class="two-col">
+                    <div class="col-card">
+                        <h4>🔍 Исследование</h4>
+                        <p>Мы изучаем поведение программы в различных условиях и сценариях.</p>
+                    </div>
+                    <div class="col-card">
+                        <h4>⚡ Испытание</h4>
+                        <p>Мы подвергаем программу нагрузкам и нестандартным ситуациям.</p>
+                    </div>
+                </div>
+                <div class="col-card" style="margin-top: 20px;">
+                    <h4>✅ Проверка</h4>
+                    <p>Мы сверяем фактический результат с ожидаемым.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Error Defect Failure -->
+        <div class="slide">
+            <span class="slide-badge">Определение 2</span>
+            <div class="slide-title">Ошибка, дефект, <span class="highlight">отказ</span></div>
+            <div class="slide-content">
+                <p>Эти три термина часто путают, но они означают разные вещи:</p>
+                <div class="definition">
+                    <div class="def-label">👤 Ошибка (Error)</div>
+                    <div class="def-text">Действие человека, которое приводит к неправильному результату. Например, программист неправильно понял требование или опечатался в коде.</div>
+                </div>
+                <div class="definition" style="border-left-color: var(--accent);">
+                    <div class="def-label" style="color: var(--accent);">🐛 Дефект (Defect, Bug)</div>
+                    <div class="def-text">Изъян в коде, вызванный ошибкой человека. Дефект существует в коде, даже если программа ещё не запущена.</div>
+                </div>
+                <div class="definition" style="border-left-color: var(--danger);">
+                    <div class="def-label" style="color: var(--danger);">💥 Отказ (Failure)</div>
+                    <div class="def-text">Проявление дефекта при выполнении программы. Отказ — это когда пользователь видит неправильный результат.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Analogy for Error Defect Failure -->
+        <div class="slide">
+            <span class="slide-badge">Аналогия</span>
+            <div class="slide-title">Аналогия с <span class="highlight">поваром</span></div>
+            <div class="slide-content">
+                <div class="analogy">
+                    <div class="label">🍰 Представьте, что повар печёт торт</div>
+                    <div class="text">
+                        <strong>Ошибка:</strong> повар перепутал соль с сахаром, когда читал рецепт.<br><br>
+                        <strong>Дефект:</strong> в рецепте написано «сахар», но в банке соль.<br><br>
+                        <strong>Отказ:</strong> гость пробует торт и говорит «это несъедобно».
+                    </div>
+                </div>
+                <div class="insight">
+                    <p>Ошибка порождает дефект,<br>
+                    а дефект при определённых условиях проявляется как отказ.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Interactive Question 1 -->
+        <div class="slide">
+            <span class="slide-badge">Самопроверка 1</span>
+            <div class="slide-title">Проверьте <span class="highlight">себя</span></div>
+            <div class="slide-content">
+                <div class="quiz-box">
+                    <div class="quiz-label">🤔 Вопрос для размышления</div>
+                    <div class="quiz-question">
+                        Вы открыли мобильное приложение банка. Вы ввели сумму перевода 500 рублей, нажали «Отправить». Приложение показало экран «Перевод выполнен», но деньги не списались и не пришли получателю.<br><br>
+                        Классифицируйте: где здесь ошибка, дефект и отказ?
+                    </div>
+                    <button class="quiz-answer-btn" onclick="toggleAnswer(this)">Показать ответ</button>
+                    <div class="quiz-answer">
+                        <strong>Ошибка:</strong> программист забыл добавить проверку успешности транзакции перед выводом сообщения.<br><br>
+                        <strong>Дефект:</strong> в коде отсутствует вызов функции проверки статуса транзакции.<br><br>
+                        <strong>Отказ:</strong> пользователь видит «Перевод выполнен», но деньги не переведены.
+                    </div>
+                </div>
+                <p>Если ваш ответ совпал — отлично! Если нет, перечитайте слайды 5-6 и разберитесь.</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Test Case -->
+        <div class="slide">
+            <span class="slide-badge">Определение 3</span>
+            <div class="slide-title">Что такое <span class="highlight">тест-кейс</span></div>
+            <div class="slide-content">
+                <div class="definition">
+                    <div class="def-label">📘 Определение</div>
+                    <div class="def-text">
+                        <strong>Тест-кейс (Test Case)</strong> — это набор входных данных, условий выполнения и ожидаемого результата, разработанный для проверки определённого аспекта программы.
+                    </div>
+                </div>
+                <div class="analogy">
+                    <div class="label">💡 Простыми словами</div>
+                    <div class="text">Тест-кейс — это инструкция «что сделать и что должно получиться». Как рецепт блюда: список ингредиентов (входные данные), шаги приготовления (действия) и описание готового блюда (ожидаемый результат).</div>
+                </div>
+                <p><strong>Структура тест-кейса:</strong></p>
+                <ul class="styled-list">
+                    <li><strong>Идентификатор</strong> — уникальный номер (например, TC-001)</li>
+                    <li><strong>Название</strong> — краткое описание того, что проверяется</li>
+                    <li><strong>Предусловия</strong> — что должно быть готово до начала теста</li>
+                    <li><strong>Шаги</strong> — последовательность действий</li>
+                    <li><strong>Ожидаемый результат</strong> — что должно произойти</li>
+                    <li><strong>Фактический результат</strong> — что произошло на самом деле</li>
+                    <li><strong>Статус</strong> — прошёл (Passed) или не прошёл (Failed)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 9: Test Case Example -->
+        <div class="slide">
+            <span class="slide-badge">Пример</span>
+            <div class="slide-title">Пример <span class="highlight">тест-кейса</span></div>
+            <div class="slide-content">
+                <div class="test-case">
+                    <div class="tc-header">
+                        <span class="tc-id">TC-001</span>
+                        <span class="tc-title">Успешная регистрация нового пользователя</span>
+                    </div>
+                    <div class="tc-row">
+                        <span class="tc-label">Предусловия:</span>
+                        <span class="tc-value">Сайт открыт. Пользователь не авторизован. Email test@example.com не зарегистрирован.</span>
+                    </div>
+                    <div class="tc-row">
+                        <span class="tc-label">Шаги:</span>
+                        <span class="tc-value">
+                            1. Перейти на страницу регистрации.<br>
+                            2. Ввести имя «Иван».<br>
+                            3. Ввести email «test@example.com».<br>
+                            4. Ввести пароль «SecurePass123!».<br>
+                            5. Подтвердить пароль.<br>
+                            6. Нажать «Зарегистрироваться».
+                        </span>
+                    </div>
+                    <div class="tc-row">
+                        <span class="tc-label">Ожидаемый результат:</span>
+                        <span class="tc-value">Отображается «Регистрация успешна». Пользователь перенаправляется в личный кабинет.</span>
+                    </div>
+                    <div class="tc-row">
+                        <span class="tc-label">Фактический результат:</span>
+                        <span class="tc-value">(заполняется после выполнения)</span>
+                    </div>
+                    <div class="tc-row">
+                        <span class="tc-label">Статус:</span>
+                        <span class="tc-value">(Passed / Failed)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Bug Report -->
+        <div class="slide">
+            <span class="slide-badge">Определение 4</span>
+            <div class="slide-title">Что такое <span class="highlight">баг-репорт</span></div>
+            <div class="slide-content">
+                <div class="definition">
+                    <div class="def-label">📘 Определение</div>
+                    <div class="def-text">
+                        <strong>Баг-репорт (Bug Report)</strong> — это документ, описывающий обнаруженный дефект, с целью его передачи разработчикам для исправления.
+                    </div>
+                </div>
+                <p><strong>Хороший баг-репорт содержит:</strong></p>
+                <ul class="styled-list">
+                    <li><strong>Заголовок</strong> — краткое описание проблемы</li>
+                    <li><strong>Шаги воспроизведения</strong> — что нужно сделать, чтобы увидеть баг</li>
+                    <li><strong>Ожидаемый результат</strong> — что должно было произойти</li>
+                    <li><strong>Фактический результат</strong> — что произошло на самом деле</li>
+                    <li><strong>Окружение</strong> — браузер, ОС, версия программы</li>
+                    <li><strong>Приоритет и серьёзность</strong> — насколько критичен баг</li>
+                </ul>
+                <div class="insight">
+                    <p>Баг-репорт должен быть воспроизводимым.<br>
+                    Если разработчик не может повторить баг по вашему описанию,<br>
+                    он не сможет его исправить.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Functional vs Non-functional -->
+        <div class="slide">
+            <span class="slide-badge">Виды тестирования</span>
+            <div class="slide-title">Функциональное и <span class="highlight">нефункциональное</span></div>
+            <div class="slide-content">
+                <div class="two-col">
+                    <div class="col-card">
+                        <h4>⚙️ Функциональное</h4>
+                        <p><strong>ЧТО</strong> делает система. Соответствует ли она функциональным требованиям?</p>
+                        <ul>
+                            <li>Может ли пользователь зарегистрироваться?</li>
+                            <li>Правильно ли рассчитывается стоимость заказа?</li>
+                            <li>Формируется ли отчёт при нажатии кнопки?</li>
+                        </ul>
+                    </div>
+                    <div class="col-card">
+                        <h4>📊 Нефункциональное</h4>
+                        <p><strong>КАК</strong> работает система. Проверка характеристик качества.</p>
+                        <ul>
+                            <li>Как быстро загружается страница?</li>
+                            <li>Выдержит ли 10 000 пользователей?</li>
+                            <li>Защищены ли данные от взлома?</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="analogy">
+                    <div class="label">🚗 Аналогия с автомобилем</div>
+                    <div class="text">
+                        <strong>Функциональное:</strong> машина заводится? Едет? Тормозит? Фары горят?<br>
+                        <strong>Нефункциональное:</strong> как быстро разгоняется до 100 км/ч? Удобно ли сидеть? Безопасна ли при столкновении?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Black White Grey Box -->
+        <div class="slide">
+            <span class="slide-badge">Виды тестирования</span>
+            <div class="slide-title">Чёрный, белый и <span class="highlight">серый ящик</span></div>
+            <div class="slide-content">
+                <div class="definition">
+                    <div class="def-label">⬛ Чёрный ящик (Black Box)</div>
+                    <div class="def-text">Тестировщик не видит внутреннюю структуру программы. Знает только входы и выходы.</div>
+                </div>
+                <div class="definition" style="border-left-color: #f8fafc;">
+                    <div class="def-label" style="color: var(--gray);">⬜ Белый ящик (White Box)</div>
+                    <div class="def-text">Тестировщик видит и анализирует внутреннюю структуру кода. Тесты строятся на основе знания логики.</div>
+                </div>
+                <div class="definition" style="border-left-color: var(--gray);">
+                    <div class="def-label" style="color: var(--gray);">🔲 Серый ящик (Grey Box)</div>
+                    <div class="def-text">Комбинация двух подходов. Тестировщик имеет частичное представление о внутренней структуре, но тестирует через интерфейс.</div>
+                </div>
+                <div class="analogy">
+                    <div class="label">🚗 Аналогия с автомобилем</div>
+                    <div class="text">
+                        <strong>Чёрный ящик:</strong> вы управляете автомобилем, не заглядывая под капот.<br>
+                        <strong>Белый ящик:</strong> механик открывает капот и проверяет каждый провод.<br>
+                        <strong>Серый ящик:</strong> водитель знает, что двигатель бензиновый, но не лезет внутрь.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Interactive Question 2 -->
+        <div class="slide">
+            <span class="slide-badge">Самопроверка 2</span>
+            <div class="slide-title">Проверьте <span class="highlight">себя</span></div>
+            <div class="slide-content">
+                <div class="quiz-box">
+                    <div class="quiz-label">🤔 Вопрос для размышления</div>
+                    <div class="quiz-question">
+                        Какой вид тестирования вы бы выбрали для проверки того, что кнопка «Купить» на сайте красивая, правильного цвета и удобно расположена — ручное или автоматизированное?
+                    </div>
+                    <button class="quiz-answer-btn" onclick="toggleAnswer(this)">Показать ответ</button>
+                    <div class="quiz-answer">
+                        <strong>Ручное.</strong> Автоматизация может проверить, что кнопка существует и кликабельна, но оценить визуальную привлекательность и удобство расположения может только человек.
+                    </div>
+                </div>
+                <div class="quiz-box" style="margin-top: 20px;">
+                    <div class="quiz-label">🤔 Ещё один вопрос</div>
+                    <div class="quiz-question">
+                        Тестировщик проверяет, что при вводе правильного логина и пароля пользователь попадает в систему. Он не знает, как устроена проверка внутри. Какой это метод: чёрный, белый или серый ящик?
+                    </div>
+                    <button class="quiz-answer-btn" onclick="toggleAnswer(this)">Показать ответ</button>
+                    <div class="quiz-answer">
+                        <strong>Чёрный ящик.</strong> Тестировщик знает только вход (логин и пароль) и выход (попал в систему или нет), но не видит внутреннюю логику проверки.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Manual vs Automated -->
+        <div class="slide">
+            <span class="slide-badge">Виды тестирования</span>
+            <div class="slide-title">Ручное и <span class="highlight">автоматизированное</span></div>
+            <div class="slide-content">
+                <div class="two-col">
+                    <div class="col-card">
+                        <h4>👤 Ручное тестирование</h4>
+                        <p>Тестировщик вручную выполняет тест-кейсы, кликает кнопки, проверяет результаты.</p>
+                        <ul style="margin-top: 15px;">
+                            <li>Гибкость</li>
+                            <li>Нестандартные сценарии</li>
+                            <li>Не нужен код</li>
+                        </ul>
+                    </div>
+                    <div class="col-card negative">
+                        <h4>🤖 Автоматизированное</h4>
+                        <p>Тесты выполняются скриптами. Компьютер сам открывает приложение, вводит данные, проверяет.</p>
+                        <ul style="margin-top: 15px;">
+                            <li>Быстро (тысячи тестов за минуты)</li>
+                            <li>Нет человеческого фактора</li>
+                            <li>Требует навыков программирования</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="insight">
+                    <p>Ручное и автоматизированное тестирование не конкурируют,<br>
+                    а дополняют друг друга.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Testing Levels Intro -->
+        <div class="slide">
+            <span class="slide-badge">Уровни тестирования</span>
+            <div class="slide-title">Четыре уровня <span class="highlight">тестирования</span></div>
+            <div class="slide-content">
+                <p>Тестирование проводится на разных уровнях — от проверки маленькой функции до проверки всей системы целиком.</p>
+                <div class="two-col">
+                    <div class="col-card">
+                        <h4>1️⃣ Модульное (Unit)</h4>
+                        <p>Тестирование отдельных функций и методов изолированно.</p>
+                    </div>
+                    <div class="col-card">
+                        <h4>2️⃣ Интеграционное</h4>
+                        <p>Тестирование взаимодействия между модулями.</p>
+                    </div>
+                    <div class="col-card">
+                        <h4>3️⃣ Системное</h4>
+                        <p>Тестирование всей системы целиком как единого продукта.</p>
+                    </div>
+                    <div class="col-card">
+                        <h4>4️⃣ Приёмочное</h4>
+                        <p>Финальная проверка заказчиком или пользователями.</p>
+                    </div>
+                </div>
+                <p>Рассмотрим каждый уровень подробно на следующих слайдах.</p>
+            </div>
+        </div>
+
+        <!-- Slide 16: Unit Testing -->
+        <div class="slide">
+            <span class="slide-badge">Уровень 1</span>
+            <div class="slide-title">Модульное тестирование <span class="highlight">(Unit Testing)</span></div>
+            <div class="slide-content">
+                <div class="definition">
+                    <div class="def-label">📘 Определение</div>
+                    <div class="def-text">
+                        <strong>Модульное тестирование</strong> — тестирование отдельных компонентов программы (функций, методов, классов) изолированно друг от друга.
+                    </div>
+                </div>
+                <table class="styled-table">
+                    <tr><th>Что проверяем</th><td>Правильно ли работает одна функция? Корректно ли обрабатываются граничные значения?</td></tr>
+                    <tr><th>Кто пишет</th><td>Разработчики</td></tr>
+                    <tr><th>Когда</th><td>В процессе написания кода, до интеграции с остальной системой</td></tr>
+                </table>
+                <div class="analogy">
+                    <div class="label">🧱 Аналогия</div>
+                    <div class="text">Вы проверяете каждый кирпич на прочность, прежде чем строить из него стену.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Integration Testing -->
+        <div class="slide">
+            <span class="slide-badge">Уровень 2</span>
+            <div class="slide-title">Интеграционное <span class="highlight">тестирование</span></div>
+            <div class="slide-content">
+                <div class="definition">
+                    <div class="def-label">📘 Определение</div>
+                    <div class="def-text">
+                        <strong>Интеграционное тестирование</strong> — тестирование взаимодействия между модулями или компонентами системы.
+                    </div>
+                </div>
+                <p><strong>Что проверяем:</strong></p>
+                <ul class="styled-list">
+                    <li>Правильно ли модуль авторизации передаёт данные модулю профиля?</li>
+                    <li>Корректно ли фронтенд общается с бэкендом через API?</li>
+                    <li>Правильно ли работает взаимодействие с базой данных?</li>
+                </ul>
+                <table class="styled-table">
+                    <tr><th>Кто проводит</th><td>Разработчики или тестировщики</td></tr>
+                    <tr><th>Когда</th><td>После того как модули готовы и их нужно «соединить»</td></tr>
+                </table>
+                <div class="analogy">
+                    <div class="label">🧱 Аналогия</div>
+                    <div class="text">Вы проверили каждый кирпич по отдельности. Теперь проверяете, что стена из этих кирпичей не разваливается.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: System Testing -->
+        <div class="slide">
+            <span class="slide-badge">Уровень 3</span>
+            <div class="slide-title">Системное <span class="highlight">тестирование</span></div>
+            <div class="slide-content">
+                <div class="definition">
+                    <div class="def-label">📘 Определение</div>
+                    <div class="def-text">
+                        <strong>Системное тестирование</strong> — тестирование всей системы целиком, как единого продукта, в условиях, максимально приближённых к реальным.
+                    </div>
+                </div>
+                <p><strong>Что проверяем:</strong></p>
+                <ul class="styled-list">
+                    <li>Работает ли приложение от начала до конца?</li>
+                    <li>Соответствует ли оно всем требованиям из ТЗ?</li>
+                    <li>Как ведёт себя система под нагрузкой?</li>
+                </ul>
+                <table class="styled-table">
+                    <tr><th>Кто проводит</th><td>Тестировщики</td></tr>
+                    <tr><th>Когда</th><td>После интеграции всех модулей</td></tr>
+                </table>
+                <div class="analogy">
+                    <div class="label">🏠 Аналогия</div>
+                    <div class="text">Вы построили дом из стен. Теперь проверяете, что в нём можно жить: работает отопление, электричество, водопровод.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Acceptance Testing -->
+        <div class="slide">
+            <span class="slide-badge">Уровень 4</span>
+            <div class="slide-title">Приёмочное <span class="highlight">тестирование</span></div>
+            <div class="slide-content">
+                <div class="definition">
+                    <div class="def-label">📘 Определение</div>
+                    <div class="def-text">
+                        <strong>Приёмочное тестирование</strong> — финальная проверка заказчиком или конечными пользователями, что продукт соответствует требованиям и готов к использованию.
+                    </div>
+                </div>
+                <p><strong>Что проверяем:</strong></p>
+                <ul class="styled-list">
+                    <li>Соответствует ли продукт бизнес-требованиям?</li>
+                    <li>Готов ли продукт к выпуску в продакшн?</li>
+                    <li>Удобно ли им пользоваться реальным людям?</li>
+                </ul>
+                <table class="styled-table">
+                    <tr><th>Кто проводит</th><td>Заказчик, бизнес-аналитики, реальные пользователи</td></tr>
+                    <tr><th>Когда</th><td>Перед выпуском продукта</td></tr>
+                </table>
+                <div class="analogy">
+                    <div class="label">🏠 Аналогия</div>
+                    <div class="text">Вы построили дом и пригласили семью. Они смотрят, нравится ли им планировка, удобно ли жить.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Testing Pyramid -->
+        <div class="slide">
+            <span class="slide-badge">Пирамида</span>
+            <div class="slide-title">Пирамида <span class="highlight">тестирования</span></div>
+            <div class="slide-content">
+                <p>Все уровни тестирования принято изображать в виде пирамиды:</p>
+                <div class="pyramid">
+                    <div class="pyramid-level top">
+                        Приёмочное тестирование
+                        <div class="count">Мало · Медленно · Дорого</div>
+                    </div>
+                    <div class="pyramid-level middle">
+                        Интеграционное тестирование
+                        <div class="count">Средне</div>
+                    </div>
+                    <div class="pyramid-level bottom">
+                        Модульное (Unit) тестирование
+                        <div class="count">Много · Быстро · Дёшево</div>
+                    </div>
+                </div>
+                <div class="insight">
+                    <p>Чем ниже уровень — тем больше тестов,<br>
+                    тем они быстрее и дешевле.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: Why Pyramid -->
+        <div class="slide">
+            <span class="slide-badge">Пирамида</span>
+            <div class="slide-title">Почему пирамида <span class="highlight">именно такая?</span></div>
+            <div class="slide-content">
+                <div class="two-col">
+                    <div class="col-card">
+                        <h4>💰 Экономика</h4>
+                        <p>Найти баг на уровне одной функции (внизу пирамиды) в 100 раз дешевле, чем на уровне всей системы (наверху).</p>
+                    </div>
+                    <div class="col-card">
+                        <h4>⚡ Скорость</h4>
+                        <p>Unit-тесты выполняются за миллисекунды. Системные тесты могут занимать часы.</p>
+                    </div>
+                </div>
+                <div class="col-card" style="margin-top: 20px;">
+                    <h4>🎯 Стабильность</h4>
+                    <p>Чем выше уровень теста, тем больше у него зависимостей (база данных, сеть, браузер). Чем больше зависимостей, тем больше ложных срабатываний.</p>
+                </div>
+                <div class="quiz-box" style="margin-top: 25px;">
+                    <div class="quiz-label">🤔 Вопрос для размышления</div>
+                    <div class="quiz-question">
+                        Почему мы не можем обойтись только системными тестами? Зачем писать сотни маленьких unit-тестов?
+                    </div>
+                    <button class="quiz-answer-btn" onclick="toggleAnswer(this)">Показать ответ</button>
+                    <div class="quiz-answer">
+                        Системные тесты медленные и дорогие. Если у вас 1000 системных тестов, их запуск может занять несколько часов. А 10 000 unit-тестов выполняются за 2 минуты. Кроме того, системный тест показывает, ЧТО сломалось, но не показывает, ГДЕ именно. Unit-тест сразу укажет на конкретную функцию.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 22: Equivalence Partitioning -->
+        <div class="slide">
+            <span class="slide-badge">Методы тест-дизайна</span>
+            <div class="slide-title">Эквивалентное <span class="highlight">разделение</span></div>
+            <div class="slide-content">
+                <div class="definition">
+                    <div class="def-label">📘 Определение</div>
+                    <div class="def-text">
+                        <strong>Эквивалентное разделение</strong> — метод проектирования тестов, при котором все возможные входные данные делятся на группы (классы эквивалентности), внутри которых программа должна вести себя одинаково. Затем проверяется по одному значению из каждой группы.
+                    </div>
+                </div>
+                <div class="analogy">
+                    <div class="label">📋 Пример: поле «возраст» принимает значения от 18 до 60</div>
+                    <div class="text">
+                        Классы эквивалентности:<br>
+                        • Меньше 18 (например, 10, 15, 17) — должны быть отклонены.<br>
+                        • От 18 до 60 (например, 20, 35, 50) — должны быть приняты.<br>
+                        • Больше 60 (например, 65, 100) — должны быть отклонены.
+                    </div>
+                </div>
+                <div class="insight">
+                    <p>Вместо проверки всех 100 возможных значений возраста,<br>
+                    мы проверяем 3-4 значения — по одному из каждой группы.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: Boundary Values -->
+        <div class="slide">
+            <span class="slide-badge">Методы тест-дизайна</span>
+            <div class="slide-title">Граничные <span class="highlight">значения</span></div>
+            <div class="slide-content">
+                <div class="definition">
+                    <div class="def-label">📘 Определение</div>
+                    <div class="def-text">
+                        <strong>Анализ граничных значений</strong> — метод, при котором особое внимание уделяется значениям на границах диапазонов, так как именно там чаще всего возникают ошибки.
+                    </div>
+                </div>
+                <div class="analogy">
+                    <div class="label">📋 Пример: поле «возраст» от 18 до 60</div>
+                    <div class="text">
+                        Граничные значения для проверки:<br>
+                        • <strong>17</strong> (чуть ниже минимума) — должен быть отклонён.<br>
+                        • <strong>18</strong> (минимум) — должен быть принят.<br>
+                        • <strong>19</strong> (чуть выше минимума) — должен быть принят.<br>
+                        • <strong>59</strong> (чуть ниже максимума) — должен быть принят.<br>
+                        • <strong>60</strong> (максимум) — должен быть принят.<br>
+                        • <strong>61</strong> (чуть выше максимума) — должен быть отклонён.
+                    </div>
+                </div>
+                <div class="insight">
+                    <p>Программисты часто путают «больше 18» с «больше или равно 18».<br>
+                    Тест на значение 18 сразу выявит такой баг.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Connection to Previous Topics -->
+        <div class="slide">
+            <span class="slide-badge">Связь с курсом</span>
+            <div class="slide-title">Тестирование и <span class="highlight">технический долг</span></div>
+            <div class="slide-content">
+                <p>Помните лекцию о техническом долге? Так вот, <strong>отсутствие тестов — одна из главных причин накопления технического долга</strong>.</p>
+                <div class="two-col">
+                    <div class="col-card negative">
+                        <h4>❌ Без тестов</h4>
+                        <ul>
+                            <li>Боитесь вносить изменения</li>
+                            <li>Каждый рефакторинг — лотерея</li>
+                            <li>Новые разработчики тратят недели на изучение</li>
+                            <li>Долг накапливается</li>
+                        </ul>
+                    </div>
+                    <div class="col-card">
+                        <h4>✅ С тестами</h4>
+                        <ul>
+                            <li>Можно безопасно рефакторить</li>
+                            <li>Уверенность при изменениях</li>
+                            <li>Новички сразу видят, что работает</li>
+                            <li>Долг не накапливается</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="insight">
+                    <p>Тесты — это не затраты времени.<br>
+                    Тесты — это инвестиция, которая экономит время в будущем.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Connection to AI -->
+        <div class="slide">
+            <span class="slide-badge">Связь с курсом</span>
+            <div class="slide-title">Тестирование и <span class="highlight">ИИ</span></div>
+            <div class="slide-content">
+                <p>Вспомните нашу первую лекцию про ИИ. Как ИИ может помочь в тестировании?</p>
+                <div class="two-col">
+                    <div class="col-card">
+                        <h4>✅ ИИ отлично справляется с</h4>
+                        <ul>
+                            <li>Генерацией тест-кейсов по описанию функции</li>
+                            <li>Генерацией граничных значений</li>
+                            <li>Написанием unit-тестов для конкретных функций</li>
+                            <li>Генерацией тестовых данных</li>
+                        </ul>
+                    </div>
+                    <div class="col-card negative">
+                        <h4>❌ ИИ плохо справляется с</h4>
+                        <ul>
+                            <li>Оценкой юзабилити</li>
+                            <li>Проверкой визуального дизайна</li>
+                            <li>Пониманием бизнес-контекста</li>
+                            <li>Тестированием в условиях неопределённости</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="insight">
+                    <p>ИИ — отличный помощник для рутинного тестирования,<br>
+                    но он не заменит критическое мышление тестировщика.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Summary -->
+        <div class="slide">
+            <span class="slide-badge">Итоги</span>
+            <div class="slide-title">Ключевые <span class="highlight">выводы</span></div>
+            <div class="slide-content">
+                <ul class="styled-list">
+                    <li><strong>Тестирование — это не поиск багов.</strong> Это процесс получения информации о качестве продукта.</li>
+                    <li><strong>Ошибка, дефект и отказ — разные вещи.</strong> Ошибка человека порождает дефект в коде, а дефект при выполнении проявляется как отказ.</li>
+                    <li><strong>Тестирование бывает функциональным и нефункциональным.</strong> Первое проверяет, ЧТО делает система. Второе — КАК она это делает.</li>
+                    <li><strong>Уровни тестирования образуют пирамиду.</strong> Внизу — много быстрых и дешёвых unit-тестов. Наверху — мало медленных и дорогих системных тестов.</li>
+                    <li><strong>Тесты — это инвестиция.</strong> Они экономят время на рефакторинг и снижают технический долг.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 27: Task Intro -->
+        <div class="slide">
+            <span class="slide-badge">Задание</span>
+            <div class="slide-title">Задание для <span class="highlight">проверки усвоения</span></div>
+            <div class="slide-content">
+                <div class="task-box">
+                    <div class="task-label">📝 Что нужно сделать</div>
+                    <h4>Ответьте на вопросы ниже в отдельном документе</h4>
+                    <p>После изучения всех слайдов выполните задание. Ответы оформите в текстовом документе (Word) и отправьте преподавателю.</p>
+                    <p style="margin-top: 15px;"><strong>Максимальный балл за задание: 30</strong></p>
+                </div>
+                <p>Задание состоит из трёх частей:</p>
+                <ul class="styled-list">
+                    <li><strong>Часть А:</strong> Тестовые вопросы с выбором ответа (10 баллов)</li>
+                    <li><strong>Часть Б:</strong> Открытые вопросы на размышление (10 баллов)</li>
+                    <li><strong>Часть В:</strong> Практическое задание (10 баллов)</li>
+                </ul>
+                <p>Переходите к следующему слайду, чтобы увидеть задание.</p>
+            </div>
+        </div>
+
+        <!-- Slide 28: Task Part A -->
+        <div class="slide">
+            <span class="slide-badge">Часть А</span>
+            <div class="slide-title">Тестовые <span class="highlight">вопросы</span> (10 баллов)</div>
+            <div class="slide-content">
+                <div class="task-box">
+                    <div class="task-label">Выберите один правильный ответ</div>
+                    
+                    <p style="margin-top: 20px;"><strong>1.</strong> Что из перечисленного является ОТКАЗОМ (Failure)?</p>
+                    <p style="margin-left: 20px;">а) Программист забыл обработать ошибку в коде.<br>
+                    б) В коде отсутствует проверка на деление на ноль.<br>
+                    в) Пользователь ввёл число 0, и программа вылетела.</p>
+
+                    <p style="margin-top: 20px;"><strong>2.</strong> Какой уровень тестирования находится в основании пирамиды?</p>
+                    <p style="margin-left: 20px;">а) Системное тестирование.<br>
+                    б) Модульное (Unit) тестирование.<br>
+                    в) Приёмочное тестирование.</p>
+
+                    <p style="margin-top: 20px;"><strong>3.</strong> Тестировщик проверяет программу, не видя её код. Какой это метод?</p>
+                    <p style="margin-left: 20px;">а) Белый ящик.<br>
+                    б) Чёрный ящик.<br>
+                    в) Серый ящик.</p>
+
+                    <p style="margin-top: 20px;"><strong>4.</strong> Для чего нужен метод граничных значений?</p>
+                    <p style="margin-left: 20px;">а) Для проверки производительности.<br>
+                    б) Для выявления ошибок на границах диапазонов.<br>
+                    в) Для тестирования пользовательского интерфейса.</p>
+
+                    <p style="margin-top: 20px;"><strong>5.</strong> Что НЕ входит в структуру хорошего баг-репорта?</p>
+                    <p style="margin-left: 20px;">а) Шаги воспроизведения.<br>
+                    б) Личное мнение тестировщика о разработчике.<br>
+                    в) Ожидаемый и фактический результат.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: Task Part B -->
+        <div class="slide">
+            <span class="slide-badge">Часть Б</span>
+            <div class="slide-title">Открытые <span class="highlight">вопросы</span> (10 баллов)</div>
+            <div class="slide-content">
+                <div class="task-box">
+                    <div class="task-label">Дайте развёрнутый ответ на каждый вопрос (по 2.5 балла)</div>
+                    
+                    <p style="margin-top: 20px;"><strong>Вопрос 1.</strong> Объясните своими словами, почему тестирование называют «инвестицией», а не «затратами времени». Приведите пример.</p>
+
+                    <p style="margin-top: 25px;"><strong>Вопрос 2.</strong> Вы тестируете поле «количество товаров в корзине» интернет-магазина. Допустимый диапазон — от 1 до 100. Перечислите граничные значения, которые вы бы проверили, и объясните, почему именно их.</p>
+
+                    <p style="margin-top: 25px;"><strong>Вопрос 3.</strong> Почему в пирамиде тестирования системных тестов должно быть меньше, чем модульных? Что произойдёт, если перевернуть пирамиду (много системных, мало модульных)?</p>
+
+                    <p style="margin-top: 25px;"><strong>Вопрос 4.</strong> Как тестирование связано с рефакторингом? Почему без тестов рефакторинг становится рискованным?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 30: Task Part C -->
+        <div class="slide">
+            <span class="slide-badge">Часть В</span>
+            <div class="slide-title">Практическое <span class="highlight">задание</span> (10 баллов)</div>
+            <div class="slide-content">
+                <div class="task-box">
+                    <div class="task-label">Составьте тестовую документацию</div>
+                    
+                    <p style="margin-top: 20px;"><strong>Ситуация:</strong> Вы тестируете функцию входа в мобильное приложение. Пользователь вводит логин (от 3 до 20 символов) и пароль (от 6 до 30 символов). При правильных данных открывается главный экран, при неправильных — отображается сообщение об ошибке.</p>
+
+                    <p style="margin-top: 25px;"><strong>Задание 1 (5 баллов).</strong> Составьте <strong>3 тест-кейса</strong> по шаблону из лекции:</p>
+                    <ul class="styled-list">
+                        <li>Тест-кейс 1: Успешный вход с правильными данными.</li>
+                        <li>Тест-кейс 2: Вход с неправильным паролем.</li>
+                        <li>Тест-кейс 3: Вход с логином короче минимальной длины (граничное значение).</li>
+                    </ul>
+
+                    <p style="margin-top: 25px;"><strong>Задание 2 (5 баллов).</strong> Представьте, что при вводе логина из 21 символа (на 1 больше максимума) программа не показывает ошибку, а зависает. Составьте <strong>баг-репорт</strong> на этот дефект по шаблону из лекции.</p>
+                </div>
+                <div class="insight" style="margin-top: 30px;">
+                    <p>Оформите все ответы в одном документе.<br>
+                    Не забудьте указать ФИО и группу.<br>
+                    Удачи! 🍀</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Назад</button>
+            <div class="slide-counter">Слайд <span id="currentSlide">1</span> / <span id="totalSlides">30</span></div>
+            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Вперёд →</button>
+        </div>
+    </div>
+
+    <script>
+        let current = 0;
+        const slides = document.querySelectorAll('.slide');
+        const total = slides.length;
+        document.getElementById('totalSlides').textContent = total;
+
+        function updateProgress() {
+            const progress = ((current + 1) / total) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function changeSlide(direction) {
+            slides[current].classList.remove('active');
+            current += direction;
+            if (current < 0) current = 0;
+            if (current >= total) current = total - 1;
+            slides[current].classList.add('active');
+            document.getElementById('currentSlide').textContent = current + 1;
+            document.getElementById('prevBtn').disabled = (current === 0);
+            document.getElementById('nextBtn').disabled = (current === total - 1);
+            updateProgress();
+            document.querySelector('.slide.active').scrollTop = 0;
+        }
+
+        function toggleAnswer(btn) {
+            const answer = btn.nextElementSibling;
+            answer.classList.toggle('show');
+            btn.textContent = answer.classList.contains('show') ? 'Скрыть ответ' : 'Показать ответ';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'Home') { current = -1; changeSlide(1); }
+            if (e.key === 'End') { current = total - 2; changeSlide(1); }
+        });
+
+        updateProgress();
+    </script>
+</body>
+</html>
