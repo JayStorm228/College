@@ -1,3 +1,12 @@
 {
-  "move-dates": true
+  "move-dates": true,
+  "new-card-insertion-method": "append",
+  "date-format": "YYYY-MM-DD",
+  "date-display-format": "DD.MM.YYYY",
+  "time-format": "HH:mm",
+  "date-picker-week-start": 1,
+  "link-date-to-daily-note": false,
+  "archive-with-date": true,
+  "show-checkboxes": true,
+  "lane-width": 320
 }
