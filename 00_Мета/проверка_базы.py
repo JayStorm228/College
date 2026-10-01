@@ -43,7 +43,7 @@ SERVICE_NAMES = {"README.md", "ПРОЧТИ_МЕНЯ.md"}
 RUN_ORDER = ["date", "subject", "teacher", "type", "related_lecture", "tags", "author", "status"]
 BASE_REQUIRED = ["subject", "type", "tags", "author", "status"]
 STATUSES = {"черновик", "в работе", "готово"}
-TYPES = {"лекция", "практика", "курс", "аудит", "контекст", "соглашение", "реестр", "бэклог", "журнал"}
+TYPES = {"лекция", "практика", "сообщение", "курс", "аудит", "контекст", "соглашение", "реестр", "бэклог", "журнал"}
 
 FENCE = re.compile(r"^```(\w*)\s*$")
 HEADING = re.compile(r"^(#{1,6})\s+(.*)$")
