@@ -6,8 +6,9 @@
 
 Что проверяется:
 
-1. **YAML** — порядок ключей по контракту [[Соглашения]], заполненность обязательных полей,
-   допустимый `status`, минимум 3 тега.
+1. **YAML** — порядок ключей по контракту [[Соглашения]], обязательные поля, формат даты,
+   допустимый `status`, минимум 3 тега. В лекциях, практиках и мини-проектах `02_Курсы/`
+   дата запрещена; отсутствие или пустое значение `status` трактуется как `черновик`.
 2. **Пустые заголовки** — заголовок без текста. Разрешён только как разделитель групп:
    если сразу за ним идёт заголовок более глубокого уровня, это нормально.
 3. **Задачи** — открытые `- [ ] #task` в заметках со `status: готово`, и задачи без даты `📅`.
@@ -40,7 +41,7 @@ VENDOR_MARKERS = ("pyproject.toml", ".gitignore", ".python-version")
 SERVICE_NAMES = {"README.md", "ПРОЧТИ_МЕНЯ.md"}
 
 RUN_ORDER = ["date", "subject", "teacher", "type", "related_lecture", "tags", "author", "status"]
-REQUIRED = ["date", "subject", "type", "tags", "author", "status"]
+BASE_REQUIRED = ["subject", "type", "tags", "author", "status"]
 STATUSES = {"черновик", "в работе", "готово"}
 TYPES = {"лекция", "практика", "курс", "аудит", "контекст", "соглашение", "реестр", "бэклог", "журнал"}
 
@@ -119,22 +120,55 @@ def split_front_matter(text: str) -> tuple[dict[str, object], str]:
     return data, body
 
 
+def is_course_material(path: Path) -> bool:
+    """Заметка внутри папки отдельного курса, но не его оглавление."""
+    try:
+        relative = path.relative_to(COURSES_DIR)
+    except ValueError:
+        return False
+    return len(relative.parts) > 1 and not path.name.startswith("00. ")
+
+
+def is_course_outline(path: Path) -> bool:
+    """Оглавление конкретного курса; именно в нём хранится дата создания курса."""
+    try:
+        relative = path.relative_to(COURSES_DIR)
+    except ValueError:
+        return False
+    return len(relative.parts) > 1 and path.name.startswith("00. ")
+
+
 def check_yaml(path: Path, fm: dict[str, object], rep: Report) -> str:
     rel = path.relative_to(VAULT)
     if not fm:
         rep.bad(rel, "нет YAML-заголовка")
-        return ""
+        return "черновик"
     order = fm.get("__order__", [])
     assert isinstance(order, list)
     filtered = [k for k in order if k in RUN_ORDER]
     expected = [k for k in RUN_ORDER if k in filtered]
     if filtered != expected:
         rep.bad(rel, f"порядок ключей YAML: {filtered} вместо {expected}")
-    for key in REQUIRED:
+
+    required = BASE_REQUIRED.copy()
+    course_outline = is_course_outline(path)
+    if course_outline or not is_course_material(path):
+        required.insert(0, "date")
+    for key in required:
         if not str(fm.get(key, "")).strip():
             rep.bad(rel, f"пустое обязательное поле `{key}`")
-    status = str(fm.get("status", ""))
-    if status and status not in STATUSES:
+
+    date = str(fm.get("date", "")).strip()
+    if date and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+        rep.bad(rel, f"дата `{date}` не соответствует формату YYYY-MM-DD")
+    if is_course_material(path) and date:
+        rep.bad(rel, "поле `date` не используется в лекциях, практиках и мини-проектах курсов")
+
+    raw_status = str(fm.get("status", "")).strip()
+    status = raw_status or "черновик"
+    if not raw_status:
+        rep.warn(rel, "пустой или отсутствующий status трактуется как «черновик»")
+    if status not in STATUSES:
         rep.bad(rel, f"недопустимый status «{status}»")
     type_ = str(fm.get("type", ""))
     if type_ and type_ not in TYPES:

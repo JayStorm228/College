@@ -4,4 +4,6 @@ subject:
 teacher:
 type: лекция
 tags:
+author: Архипов Павел
+status: черновик
 ---
