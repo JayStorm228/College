@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Комплексная самостоятельная работа</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary: #06b6d4;
+            --accent: #f43f5e;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --dark: #0a0a0f;
+            --dark-card: #16161f;
+            --dark-light: #252530;
+            --text: #e4e4e7;
+            --text-muted: #a1a1aa;
+            --neon-purple: #a78bfa;
+            --neon-blue: #22d3ee;
+            --neon-pink: #fb7185;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            display: none;
+            flex: 1;
+            padding: 40px 60px;
+            overflow-y: auto;
+            animation: fadeSlide 0.5s ease-out;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+        }
+
+        .slide.active { display: flex; flex-direction: column; }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 7px 18px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            width: fit-content;
+        }
+
+        .slide-title {
+            font-size: 34px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 22px;
+            line-height: 1.2;
+        }
+
+        .slide-title .hl {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-content {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text);
+            flex: 1;
+        }
+
+        .slide-content p { margin-bottom: 14px; }
+        .slide-content strong { color: white; font-weight: 600; }
+
+        /* Question Block */
+        .question-block {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-light);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin: 16px 0;
+            transition: all 0.3s;
+        }
+
+        .question-block:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+        }
+
+        .question-block .q-number {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--neon-purple);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .question-block .q-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        /* Radio Options */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--dark-light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--primary);
+        }
+
+        .option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .option label {
+            font-size: 16px;
+            color: var(--text);
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.15);
+        }
+
+        /* Text Area */
+        .text-answer {
+            width: 100%;
+            min-height: 100px;
+            background: var(--dark-light);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            resize: vertical;
+            transition: all 0.3s;
+        }
+
+        .text-answer:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .text-answer::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #0d0d14;
+            border: 1px solid var(--dark-light);
+            border-radius: 12px;
+            padding: 18px 22px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #f1f5f9;
+            margin: 14px 0;
+            overflow-x: auto;
+        }
+
+        .code-block .comment { color: #64748b; font-style: italic; }
+        .code-block .keyword { color: #c084fc; }
+        .code-block .string { color: #86efac; }
+        .code-block .func { color: #93c5fd; }
+        .code-block .num { color: #fbbf24; }
+
+        /* Matching */
+        .matching-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 10px;
+            align-items: center;
+            margin: 14px 0;
+        }
+
+        .match-item {
+            background: var(--dark-light);
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        .match-arrow {
+            color: var(--neon-purple);
+            font-size: 20px;
+        }
+
+        .match-select {
+            background: var(--dark-light);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 15px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+        }
+
+        .match-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 60px;
+            background: var(--dark-card);
+            border-top: 1px solid var(--dark-light);
+        }
+
+        .nav-btn {
+            padding: 12px 28px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .slide-counter span { color: var(--neon-purple); }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--dark-light);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            transition: width 0.4s ease;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title-slide .icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+        .title-slide h1 {
+            font-size: 42px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .title-slide .subtitle {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .title-slide .info-cards {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .title-slide .info-card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-light);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--neon-purple);
+        }
+
+        /* Styled List */
+        .styled-list {
+            list-style: none;
+            margin: 14px 0;
+        }
+
+        .styled-list li {
+            padding: 8px 0 8px 26px;
+            position: relative;
+            font-size: 17px;
+            color: var(--text);
+        }
+
+        .styled-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--neon-purple);
+            font-weight: 700;
+        }
+
+        /* Key Box */
+        .key-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 14px;
+            padding: 24px 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .key-box p {
+            font-size: 19px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        /* Two Columns */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        /* Checkbox options */
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: var(--dark-light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            margin-bottom: 8px;
+        }
+
+        .checkbox-option:hover {
+            border-color: var(--secondary);
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--secondary);
+        }
+
+        .checkbox-option label {
+            font-size: 15px;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        /* Scrollbar */
+        .slide::-webkit-scrollbar { width: 6px; }
+        .slide::-webkit-scrollbar-track { background: transparent; }
+        .slide::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.3); border-radius: 3px; }
+
+        /* Final slide */
+        .final-box {
+            background: var(--dark-card);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .final-box h3 {
+            font-size: 24px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .final-box p {
+            font-size: 17px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active">
+            <div class="icon">🚀</div>
+            <h1>Комплексная самостоятельная работа</h1>
+            <p class="subtitle">Технология разработки программного обеспечения</p>
+            <div class="info-cards">
+                <div class="info-card">⏱️ 90 минут</div>
+                <div class="info-card">📋 12 заданий</div>
+                <div class="info-card">💻 На компьютере</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Instruction -->
+        <div class="slide">
+            <span class="slide-badge">Инструкция</span>
+            <div class="slide-title">Как выполнять <span class="hl">работу</span></div>
+            <div class="slide-content">
+                <ul class="styled-list">
+                    <li><strong>Работа выполняется на компьютере.</strong> Все ответы вводите прямо в поля на слайдах.</li>
+                    <li><strong>Время выполнения — 90 минут.</strong> Распределяйте время равномерно.</li>
+                    <li><strong>Всего 12 заданий.</strong> Они охватывают все пройденные темы курса.</li>
+                    <li><strong>Отвечайте самостоятельно.</strong> Использование ИИ и интернета запрещено.</li>
+                </ul>
+                <div class="key-box">
+                    <p>Работа проверяется преподавателем после завершения.<br>
+                    Не торопитесь, читайте задания внимательно.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Question 1 - SDLC -->
+        <div class="slide">
+            <span class="slide-badge">Задание 1 · Жизненный цикл ПО</span>
+            <div class="slide-title">Выберите правильный <span class="hl">ответ</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 1.1</div>
+                    <div class="q-text">Какая модель жизненного цикла предполагает, что все требования известны заранее и не изменятся?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q1_1" id="q1_1a"><label for="q1_1a">Agile</label></div>
+                        <div class="option"><input type="radio" name="q1_1" id="q1_1b"><label for="q1_1b">Водопадная (Waterfall)</label></div>
+                        <div class="option"><input type="radio" name="q1_1" id="q1_1c"><label for="q1_1c">Спиральная</label></div>
+                        <div class="option"><input type="radio" name="q1_1" id="q1_1d"><label for="q1_1d">Инкрементальная</label></div>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <div class="q-number">Вопрос 1.2</div>
+                    <div class="q-text">Какой этап жизненного цикла ПО следует сразу после «Проектирования»?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q1_2" id="q1_2a"><label for="q1_2a">Тестирование</label></div>
+                        <div class="option"><input type="radio" name="q1_2" id="q1_2b"><label for="q1_2b">Разработка (написание кода)</label></div>
+                        <div class="option"><input type="radio" name="q1_2" id="q1_2c"><label for="q1_2c">Сбор требований</label></div>
+                        <div class="option"><input type="radio" name="q1_2" id="q1_2d"><label for="q1_2d">Внедрение</label></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Question 2 - AI -->
+        <div class="slide">
+            <span class="slide-badge">Задание 2 · ИИ в разработке</span>
+            <div class="slide-title">Промпт-инжиниринг и <span class="hl">роли</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 2.1</div>
+                    <div class="q-text">Какие 5 элементов содержит идеальный промпт? Перечислите их.</div>
+                    <textarea class="text-answer" placeholder="Введите ваш ответ здесь..."></textarea>
+                </div>
+
+                <div class="question-block">
+                    <div class="q-number">Вопрос 2.2</div>
+                    <div class="q-text">В концепции «Сеньор и Джуниор» кто является Сеньором, а кто Джуниором? Объясните, почему это важно.</div>
+                    <textarea class="text-answer" placeholder="Введите ваш ответ здесь..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Question 3 - Requirements -->
+        <div class="slide">
+            <span class="slide-badge">Задание 3 · Требования и ТЗ</span>
+            <div class="slide-title">User Stories и <span class="hl">критерии приёмки</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 3.1</div>
+                    <div class="q-text">Напишите User Story для функции «Регистрация пользователя в мобильном приложении» по формуле: Как [роль], я хочу [действие], чтобы [ценность].</div>
+                    <textarea class="text-answer" placeholder="Как [роль], я хочу [действие], чтобы [ценность]..."></textarea>
+                </div>
+
+                <div class="question-block">
+                    <div class="q-number">Вопрос 3.2</div>
+                    <div class="q-text">Напишите 2 критерия приёмки для этой User Story в формате «Дано — Когда — Тогда».</div>
+                    <textarea class="text-answer" placeholder="Критерий 1: Дано... Когда... Тогда...&#10;Критерий 2: Дано... Когда... Тогда..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Question 4 - VCS -->
+        <div class="slide">
+            <span class="slide-badge">Задание 4 · Системы контроля версий</span>
+            <div class="slide-title">Коммиты, ветки, <span class="hl">слияния</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 4.1</div>
+                    <div class="q-text">Что такое коммит? Выберите правильное определение.</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q4_1" id="q4_1a"><label for="q4_1a">Разница между текущей и предыдущей версией файла</label></div>
+                        <div class="option"><input type="radio" name="q4_1" id="q4_1b"><label for="q4_1b">Полный снимок состояния всех файлов проекта в момент времени</label></div>
+                        <div class="option"><input type="radio" name="q4_1" id="q4_1c"><label for="q4_1c">Сохранение одного файла на диск</label></div>
+                        <div class="option"><input type="radio" name="q4_1" id="q4_1d"><label for="q4_1d">Копия репозитория на сервере</label></div>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <div class="q-number">Вопрос 4.2</div>
+                    <div class="q-text">Файл содержит 100 строк. Алиса в ветке <code>feature</code> изменяет строку 15. Боб в ветке <code>main</code> изменяет строку 80. Происходит слияние. Возникнет ли конфликт? Обоснуйте.</div>
+                    <textarea class="text-answer" placeholder="Введите ваш ответ здесь..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Question 5 - VCS continued -->
+        <div class="slide">
+            <span class="slide-badge">Задание 5 · Системы контроля версий</span>
+            <div class="slide-title">CVCS vs <span class="hl">DVCS</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 5.1</div>
+                    <div class="q-text">Установите соответствие между моделью и её характеристикой:</div>
+                    <div class="matching-grid">
+                        <div class="match-item">Централизованная (CVCS)</div>
+                        <div class="match-arrow">→</div>
+                        <select class="match-select" name="match1">
+                            <option value="">Выберите...</option>
+                            <option value="a">Каждый разработчик имеет полную копию истории</option>
+                            <option value="b">Вся история хранится на одном сервере</option>
+                            <option value="c">Работа возможна без интернета</option>
+                        </select>
+                    </div>
+                    <div class="matching-grid">
+                        <div class="match-item">Распределённая (DVCS)</div>
+                        <div class="match-arrow">→</div>
+                        <select class="match-select" name="match2">
+                            <option value="">Выберите...</option>
+                            <option value="a">Каждый разработчик имеет полную копию истории</option>
+                            <option value="b">Вся история хранится на одном сервере</option>
+                            <option value="c">Работа возможна без интернета</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <div class="q-number">Вопрос 5.2</div>
+                    <div class="q-text">Разработчик уехал в командировку без интернета на 3 дня. Какая модель позволит ему продолжать работу и почему?</div>
+                    <textarea class="text-answer" placeholder="Введите ваш ответ здесь..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Question 6 - Code Quality -->
+        <div class="slide">
+            <span class="slide-badge">Задание 6 · Качество кода</span>
+            <div class="slide-title">Принципы DRY и <span class="hl">KISS</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 6.1</div>
+                    <div class="q-text">Что означает принцип DRY?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q6_1" id="q6_1a"><label for="q6_1a">Не повторяй чужой код</label></div>
+                        <div class="option"><input type="radio" name="q6_1" id="q6_1b"><label for="q6_1b">Каждый фрагмент логики должен быть в одном месте</label></div>
+                        <div class="option"><input type="radio" name="q6_1" id="q6_1c"><label for="q6_1c">Документируй код подробно</label></div>
+                        <div class="option"><input type="radio" name="q6_1" id="q6_1d"><label for="q6_1d">Пиши код быстро</label></div>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <div class="q-number">Вопрос 6.2</div>
+                    <div class="q-text">Приведите пример нарушения принципа KISS. Объясните, почему это нарушение и как правильно.</div>
+                    <textarea class="text-answer" placeholder="Введите ваш ответ здесь..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Question 7 - Technical Debt -->
+        <div class="slide">
+            <span class="slide-badge">Задание 7 · Технический долг</span>
+            <div class="slide-title">Типы долга и <span class="hl">рефакторинг</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 7.1</div>
+                    <div class="q-text">Чем намеренный технический долг отличается от ненамеренного? Приведите пример каждого.</div>
+                    <textarea class="text-answer" placeholder="Введите ваш ответ здесь..."></textarea>
+                </div>
+
+                <div class="question-block">
+                    <div class="q-number">Вопрос 7.2</div>
+                    <div class="q-text">Что является обязательным условием безопасного рефакторинга?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q7_2" id="q7_2a"><label for="q7_2a">Наличие команды из 10+ разработчиков</label></div>
+                        <div class="option"><input type="radio" name="q7_2" id="q7_2b"><label for="q7_2b">Наличие тестов, гарантирующих неизменность поведения</label></div>
+                        <div class="option"><input type="radio" name="q7_2" id="q7_2c"><label for="q7_2c">Отсутствие дедлайнов</label></div>
+                        <div class="option"><input type="radio" name="q7_2" id="q7_2d"><label for="q7_2d">Использование ИИ для рефакторинга</label></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Question 8 - Testing -->
+        <div class="slide">
+            <span class="slide-badge">Задание 8 · Тестирование</span>
+            <div class="slide-title">Виды и уровни <span class="hl">тестирования</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 8.1</div>
+                    <div class="q-text">Установите соответствие между уровнем тестирования и его описанием:</div>
+                    <div class="matching-grid">
+                        <div class="match-item">Модульное (Unit)</div>
+                        <div class="match-arrow">→</div>
+                        <select class="match-select" name="match3">
+                            <option value="">Выберите...</option>
+                            <option value="a">Тестирование всей системы целиком</option>
+                            <option value="b">Тестирование отдельных функций изолированно</option>
+                            <option value="c">Тестирование взаимодействия между модулями</option>
+                            <option value="d">Финальная проверка заказчиком</option>
+                        </select>
+                    </div>
+                    <div class="matching-grid">
+                        <div class="match-item">Интеграционное</div>
+                        <div class="match-arrow">→</div>
+                        <select class="match-select" name="match4">
+                            <option value="">Выберите...</option>
+                            <option value="a">Тестирование всей системы целиком</option>
+                            <option value="b">Тестирование отдельных функций изолированно</option>
+                            <option value="c">Тестирование взаимодействия между модулями</option>
+                            <option value="d">Финальная проверка заказчиком</option>
+                        </select>
+                    </div>
+                    <div class="matching-grid">
+                        <div class="match-item">Системное</div>
+                        <div class="match-arrow">→</div>
+                        <select class="match-select" name="match5">
+                            <option value="">Выберите...</option>
+                            <option value="a">Тестирование всей системы целиком</option>
+                            <option value="b">Тестирование отдельных функций изолированно</option>
+                            <option value="c">Тестирование взаимодействия между модулями</option>
+                            <option value="d">Финальная проверка заказчиком</option>
+                        </select>
+                    </div>
+                    <div class="matching-grid">
+                        <div class="match-item">Приёмочное</div>
+                        <div class="match-arrow">→</div>
+                        <select class="match-select" name="match6">
+                            <option value="">Выберите...</option>
+                            <option value="a">Тестирование всей системы целиком</option>
+                            <option value="b">Тестирование отдельных функций изолированно</option>
+                            <option value="c">Тестирование взаимодействия между модулями</option>
+                            <option value="d">Финальная проверка заказчиком</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Question 9 - Testing continued -->
+        <div class="slide">
+            <span class="slide-badge">Задание 9 · Тестирование</span>
+            <div class="slide-title">Пирамида и <span class="hl">методы</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 9.1</div>
+                    <div class="q-text">Почему в пирамиде тестирования модульных тестов должно быть больше всего, а системных — меньше всего? Объясните.</div>
+                    <textarea class="text-answer" placeholder="Введите ваш ответ здесь..."></textarea>
+                </div>
+
+                <div class="question-block">
+                    <div class="q-number">Вопрос 9.2</div>
+                    <div class="q-text">Тестировщик проверяет программу, не видя её код. Он знает только входы и выходы. Какой это метод тестирования?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q9_2" id="q9_2a"><label for="q9_2a">Белый ящик</label></div>
+                        <div class="option"><input type="radio" name="q9_2" id="q9_2b"><label for="q9_2b">Чёрный ящик</label></div>
+                        <div class="option"><input type="radio" name="q9_2" id="q9_2c"><label for="q9_2c">Серый ящик</label></div>
+                        <div class="option"><input type="radio" name="q9_2" id="q9_2d"><label for="q9_2d">Регрессионное тестирование</label></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Question 10 - Agile -->
+        <div class="slide">
+            <span class="slide-badge">Задание 10 · Гибкие методологии</span>
+            <div class="slide-title">Agile, Scrum, <span class="hl">Kanban</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 10.1</div>
+                    <div class="q-text">Перечислите 4 ценности манифеста Agile.</div>
+                    <textarea class="text-answer" placeholder="Введите ваш ответ здесь..."></textarea>
+                </div>
+
+                <div class="question-block">
+                    <div class="q-number">Вопрос 10.2</div>
+                    <div class="q-text">Какая роль в Scrum отвечает за приоритизацию задач в бэклоге продукта?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q10_2" id="q10_2a"><label for="q10_2a">Скрам-мастер</label></div>
+                        <div class="option"><input type="radio" name="q10_2" id="q10_2b"><label for="q10_2b">Команда разработки</label></div>
+                        <div class="option"><input type="radio" name="q10_2" id="q10_2c"><label for="q10_2c">Владелец продукта</label></div>
+                        <div class="option"><input type="radio" name="q10_2" id="q10_2d"><label for="q10_2d">Заказчик</label></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Question 11 - Agile continued -->
+        <div class="slide">
+            <span class="slide-badge">Задание 11 · Гибкие методологии</span>
+            <div class="slide-title">Scrum vs <span class="hl">Kanban</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Вопрос 11.1</div>
+                    <div class="q-text">Команда поддержки интернет-магазина получает обращения от пользователей в случайном порядке: то 2 заявки в день, то 20. Какой метод лучше подойдёт: Scrum или Kanban? Обоснуйте.</div>
+                    <textarea class="text-answer" placeholder="Введите ваш ответ здесь..."></textarea>
+                </div>
+
+                <div class="question-block">
+                    <div class="q-number">Вопрос 11.2</div>
+                    <div class="q-text">Что является главным отличием Kanban от Scrum?</div>
+                    <div class="options">
+                        <div class="option"><input type="radio" name="q11_2" id="q11_2a"><label for="q11_2a">В Kanban нет ролей</label></div>
+                        <div class="option"><input type="radio" name="q11_2" id="q11_2b"><label for="q11_2b">В Kanban работа течёт непрерывно, без фиксированных спринтов</label></div>
+                        <div class="option"><input type="radio" name="q11_2" id="q11_2c"><label for="q11_2c">В Kanban не нужны задачи</label></div>
+                        <div class="option"><input type="radio" name="q11_2" id="q11_2d"><label for="q11_2d">В Kanban нельзя менять приоритеты</label></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Question 12 - Code Analysis -->
+        <div class="slide">
+            <span class="slide-badge">Задание 12 · Анализ кода</span>
+            <div class="slide-title">Практическое <span class="hl">задание</span></div>
+            <div class="slide-content">
+                <div class="question-block">
+                    <div class="q-number">Комплексная задача</div>
+                    <div class="q-text">Проанализируйте код и ответьте на вопросы:</div>
+                    <div class="code-block">
+<span class="comment">// Расчёт стоимости заказа</span>
+цена = <span class="num">2500</span>
+скидка = <span class="num">10</span>
+итого = цена - (цена * скидка / <span class="num">100</span>)
+<span class="keyword">если</span> итого > <span class="num">3000</span>:
+    доставка = <span class="num">0</span>
+<span class="keyword">иначе</span>:
+    доставка = <span class="num">250</span>
+<span class="func">вывод</span>(<span class="string">"Итого: "</span> + (итого + доставка))
+                    </div>
+                    <p style="margin-top: 15px;"><strong>Вопрос А:</strong> Найдите минимум 2 нарушения принципов DRY или KISS и 2 Code Smells. Обоснуйте.</p>
+                    <textarea class="text-answer" placeholder="Нарушения и Code Smells..."></textarea>
+                    <p style="margin-top: 15px;"><strong>Вопрос Б:</strong> Предложите конкретные улучшения через рефакторинг (какие функции вынести, какие константы ввести).</p>
+                    <textarea class="text-answer" placeholder="Предложения по рефакторингу..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Final -->
+        <div class="slide title-slide">
+            <div class="icon">✅</div>
+            <h1>Работа завершена!</h1>
+            <div class="final-box">
+                <h3>Что делать дальше</h3>
+                <p>
+                    1. Убедитесь, что вы ответили на все задания.<br>
+                    2. Проверьте, что все текстовые поля заполнены.<br>
+                    3. Поднимите руку и сообщите преподавателю о завершении.<br>
+                    4. Преподаватель зафиксирует ваш результат.
+                </p>
+            </div>
+            <div class="key-box">
+                <p>Спасибо за работу! 🎉<br>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Назад</button>
+            <div class="slide-counter">Слайд <span id="currentSlide">1</span> / <span id="totalSlides">15</span></div>
+            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Вперёд →</button>
+        </div>
+    </div>
+
+    <script>
+        let current = 0;
+        const slides = document.querySelectorAll('.slide');
+        const total = slides.length;
+        document.getElementById('totalSlides').textContent = total;
+
+        function updateProgress() {
+            const progress = ((current + 1) / total) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function changeSlide(direction) {
+            slides[current].classList.remove('active');
+            current += direction;
+            if (current < 0) current = 0;
+            if (current >= total) current = total - 1;
+            slides[current].classList.add('active');
+            document.getElementById('currentSlide').textContent = current + 1;
+            document.getElementById('prevBtn').disabled = (current === 0);
+            document.getElementById('nextBtn').disabled = (current === total - 1);
+            updateProgress();
+            document.querySelector('.slide.active').scrollTop = 0;
+        }
+
+        // Highlight selected option
+        document.querySelectorAll('.option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                if (radio) {
+                    const name = radio.name;
+                    document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+                        r.closest('.option').classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    radio.checked = true;
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        updateProgress();
+    </script>
+</body>
+</html>
