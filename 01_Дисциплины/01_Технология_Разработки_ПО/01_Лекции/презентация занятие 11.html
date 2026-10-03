@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Паттерны проектирования — Самостоятельное изучение</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #b45309;
+            --primary-light: #d97706;
+            --secondary: #57534e;
+            --accent: #7c2d12;
+            --success: #166534;
+            --danger: #991b1b;
+            --cream: #fef7ed;
+            --sand: #f5e6d3;
+            --terracotta: #c2410c;
+            --olive: #4d7c0f;
+            --dark-text: #292524;
+            --muted-text: #78716c;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--cream);
+            color: var(--dark-text);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            display: none;
+            flex: 1;
+            padding: 50px 70px;
+            overflow-y: auto;
+            animation: fadeSlide 0.5s ease-out;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--sand) 100%);
+        }
+
+        .slide.active { display: flex; flex-direction: column; }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 22px;
+            width: fit-content;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .slide-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 28px;
+            line-height: 1.2;
+        }
+
+        .slide-title .hl {
+            color: var(--primary);
+        }
+
+        .slide-content {
+            font-size: 21px;
+            line-height: 1.7;
+            color: var(--dark-text);
+            flex: 1;
+        }
+
+        .slide-content p { margin-bottom: 16px; }
+        .slide-content strong { color: var(--accent); font-weight: 700; }
+
+        /* Definition Card */
+        .def-card {
+            background: white;
+            border: 1px solid #e7e5e4;
+            border-radius: 8px;
+            padding: 26px 30px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .def-card .label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .def-card .text {
+            font-size: 20px;
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        /* Analogy Card */
+        .analogy-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            padding: 24px 28px;
+            margin: 20px 0;
+        }
+
+        .analogy-card .label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #92400e;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .analogy-card .text {
+            font-size: 19px;
+            color: #78350f;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Pattern Card */
+        .pattern-card {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 28px 32px;
+            margin: 20px 0;
+            box-shadow: 0 6px 20px rgba(180, 83, 9, 0.08);
+        }
+
+        .pattern-card .pattern-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .pattern-card .pattern-category {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--olive);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+        }
+
+        .pattern-card .pattern-problem {
+            font-size: 18px;
+            color: var(--dark-text);
+            margin-bottom: 12px;
+            padding-left: 20px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .pattern-card .pattern-solution {
+            font-size: 18px;
+            color: var(--muted-text);
+            line-height: 1.5;
+        }
+
+        /* Key Box */
+        .key-box {
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            padding: 28px 35px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(180, 83, 9, 0.2);
+        }
+
+        .key-box p {
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.5;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Two Columns */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .col-card {
+            background: white;
+            border: 1px solid #e7e5e4;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+        }
+
+        .col-card h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 12px;
+        }
+
+        .col-card p, .col-card li {
+            font-size: 17px;
+            color: var(--muted-text);
+            line-height: 1.5;
+        }
+
+        .col-card ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .col-card li {
+            padding: 5px 0 5px 20px;
+            position: relative;
+        }
+
+        .col-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Three Cards */
+        .three-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+            margin: 20px 0;
+        }
+
+        .mini-card {
+            background: white;
+            border: 1px solid #e7e5e4;
+            border-radius: 8px;
+            padding: 22px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+        }
+
+        .mini-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(180, 83, 9, 0.1);
+            border-color: var(--primary);
+        }
+
+        .mini-card .icon {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .mini-card h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 8px;
+        }
+
+        .mini-card p {
+            font-size: 15px;
+            color: var(--muted-text);
+            line-height: 1.4;
+        }
+
+        /* Quiz Box */
+        .quiz-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            padding: 26px 30px;
+            margin: 20px 0;
+        }
+
+        .quiz-box .quiz-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--success);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .quiz-box .quiz-q {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .quiz-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .quiz-btn:hover {
+            background: #15803d;
+            transform: translateY(-2px);
+        }
+
+        .quiz-answer {
+            display: none;
+            margin-top: 16px;
+            padding: 18px 22px;
+            background: white;
+            border-radius: 8px;
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--dark-text);
+        }
+
+        .quiz-answer.show { display: block; animation: fadeSlide 0.4s; }
+
+        /* Task Box */
+        .task-box {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #fca5a5;
+            border-radius: 8px;
+            padding: 26px 30px;
+            margin: 20px 0;
+        }
+
+        .task-box .task-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--danger);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .task-box h4 {
+            font-size: 20px;
+            color: var(--dark-text);
+            margin-bottom: 12px;
+        }
+
+        .task-box p, .task-box li {
+            font-size: 17px;
+            color: var(--muted-text);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 70px;
+            background: white;
+            border-top: 2px solid var(--primary);
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+        }
+
+        .nav-btn {
+            padding: 13px 30px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--muted-text);
+        }
+
+        .slide-counter span { color: var(--primary); }
+
+        .progress-bar {
+            height: 5px;
+            background: var(--sand);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--terracotta));
+            transition: width 0.4s ease;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title-slide .icon {
+            font-size: 80px;
+            margin-bottom: 25px;
+        }
+
+        .title-slide h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 50px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 18px;
+            line-height: 1.2;
+        }
+
+        .title-slide .subtitle {
+            font-size: 22px;
+            color: var(--muted-text);
+            margin-bottom: 35px;
+        }
+
+        .title-slide .tags {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .title-slide .tag {
+            background: white;
+            border: 1px solid #e7e5e4;
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+        }
+
+        /* Styled List */
+        .styled-list {
+            list-style: none;
+            margin: 16px 0;
+        }
+
+        .styled-list li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            font-size: 19px;
+            color: var(--dark-text);
+        }
+
+        .styled-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        /* Scrollbar */
+        .slide::-webkit-scrollbar { width: 8px; }
+        .slide::-webkit-scrollbar-track { background: transparent; }
+        .slide::-webkit-scrollbar-thumb { background: rgba(180, 83, 9, 0.3); border-radius: 4px; }
+
+        /* Category Badge */
+        .cat-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .cat-badge.creational { background: #dbeafe; color: #1e40af; }
+        .cat-badge.structural { background: #dcfce7; color: #166534; }
+        .cat-badge.behavioral { background: #fef3c7; color: #92400e; }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active">
+            <div class="icon">🏛️</div>
+            <h1>Паттерны проектирования</h1>
+            <p class="subtitle">Проверенные решения типовых задач разработки</p>
+            <div class="tags">
+                <div class="tag">⏱️ 90 минут</div>
+                <div class="tag">📖 30 слайдов</div>
+                <div class="tag">✍️ Задание в конце</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Instruction -->
+        <div class="slide">
+            <span class="slide-badge">Как работать</span>
+            <div class="slide-title">Инструкция по <span class="hl">изучению</span></div>
+            <div class="slide-content">
+                <p>Этот материал предназначен для самостоятельного изучения. Следуйте рекомендациям:</p>
+                <ul class="styled-list">
+                    <li><strong>Читайте внимательно.</strong> Каждый слайд опирается на предыдущий.</li>
+                    <li><strong>Отвечайте на вопросы самопроверки.</strong> Сначала подумайте сами, потом нажимайте «Показать ответ».</li>
+                    <li><strong>Записывайте аналогии.</strong> Аналогии из жизни помогают запомнить паттерны.</li>
+                    <li><strong>Выполните задание в конце.</strong> Ответы оформите в документе и отправьте преподавателю.</li>
+                </ul>
+                <div class="key-box">
+                    <p>Паттерн — это не готовый код.<br>
+                    Паттерн — это идея, которую нужно адаптировать под вашу задачу.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Why Patterns -->
+        <div class="slide">
+            <span class="slide-badge">Введение</span>
+            <div class="slide-title">Зачем нужны <span class="hl">паттерны?</span></div>
+            <div class="slide-content">
+                <p>Представьте, что вы архитектор и вам нужно построить дом. Вы не придумываете каждый раз с нуля, как сделать фундамент, как проложить коммуникации, как рассчитать нагрузку. Вы используете <strong>проверенные решения</strong>, которые работают уже сотни лет.</p>
+                <p>В программировании то же самое. Разработчики сталкиваются с одними и теми же проблемами снова и снова:</p>
+                <ul class="styled-list">
+                    <li>Как создать объект, не привязываясь к конкретному классу?</li>
+                    <li>Как добавить новую функциональность, не изменяя существующий код?</li>
+                    <li>Как организовать взаимодействие между объектами, чтобы они не зависели друг от друга?</li>
+                </ul>
+                <div class="key-box">
+                    <p>Паттерны проектирования — это <strong>проверенные решения</strong><br>
+                    типовых задач, которые работают десятилетиями.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: What is Pattern -->
+        <div class="slide">
+            <span class="slide-badge">Определение</span>
+            <div class="slide-title">Что такое <span class="hl">паттерн?</span></div>
+            <div class="slide-content">
+                <div class="def-card">
+                    <div class="label">📘 Определение</div>
+                    <div class="text">
+                        <strong>Паттерн проектирования</strong> — это проверенное временем решение типовой задачи проектирования. Это не готовый код, а шаблон, который можно адаптировать к конкретной ситуации.
+                    </div>
+                </div>
+                <div class="two-col">
+                    <div class="col-card">
+                        <h4>✅ Паттерн — это</h4>
+                        <ul>
+                            <li>Идея, концепция решения</li>
+                            <li>Шаблон для адаптации</li>
+                            <li>Проверенное решение</li>
+                            <li>Общий язык для разработчиков</li>
+                        </ul>
+                    </div>
+                    <div class="col-card">
+                        <h4>❌ Паттерн — это НЕ</h4>
+                        <ul>
+                            <li>Готовая библиотека</li>
+                            <li>Конкретная функция</li>
+                            <li>Универсальное решение для всего</li>
+                            <li>Обязательное требование</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">🍳 Аналогия с рецептом</div>
+                    <div class="text">Паттерн — это рецепт блюда. Рецепт говорит вам, какие ингредиенты нужны и в какой последовательности их смешивать. Но вы адаптируете рецепт под себя: добавляете больше соли, заменяете один продукт другим, меняете температуру.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: GoF History -->
+        <div class="slide">
+            <span class="slide-badge">История</span>
+            <div class="slide-title">Банда <span class="hl">четырёх</span></div>
+            <div class="slide-content">
+                <p>В 1994 году четыре разработчика — <strong>Эрих Гамма, Ричард Хелм, Ральф Джонсон и Джон Влиссидес</strong> — опубликовали книгу «Паттерны объектно-ориентированного проектирования» (Design Patterns: Elements of Reusable Object-Oriented Software).</p>
+                <p>В книге они систематизировали <strong>23 паттерна</strong>, которые уже использовались разработчиками по всему миру. Эту четвёрку авторов стали называть <strong>«Банда четырёх» (Gang of Four, GoF)</strong>.</p>
+                <div class="three-cards">
+                    <div class="mini-card">
+                        <div class="icon">📖</div>
+                        <h4>1994 год</h4>
+                        <p>Публикация книги «Банды четырёх»</p>
+                    </div>
+                    <div class="mini-card">
+                        <div class="icon">23</div>
+                        <h4>23 паттерна</h4>
+                        <p>Систематизированы в книге</p>
+                    </div>
+                    <div class="mini-card">
+                        <div class="icon">🌍</div>
+                        <h4>Мировой стандарт</h4>
+                        <p>Паттерны используются во всём мире</p>
+                    </div>
+                </div>
+                <div class="key-box">
+                    <p>Паттерны не были изобретены.<br>
+                    Они были <strong>обнаружены и систематизированы</strong> из практики.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Categories -->
+        <div class="slide">
+            <span class="slide-badge">Классификация</span>
+            <div class="slide-title">Три категории <span class="hl">паттернов</span></div>
+            <div class="slide-content">
+                <p>Все 23 паттерна делятся на три категории в зависимости от того, какую проблему они решают:</p>
+                <div class="three-cards">
+                    <div class="mini-card">
+                        <div class="icon">🏗️</div>
+                        <h4>Порождающие</h4>
+                        <p><span class="cat-badge creational">5 паттернов</span></p>
+                        <p style="margin-top: 10px;">Как создаются объекты. Упрощают процесс создания, скрывают детали.</p>
+                    </div>
+                    <div class="mini-card">
+                        <div class="icon">🧱</div>
+                        <h4>Структурные</h4>
+                        <p><span class="cat-badge structural">7 паттернов</span></p>
+                        <p style="margin-top: 10px;">Как объекты соединяются друг с другом. Упрощают структуру.</p>
+                    </div>
+                    <div class="mini-card">
+                        <div class="icon">🎭</div>
+                        <h4>Поведенческие</h4>
+                        <p><span class="cat-badge behavioral">11 паттернов</span></p>
+                        <p style="margin-top: 10px;">Как объекты взаимодействуют. Определяют распределение ответственности.</p>
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">🏠 Аналогия со строительством</div>
+                    <div class="text">
+                        <strong>Порождающие</strong> — как производятся кирпичи и материалы.<br>
+                        <strong>Структурные</strong> — как кирпичи соединяются в стены.<br>
+                        <strong>Поведенческие</strong> — как жители дома взаимодействуют друг с другом.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Creational Overview -->
+        <div class="slide">
+            <span class="slide-badge">Порождающие</span>
+            <div class="slide-title">Порождающие <span class="hl">паттерны</span></div>
+            <div class="slide-content">
+                <div class="def-card">
+                    <div class="label">📘 Категория</div>
+                    <div class="text">
+                        <strong>Порождающие паттерны</strong> решают задачу создания объектов. Они скрывают детали создания, позволяя программе быть более гибкой и независимой от конкретных классов.
+                    </div>
+                </div>
+                <p>Пять порождающих паттернов:</p>
+                <ul class="styled-list">
+                    <li><strong>Одиночка (Singleton)</strong> — гарантирует, что у класса только один экземпляр.</li>
+                    <li><strong>Фабричный метод (Factory Method)</strong> — создаёт объекты без привязки к конкретному классу.</li>
+                    <li><strong>Абстрактная фабрика</strong> — создаёт семейства связанных объектов.</li>
+                    <li><strong>Строитель (Builder)</strong> — создаёт сложные объекты пошагово.</li>
+                    <li><strong>Прототип (Prototype)</strong> — создаёт объекты путём клонирования.</li>
+                </ul>
+                <div class="key-box">
+                    <p>Главная идея: отделить процесс создания объекта от его использования.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Singleton -->
+        <div class="slide">
+            <span class="slide-badge">Порождающие · 1/5</span>
+            <div class="slide-title">Одиночка <span class="hl">(Singleton)</span></div>
+            <div class="slide-content">
+                <div class="pattern-card">
+                    <div class="pattern-category">Порождающий паттерн</div>
+                    <div class="pattern-name">Одиночка (Singleton)</div>
+                    <div class="pattern-problem">
+                        <strong>Проблема:</strong> Нужно гарантировать, что у класса существует только один экземпляр, и все части программы обращаются именно к нему.
+                    </div>
+                    <div class="pattern-solution">
+                        <strong>Решение:</strong> Класс сам контролирует своё создание и предоставляет глобальную точку доступа к единственному экземпляру.
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">💡 Аналогия</div>
+                    <div class="text">
+                        <strong>Президент страны.</strong> В любой момент времени существует только один президент. Все обращения к «президенту» идут к одному и тому же человеку.<br><br>
+                        <strong>База данных.</strong> В приложении обычно одно подключение к базе данных. Создавать несколько подключений бессмысленно и дорого.
+                    </div>
+                </div>
+                <div class="two-col">
+                    <div class="col-card">
+                        <h4>✅ Когда использовать</h4>
+                        <ul>
+                            <li>Подключение к базе данных</li>
+                            <li>Логгер (система записи логов)</li>
+                            <li>Конфигурация приложения</li>
+                            <li>Кэш данных</li>
+                        </ul>
+                    </div>
+                    <div class="col-card">
+                        <h4>⚠️ Осторожно</h4>
+                        <p>Singleton часто называют антипаттерном. Он создаёт глобальное состояние, которое сложно тестировать и которое может привести к неожиданным багам.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Factory Method -->
+        <div class="slide">
+            <span class="slide-badge">Порождающие · 2/5</span>
+            <div class="slide-title">Фабричный метод <span class="hl">(Factory Method)</span></div>
+            <div class="slide-content">
+                <div class="pattern-card">
+                    <div class="pattern-category">Порождающий паттерн</div>
+                    <div class="pattern-name">Фабричный метод (Factory Method)</div>
+                    <div class="pattern-problem">
+                        <strong>Проблема:</strong> Код привязан к конкретным классам. Если нужно создать объект другого типа, приходится менять весь код.
+                    </div>
+                    <div class="pattern-solution">
+                        <strong>Решение:</strong> Создать отдельный метод или класс, который решает, какой объект создавать. Клиентский код обращается к фабрике, а не к конкретным классам.
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">🍕 Аналогия с пиццерией</div>
+                    <div class="text">
+                        Вы не готовите пиццу сами. Вы говорите пиццерии: «Хочу пиццу». Пиццерия (фабрика) решает, как именно её приготовить: какие ингредиенты использовать, в какой печи выпекать.<br><br>
+                        Вы получаете готовую пиццу, не зная деталей приготовления. Если пиццерия изменит рецепт, для вас ничего не изменится.
+                    </div>
+                </div>
+                <div class="key-box">
+                    <p>Фабрика отделяет <strong>создание</strong> объекта от его <strong>использования</strong>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Builder -->
+        <div class="slide">
+            <span class="slide-badge">Порождающие · 3/5</span>
+            <div class="slide-title">Строитель <span class="hl">(Builder)</span></div>
+            <div class="slide-content">
+                <div class="pattern-card">
+                    <div class="pattern-category">Порождающий паттерн</div>
+                    <div class="pattern-name">Строитель (Builder)</div>
+                    <div class="pattern-problem">
+                        <strong>Проблема:</strong> Нужно создать сложный объект с множеством параметров. Конструктор с 10+ параметрами неудобен и непонятен.
+                    </div>
+                    <div class="pattern-solution">
+                        <strong>Решение:</strong> Создавать объект пошагово, устанавливая параметры по одному. В конце — получить готовый объект.
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">🏠 Аналогия со строительством дома</div>
+                    <div class="text">
+                        Дом не строится одним движением. Сначала фундамент, потом стены, потом крыша, потом окна и двери. Каждый шаг добавляет что-то новое.<br><br>
+                        <strong>Строитель</strong> — это прораб, который управляет процессом. Вы говорите ему: «Хочу дом с тремя комнатами и гаражом», и он строит пошагово.
+                    </div>
+                </div>
+                <div class="col-card" style="margin-top: 20px;">
+                    <h4>✅ Когда использовать</h4>
+                    <ul>
+                        <li>Создание сложных объектов с множеством параметров</li>
+                        <li>Когда нужно создавать разные вариации объекта</li>
+                        <li>Когда конструктор с 5+ параметрами становится неудобным</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Structural Overview -->
+        <div class="slide">
+            <span class="slide-badge">Структурные</span>
+            <div class="slide-title">Структурные <span class="hl">паттерны</span></div>
+            <div class="slide-content">
+                <div class="def-card">
+                    <div class="label">📘 Категория</div>
+                    <div class="text">
+                        <strong>Структурные паттерны</strong> решают задачу соединения объектов и классов в более крупные структуры. Они помогают строить гибкие и эффективные архитектуры.
+                    </div>
+                </div>
+                <p>Семь структурных паттернов:</p>
+                <ul class="styled-list">
+                    <li><strong>Адаптер (Adapter)</strong> — позволяет несовместимым интерфейсам работать вместе.</li>
+                    <li><strong>Декоратор (Decorator)</strong> — добавляет новую функциональность объекту без изменения класса.</li>
+                    <li><strong>Фасад (Facade)</strong> — упрощает интерфейс к сложной системе.</li>
+                    <li><strong>Заместитель (Proxy)</strong> — контролирует доступ к объекту.</li>
+                    <li><strong>Компоновщик (Composite)</strong> — объединяет объекты в древовидную структуру.</li>
+                    <li><strong>Мост (Bridge)</strong> — разделяет абстракцию и реализацию.</li>
+                    <li><strong>Легковес (Flyweight)</strong> — экономит память, разделяя общие данные.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 12: Adapter -->
+        <div class="slide">
+            <span class="slide-badge">Структурные · 1/7</span>
+            <div class="slide-title">Адаптер <span class="hl">(Adapter)</span></div>
+            <div class="slide-content">
+                <div class="pattern-card">
+                    <div class="pattern-category">Структурный паттерн</div>
+                    <div class="pattern-name">Адаптер (Adapter)</div>
+                    <div class="pattern-problem">
+                        <strong>Проблема:</strong> У вас есть класс с нужной функциональностью, но его интерфейс не совпадает с тем, что ожидает ваш код.
+                    </div>
+                    <div class="pattern-solution">
+                        <strong>Решение:</strong> Создать «переходник», который преобразует интерфейс одного класса в интерфейс, ожидаемый клиентом.
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">🔌 Аналогия с переходником</div>
+                    <div class="text">
+                        У вас американская вилка (тип A), а розетка европейская (тип C). Вилка не входит в розетку. Вы покупаете <strong>переходник</strong> — и всё работает.<br><br>
+                        Переходник не меняет ни вилку, ни розетку. Он просто преобразует один интерфейс в другой.
+                    </div>
+                </div>
+                <div class="col-card">
+                    <h4>✅ Примеры из разработки</h4>
+                    <ul>
+                        <li>Подключение старой библиотеки с устаревшим API</li>
+                        <li>Интеграция стороннего сервиса с другим форматом данных</li>
+                        <li>Совместная работа классов из разных фреймворков</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Decorator -->
+        <div class="slide">
+            <span class="slide-badge">Структурные · 2/7</span>
+            <div class="slide-title">Декоратор <span class="hl">(Decorator)</span></div>
+            <div class="slide-content">
+                <div class="pattern-card">
+                    <div class="pattern-category">Структурный паттерн</div>
+                    <div class="pattern-name">Декоратор (Decorator)</div>
+                    <div class="pattern-problem">
+                        <strong>Проблема:</strong> Нужно добавить новую функциональность объекту, не изменяя его класс и не создавая множество подклассов.
+                    </div>
+                    <div class="pattern-solution">
+                        <strong>Решение:</strong> «Обернуть» объект в декоратор, который добавляет новую функциональность. Можно добавлять несколько декораторов друг поверх друга.
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">🎁 Аналогия с подарком</div>
+                    <div class="text">
+                        У вас есть подарок (базовый объект). Вы оборачиваете его в обёрточную бумагу (первый декоратор). Потом добавляете бант (второй декоратор). Потом открытку (третий декоратор).<br><br>
+                        Подарок остался тем же, но получил новые свойства: красоту, торжественность, сообщение.
+                    </div>
+                </div>
+                <div class="key-box">
+                    <p>Декораторы можно <strong>наращивать</strong> и <strong>убирать</strong><br>
+                    в любом порядке и количестве.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Facade -->
+        <div class="slide">
+            <span class="slide-badge">Структурные · 3/7</span>
+            <div class="slide-title">Фасад <span class="hl">(Facade)</span></div>
+            <div class="slide-content">
+                <div class="pattern-card">
+                    <div class="pattern-category">Структурный паттерн</div>
+                    <div class="pattern-name">Фасад (Facade)</div>
+                    <div class="pattern-problem">
+                        <strong>Проблема:</strong> Система состоит из множества классов и подсистем. Клиенту сложно работать с ней напрямую.
+                    </div>
+                    <div class="pattern-solution">
+                        <strong>Решение:</strong> Создать простой интерфейс (фасад), который скрывает сложность и предоставляет клиенту только нужные методы.
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">🏨 Аналогия с отелем</div>
+                    <div class="text">
+                        Когда вы звоните на ресепшн отеля, вы говорите: «Забронируйте номер». За этой простой фразой стоит сложная работа: проверка наличия номеров, расчёт стоимости, оформление документов, обновление базы данных.<br><br>
+                        Вам не нужно знать все детали. Вы взаимодействуете с <strong>фасадом</strong> — ресепшном.
+                    </div>
+                </div>
+                <div class="col-card">
+                    <h4>✅ Когда использовать</h4>
+                    <ul>
+                        <li>Работа со сложными библиотеками и API</li>
+                        <li>Упрощение интерфейса для клиентов</li>
+                        <li>Скрытие деталей реализации</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Behavioral Overview -->
+        <div class="slide">
+            <span class="slide-badge">Поведенческие</span>
+            <div class="slide-title">Поведенческие <span class="hl">паттерны</span></div>
+            <div class="slide-content">
+                <div class="def-card">
+                    <div class="label">📘 Категория</div>
+                    <div class="text">
+                        <strong>Поведенческие паттерны</strong> решают задачу взаимодействия между объектами. Они определяют, как объекты общаются, распределяют ответственность и реагируют на события.
+                    </div>
+                </div>
+                <p>Одиннадцать поведенческих паттернов (разберём ключевые):</p>
+                <ul class="styled-list">
+                    <li><strong>Наблюдатель (Observer)</strong> — уведомляет подписчиков об изменениях.</li>
+                    <li><strong>Стратегия (Strategy)</strong> — позволяет выбирать алгоритм на лету.</li>
+                    <li><strong>Команда (Command)</strong> — превращает действие в объект.</li>
+                    <li><strong>Состояние (State)</strong> — меняет поведение при изменении состояния.</li>
+                    <li><strong>Итератор (Iterator)</strong> — обходит коллекцию без раскрытия структуры.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 16: Observer -->
+        <div class="slide">
+            <span class="slide-badge">Поведенческие · 1/5</span>
+            <div class="slide-title">Наблюдатель <span class="hl">(Observer)</span></div>
+            <div class="slide-content">
+                <div class="pattern-card">
+                    <div class="pattern-category">Поведенческий паттерн</div>
+                    <div class="pattern-name">Наблюдатель (Observer)</div>
+                    <div class="pattern-problem">
+                        <strong>Проблема:</strong> Один объект изменяется, и другие объекты должны узнать об этом изменении. Жёсткая привязка между ними нежелательна.
+                    </div>
+                    <div class="pattern-solution">
+                        <strong>Решение:</strong> Объект-«издатель» хранит список «подписчиков». При изменении состояния издатель автоматически уведомляет всех подписчиков.
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">📱 Аналогия с подпиской</div>
+                    <div class="text">
+                        Вы подписываетесь на YouTube-канал. Когда автор публикует новое видео, вы получаете уведомление. Автор не знает, кто именно подписан, и не отправляет уведомления каждому вручную.<br><br>
+                        <strong>Издатель</strong> — YouTube-канал. <strong>Подписчики</strong> — наблюдатели.
+                    </div>
+                </div>
+                <div class="col-card">
+                    <h4>✅ Примеры из разработки</h4>
+                    <ul>
+                        <li>Система уведомлений</li>
+                        <li>Реакция интерфейса на изменения данных</li>
+                        <li>Событийная модель (кнопки, мышь, клавиатура)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Strategy -->
+        <div class="slide">
+            <span class="slide-badge">Поведенческие · 2/5</span>
+            <div class="slide-title">Стратегия <span class="hl">(Strategy)</span></div>
+            <div class="slide-content">
+                <div class="pattern-card">
+                    <div class="pattern-category">Поведенческий паттерн</div>
+                    <div class="pattern-name">Стратегия (Strategy)</div>
+                    <div class="pattern-problem">
+                        <strong>Проблема:</strong> Есть несколько алгоритмов решения задачи, и нужно переключаться между ними в зависимости от ситуации. Жёстко прописывать все варианты в одном классе — плохо.
+                    </div>
+                    <div class="pattern-solution">
+                        <strong>Решение:</strong> Каждый алгоритм вынести в отдельный класс с общим интерфейсом. Клиент выбирает нужную стратегию на лету.
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">🚗 Аналогия с навигатором</div>
+                    <div class="text">
+                        Вы используете навигатор. Он может построить маршрут: <strong>быстрый</strong>, <strong>короткий</strong>, <strong>без платных дорог</strong>, <strong>экономичный</strong>.<br><br>
+                        Вы выбираете стратегию в зависимости от ситуации. Сам навигатор не меняется — меняется только алгоритм построения маршрута.
+                    </div>
+                </div>
+                <div class="key-box">
+                    <p>Стратегия позволяет менять <strong>алгоритм</strong><br>
+                    без изменения клиентского кода.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: State -->
+        <div class="slide">
+            <span class="slide-badge">Поведенческие · 3/5</span>
+            <div class="slide-title">Состояние <span class="hl">(State)</span></div>
+            <div class="slide-content">
+                <div class="pattern-card">
+                    <div class="pattern-category">Поведенческий паттерн</div>
+                    <div class="pattern-name">Состояние (State)</div>
+                    <div class="pattern-problem">
+                        <strong>Проблема:</strong> Поведение объекта зависит от его внутреннего состояния. Если описывать все состояния через <code>if-else</code>, код становится запутанным.
+                    </div>
+                    <div class="pattern-solution">
+                        <strong>Решение:</strong> Каждое состояние вынести в отдельный класс. Объект меняет своё поведение, меняя текущее состояние.
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <div class="label">🚦 Аналогия со светофором</div>
+                    <div class="text">
+                        Светофор имеет три состояния: <strong>красный</strong>, <strong>жёлтый</strong>, <strong>зелёный</strong>. В каждом состоянии он ведёт себя по-разному:<br><br>
+                        • Красный: стоять.<br>
+                        • Жёлтый: приготовиться.<br>
+                        • Зелёный: ехать.<br><br>
+                        Переключение между состояниями меняет поведение.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: How to Choose -->
+        <div class="slide">
+            <span class="slide-badge">Выбор паттерна</span>
+            <div class="slide-title">Как выбрать <span class="hl">паттерн?</span></div>
+            <div class="slide-content">
+                <p>Главный вопрос не «какой паттерн я знаю?», а <strong>«какая проблема передо мной стоит?»</strong></p>
+                <div class="two-col">
+                    <div class="col-card">
+                        <h4>🏗️ Нужно создать объект?</h4>
+                        <ul>
+                            <li>Один экземпляр → <strong>Одиночка</strong></li>
+                            <li>Выбор типа при создании → <strong>Фабрика</strong></li>
+                            <li>Много параметров → <strong>Строитель</strong></li>
+                        </ul>
+                    </div>
+                    <div class="col-card">
+                        <h4>🧱 Нужно соединить объекты?</h4>
+                        <ul>
+                            <li>Несовместимые интерфейсы → <strong>Адаптер</strong></li>
+                            <li>Добавить функциональность → <strong>Декоратор</strong></li>
+                            <li>Упростить интерфейс → <strong>Фасад</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="two-col" style="margin-top: 20px;">
+                    <div class="col-card">
+                        <h4>🎭 Нужно организовать взаимодействие?</h4>
+                        <ul>
+                            <li>Уведомления об изменениях → <strong>Наблюдатель</strong></li>
+                            <li>Выбор алгоритма → <strong>Стратегия</strong></li>
+                            <li>Поведение зависит от состояния → <strong>Состояние</strong></li>
+                        </ul>
+                    </div>
+                    <div class="col-card">
+                        <h4>⚠️ Когда паттерн НЕ нужен</h4>
+                        <ul>
+                            <li>Задача простая и понятная</li>
+                            <li>Нет реальной проблемы для паттерна</li>
+                            <li>Паттерн добавляет больше сложности, чем пользы</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Anti-patterns -->
+        <div class="slide">
+            <span class="slide-badge">Антипаттерны</span>
+            <div class="slide-title">Антипаттерны: <span class="hl">вредные шаблоны</span></div>
+            <div class="slide-content">
+                <div class="def-card">
+                    <div class="label">📘 Определение</div>
+                    <div class="text">
+                        <strong>Антипаттерн</strong> — это распространённое решение, которое кажется хорошим, но на практике приносит больше вреда, чем пользы.
+                    </div>
+                </div>
+                <div class="three-cards">
+                    <div class="mini-card">
+                        <div class="icon">🔨</div>
+                        <h4>Золотой молоток</h4>
+                        <p>Использовать один паттерн для всех задач. «Если у тебя молоток, всё кажется гвоздём»</p>
+                    </div>
+                    <div class="mini-card">
+                        <div class="icon">👑</div>
+                        <h4>Божественный объект</h4>
+                        <p>Класс, который делает всё. Один класс на 1000 строк с сотней методов</p>
+                    </div>
+                    <div class="mini-card">
+                        <div class="icon">📋</div>
+                        <h4>Копипаста</h4>
+                        <p>Копирование кода вместо вынесения в функцию. Нарушение DRY</p>
+                    </div>
+                </div>
+                <div class="key-box">
+                    <p>Знание антипаттернов так же важно, как знание паттернов.<br>
+                    Они помогают <strong>не наступать на грабли</strong>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: Connection to Course -->
+        <div class="slide">
+            <span class="slide-badge">Связь с курсом</span>
+            <div class="slide-title">Связь с другими <span class="hl">темами</span></div>
+            <div class="slide-content">
+                <div class="two-col">
+                    <div class="col-card">
+                        <h4>✨ Качество кода</h4>
+                        <p>Паттерны помогают реализовать принципы DRY и KISS. Но неправильное использование паттернов нарушает эти принципы. Паттерн — инструмент, а не цель.</p>
+                    </div>
+                    <div class="col-card">
+                        <h4>🏛️ Архитектура</h4>
+                        <p>Архитектурные паттерны (MVC, MVP) строятся на основе паттернов GoF. Например, MVC использует паттерны Наблюдатель и Стратегия.</p>
+                    </div>
+                    <div class="col-card">
+                        <h4>🔄 Гибкие методологии</h4>
+                        <p>Паттерны позволяют быстро адаптировать код к изменениям. В гибкой разработке требования меняются часто — паттерны делают код гибким.</p>
+                    </div>
+                    <div class="col-card">
+                        <h4>🤖 ИИ в разработке</h4>
+                        <p>ИИ может предложить паттерн для задачи, но выбор остаётся за человеком. Нужно понимать, какой паттерн подходит и почему.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 22: Interactive Question 1 -->
+        <div class="slide">
+            <span class="slide-badge">Самопроверка</span>
+            <div class="slide-title">Проверьте <span class="hl">себя</span></div>
+            <div class="slide-content">
+                <div class="quiz-box">
+                    <div class="quiz-label">🤔 Вопрос 1</div>
+                    <div class="quiz-q">
+                        В приложении нужно, чтобы только один объект управлял подключением к базе данных. Какой паттерн подходит?
+                    </div>
+                    <button class="quiz-btn" onclick="toggleAnswer(this)">Показать ответ</button>
+                    <div class="quiz-answer">
+                        <strong>Одиночка (Singleton).</strong><br><br>
+                        Этот паттерн гарантирует, что у класса существует только один экземпляр. Подключение к базе данных — классический пример использования Одиночки, потому что создавать несколько подключений бессмысленно и дорого.
+                    </div>
+                </div>
+                <div class="quiz-box">
+                    <div class="quiz-label">🤔 Вопрос 2</div>
+                    <div class="quiz-q">
+                        Пользователь подписывается на рассылку. Когда выходит новая статья, все подписчики получают уведомление. Какой паттерн здесь используется?
+                    </div>
+                    <button class="quiz-btn" onclick="toggleAnswer(this)">Показать ответ</button>
+                    <div class="quiz-answer">
+                        <strong>Наблюдатель (Observer).</strong><br><br>
+                        Система рассылки — это «издатель». Подписчики — это «наблюдатели». Когда появляется новая статья (изменение состояния), издатель автоматически уведомляет всех подписчиков.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: Interactive Question 2 -->
+        <div class="slide">
+            <span class="slide-badge">Самопроверка</span>
+            <div class="slide-title">Проверьте <span class="hl">себя</span></div>
+            <div class="slide-content">
+                <div class="quiz-box">
+                    <div class="quiz-label">🤔 Вопрос 3</div>
+                    <div class="quiz-q">
+                        Навигатор предлагает несколько маршрутов: быстрый, короткий, без платных дорог. Пользователь выбирает нужный. Какой паттерн здесь применяется?
+                    </div>
+                    <button class="quiz-btn" onclick="toggleAnswer(this)">Показать ответ</button>
+                    <div class="quiz-answer">
+                        <strong>Стратегия (Strategy).</strong><br><br>
+                        Каждый алгоритм построения маршрута — отдельная стратегия. Пользователь выбирает нужную стратегию на лету. Сам навигатор не меняется — меняется только алгоритм.
+                    </div>
+                </div>
+                <div class="quiz-box">
+                    <div class="quiz-label">🤔 Вопрос 4</div>
+                    <div class="quiz-q">
+                        У вас есть класс, который делает всё: обрабатывает запросы, работает с базой данных, отправляет письма, генерирует отчёты. Что это — паттерн или антипаттерн?
+                    </div>
+                    <button class="quiz-btn" onclick="toggleAnswer(this)">Показать ответ</button>
+                    <div class="quiz-answer">
+                        <strong>Антипаттерн «Божественный объект».</strong><br><br>
+                        Класс, который делает всё, нарушает принцип единственной ответственности. Его сложно тестировать, изменять и поддерживать. Правильно — разбить на несколько классов, каждый со своей ответственностью.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Summary -->
+        <div class="slide">
+            <span class="slide-badge">Итоги</span>
+            <div class="slide-title">Ключевые <span class="hl">выводы</span></div>
+            <div class="slide-content">
+                <ul class="styled-list">
+                    <li><strong>Паттерн — это не готовый код</strong>, а проверенная идея для адаптации.</li>
+                    <li><strong>Три категории:</strong> порождающие (создание), структурные (соединение), поведенческие (взаимодействие).</li>
+                    <li><strong>Каждый паттерн решает конкретную проблему.</strong> Нет универсального паттерна.</li>
+                    <li><strong>Паттерны добавляют сложность.</strong> Используйте их только когда проблема реальна.</li>
+                    <li><strong>Антипаттерны</strong> — вредные шаблоны, которых нужно избегать.</li>
+                    <li><strong>Выбор паттерна</strong> начинается с вопроса «какая проблема?», а не «какой паттерн я знаю?».</li>
+                </ul>
+                <div class="key-box">
+                    <p>Лучший паттерн — тот, который <strong>не нужен</strong>.<br>
+                    Используйте паттерны осознанно, а не «на всякий случай».</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Task Intro -->
+        <div class="slide">
+            <span class="slide-badge">Задание</span>
+            <div class="slide-title">Задание для <span class="hl">проверки усвоения</span></div>
+            <div class="slide-content">
+                <div class="task-box">
+                    <div class="task-label">📝 Что нужно сделать</div>
+                    <h4>Ответьте на вопросы ниже в отдельном документе</h4>
+                    <p>После изучения всех слайдов выполните задание. Ответы оформите в текстовом документе (Word) и отправьте преподавателю.</p>
+                </div>
+                <p>Задание состоит из четырёх частей:</p>
+                <ul class="styled-list">
+                    <li><strong>Часть А:</strong> Тестовые вопросы с выбором ответа</li>
+                    <li><strong>Часть Б:</strong> Установление соответствий</li>
+                    <li><strong>Часть В:</strong> Анализ ситуаций (какой паттерн применить)</li>
+                    <li><strong>Часть Г:</strong> Открытые вопросы на размышление</li>
+                </ul>
+                <div class="key-box">
+                    <p>Отвечайте развёрнуто. Краткие ответы без обоснования не засчитываются.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Task Part A -->
+        <div class="slide">
+            <span class="slide-badge">Часть А</span>
+            <div class="slide-title">Тестовые <span class="hl">вопросы</span></div>
+            <div class="slide-content">
+                <div class="task-box">
+                    <div class="task-label">Выберите один правильный ответ</div>
+                    
+                    <p style="margin-top: 20px;"><strong>1.</strong> Что такое паттерн проектирования?</p>
+                    <p style="margin-left: 20px;">а) Готовая библиотека функций.<br>
+                    б) Проверенная идея для решения типовой задачи.<br>
+                    в) Обязательное требование для всех проектов.<br>
+                    г) Конкретный алгоритм сортировки.</p>
+
+                    <p style="margin-top: 20px;"><strong>2.</strong> Сколько категорий паттернов выделяют?</p>
+                    <p style="margin-left: 20px;">а) 2 (порождающие и структурные).<br>
+                    б) 3 (порождающие, структурные, поведенческие).<br>
+                    в) 4 (порождающие, структурные, поведенческие, архитектурные).<br>
+                    г) 5.</p>
+
+                    <p style="margin-top: 20px;"><strong>3.</strong> Какой паттерн гарантирует, что у класса только один экземпляр?</p>
+                    <p style="margin-left: 20px;">а) Фабрика.<br>
+                    б) Строитель.<br>
+                    в) Одиночка.<br>
+                    г) Прототип.</p>
+
+                    <p style="margin-top: 20px;"><strong>4.</strong> Какой паттерн позволяет менять алгоритм на лету?</p>
+                    <p style="margin-left: 20px;">а) Наблюдатель.<br>
+                    б) Стратегия.<br>
+                    в) Адаптер.<br>
+                    г) Фасад.</p>
+
+                    <p style="margin-top: 20px;"><strong>5.</strong> Что из перечисленного является антипаттерном?</p>
+                    <p style="margin-left: 20px;">а) Использование паттерна Стратегия для выбора алгоритма.<br>
+                    б) Класс на 1000 строк, который делает всё.<br>
+                    в) Вынесение повторяющегося кода в функцию.<br>
+                    г) Использование Фасада для упрощения интерфейса.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Task Part B -->
+        <div class="slide">
+            <span class="slide-badge">Часть Б</span>
+            <div class="slide-title">Установление <span class="hl">соответствий</span></div>
+            <div class="slide-content">
+                <div class="task-box">
+                    <div class="task-label">Соедините паттерн с категорией и описанием</div>
+                    
+                    <p style="margin-top: 20px;"><strong>Задание:</strong> Для каждого паттерна укажите категорию (порождающий / структурный / поведенческий) и краткое описание проблемы, которую он решает.</p>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px;">
+                        <tr style="background: var(--sand);">
+                            <th style="padding: 12px; text-align: left; border: 1px solid #d6d3d1;">Паттерн</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid #d6d3d1;">Категория</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid #d6d3d1;">Какую проблему решает</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;">Адаптер</td>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;"></td>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;"></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;">Наблюдатель</td>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;"></td>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;"></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;">Строитель</td>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;"></td>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;"></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;">Декоратор</td>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;"></td>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;"></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;">Стратегия</td>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;"></td>
+                            <td style="padding: 12px; border: 1px solid #d6d3d1;"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 28: Task Part C -->
+        <div class="slide">
+            <span class="slide-badge">Часть В</span>
+            <div class="slide-title">Анализ <span class="hl">ситуаций</span></div>
+            <div class="slide-content">
+                <div class="task-box">
+                    <div class="task-label">Определите подходящий паттерн для каждой ситуации</div>
+                    
+                    <p style="margin-top: 20px;"><strong>Ситуация 1.</strong> Интернет-магазин должен уведомлять пользователей о появлении товара, на который они подписались. Какой паттерн подходит и почему?</p>
+                    <p style="margin-left: 20px; color: var(--muted-text); font-style: italic;">Ваш ответ:</p>
+
+                    <p style="margin-top: 25px;"><strong>Ситуация 2.</strong> Приложение для рисования позволяет применять к изображению фильтры: размытие, яркость, контраст. Пользователь может применить несколько фильтров в любом порядке. Какой паттерн подходит и почему?</p>
+                    <p style="margin-left: 20px; color: var(--muted-text); font-style: italic;">Ваш ответ:</p>
+
+                    <p style="margin-top: 25px;"><strong>Ситуация 3.</strong> Приложение для заказа такси должно рассчитывать стоимость поездки разными способами: по километражу, по времени, по фиксированной цене. Пользователь выбирает способ расчёта. Какой паттерн подходит и почему?</p>
+                    <p style="margin-left: 20px; color: var(--muted-text); font-style: italic;">Ваш ответ:</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: Task Part D -->
+        <div class="slide">
+            <span class="slide-badge">Часть Г</span>
+            <div class="slide-title">Открытые <span class="hl">вопросы</span></div>
+            <div class="slide-content">
+                <div class="task-box">
+                    <div class="task-label">Дайте развёрнутый ответ на каждый вопрос</div>
+                    
+                    <p style="margin-top: 20px;"><strong>Вопрос 1.</strong> Объясните своими словами разницу между паттерном и антипаттерном. Приведите по одному примеру каждого.</p>
+
+                    <p style="margin-top: 25px;"><strong>Вопрос 2.</strong> Ваш коллега говорит: «Давай используем паттерн Фабрика для создания каждой кнопки в интерфейсе». Объясните, почему это плохая идея и когда Фабрика действительно нужна.</p>
+
+                    <p style="margin-top: 25px;"><strong>Вопрос 3.</strong> Как паттерны проектирования связаны с принципами DRY и KISS? Могут ли паттерны нарушить эти принципы? Приведите пример.</p>
+
+                    <p style="margin-top: 25px;"><strong>Вопрос 4.</strong> Придумайте свой пример из жизни (не из лекции) для любого паттерна. Опишите ситуацию, проблему и как паттерн её решает.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 30: Final -->
+        <div class="slide title-slide">
+            <div class="icon">🎉</div>
+            <h1>Вы завершили изучение!</h1>
+            <div style="background: white; border: 2px solid var(--primary); border-radius: 8px; padding: 30px; margin-top: 20px; max-width: 600px;">
+                <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--dark-text); margin-bottom: 15px;">Что делать дальше</h3>
+                <p style="font-size: 17px; color: var(--muted-text); line-height: 1.6;">
+                    1. Выполните задание на предыдущих слайдах.<br>
+                    2. Оформите ответы в одном документе (Word или PDF).<br>
+                    3. Укажите ФИО и группу.<br>
+                    4. Отправьте документ преподавателю.
+                </p>
+            </div>
+            <div class="key-box" style="margin-top: 30px;">
+                <p>Паттерны — это не цель, а инструмент.<br>
+                Используйте их осознанно! 🏛️</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Назад</button>
+            <div class="slide-counter">Слайд <span id="currentSlide">1</span> / <span id="totalSlides">30</span></div>
+            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Вперёд →</button>
+        </div>
+    </div>
+
+    <script>
+        let current = 0;
+        const slides = document.querySelectorAll('.slide');
+        const total = slides.length;
+        document.getElementById('totalSlides').textContent = total;
+
+        function updateProgress() {
+            const progress = ((current + 1) / total) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function changeSlide(direction) {
+            slides[current].classList.remove('active');
+            current += direction;
+            if (current < 0) current = 0;
+            if (current >= total) current = total - 1;
+            slides[current].classList.add('active');
+            document.getElementById('currentSlide').textContent = current + 1;
+            document.getElementById('prevBtn').disabled = (current === 0);
+            document.getElementById('nextBtn').disabled = (current === total - 1);
+            updateProgress();
+            document.querySelector('.slide.active').scrollTop = 0;
+        }
+
+        function toggleAnswer(btn) {
+            const answer = btn.nextElementSibling;
+            answer.classList.toggle('show');
+            btn.textContent = answer.classList.contains('show') ? 'Скрыть ответ' : 'Показать ответ';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'Home') { current = -1; changeSlide(1); }
+            if (e.key === 'End') { current = total - 2; changeSlide(1); }
+        });
+
+        updateProgress();
+    </script>
+</body>
+</html>
