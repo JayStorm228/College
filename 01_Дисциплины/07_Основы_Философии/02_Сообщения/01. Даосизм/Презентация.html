@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f0e5">
+  <meta name="description" content="Визуальное сообщение о философском даосизме: Дао, дэ, у-вэй и цзы-жань.">
+  <title>Даосизм</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f4f0e5;
+      --paper-deep: #e8e1d2;
+      --ink: #16312d;
+      --ink-soft: #52665f;
+      --jade: #23685d;
+      --jade-dark: #123e38;
+      --jade-light: #c6d9cd;
+      --gold: #b68d50;
+      --line: rgba(22, 49, 45, .16);
+      --white: #fffdf7;
+      --shadow: 0 32px 90px rgba(17, 46, 40, .2);
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; margin: 0; }
+    body {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 9% 10%, rgba(255,255,255,.86), transparent 32rem),
+        radial-gradient(ellipse at 92% 91%, rgba(182,141,80,.16), transparent 30rem),
+        linear-gradient(135deg, #e5e5d9, #cdd9d0);
+      font-family: Inter, "Segoe UI", "Noto Sans", Arial, sans-serif;
+    }
+    button { font: inherit; }
+    .stage {
+      width: min(1480px, calc(100vw - 32px), calc((100svh - 32px) * 16 / 9));
+      margin: auto;
+    }
+    .deck {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      isolation: isolate;
+      border: 1px solid rgba(255,255,255,.75);
+      border-radius: 25px;
+      background:
+        radial-gradient(circle at 82% 78%, rgba(198,217,205,.38), transparent 29rem),
+        linear-gradient(120deg, rgba(255,255,255,.78), transparent 64%),
+        var(--paper);
+      box-shadow: var(--shadow);
+    }
+    .deck::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      content: "";
+      opacity: .25;
+      background-image: repeating-linear-gradient(0deg, transparent 0 34px, rgba(22,49,45,.055) 35px, transparent 36px);
+      mask-image: linear-gradient(90deg, transparent, #000 20%, #000 84%, transparent);
+    }
+    .deck::after {
+      position: absolute;
+      z-index: -1;
+      top: -170px;
+      right: -120px;
+      width: 380px;
+      height: 380px;
+      border: 1px solid rgba(35,104,93,.14);
+      border-radius: 50%;
+      box-shadow: 0 0 0 32px rgba(35,104,93,.025), 0 0 0 64px rgba(35,104,93,.02);
+      content: "";
+      pointer-events: none;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      overflow: hidden;
+      padding: clamp(40px, 7vw, 100px) clamp(64px, 10vw, 142px);
+      animation: enter .55s cubic-bezier(.2,.75,.25,1) both;
+    }
+    .slide[hidden] { display: none; }
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(12px) scale(.992); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes breathe { 0%,100% { opacity: .45; transform: scale(.96); } 50% { opacity: .8; transform: scale(1.04); } }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 19px;
+      color: var(--jade);
+      font-size: clamp(10px, 1vw, 13px);
+      font-weight: 760;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { width: 35px; height: 1px; background: var(--gold); content: ""; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: Georgia, "Noto Serif", "Songti SC", "SimSun", serif; font-weight: 500; }
+    h1 {
+      max-width: 790px;
+      margin-bottom: 15px;
+      font-size: clamp(64px, 9.5vw, 128px);
+      letter-spacing: -.055em;
+      line-height: .92;
+    }
+    h2 {
+      max-width: 820px;
+      margin-bottom: 22px;
+      font-size: clamp(43px, 6vw, 78px);
+      letter-spacing: -.045em;
+      line-height: .98;
+    }
+    .subtitle {
+      margin: 0;
+      color: var(--ink-soft);
+      font-family: Georgia, "Noto Serif", serif;
+      font-size: clamp(20px, 2.8vw, 35px);
+      line-height: 1.25;
+    }
+    .cover { grid-template-columns: 1.05fr .95fr; align-items: center; padding-right: clamp(40px, 6vw, 85px); }
+    .cover .title-content { position: relative; z-index: 1; }
+    .cover .eyebrow { margin-bottom: 25px; }
+    .cover-art { position: relative; display: grid; place-items: center; min-height: 380px; }
+    .cover-art svg { width: min(100%, 520px); overflow: visible; }
+    .cover-glyph {
+      position: absolute;
+      color: rgba(35,104,93,.1);
+      font-family: "Noto Serif CJK SC", "Songti SC", "SimSun", serif;
+      font-size: clamp(190px, 25vw, 350px);
+      line-height: 1;
+      animation: drift 7s ease-in-out infinite;
+      user-select: none;
+    }
+    .flow-line { fill: none; stroke: var(--jade); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: draw 2.5s .15s ease forwards; }
+    .flow-line.alt { stroke: var(--gold); stroke-width: 1.5; animation-delay: .45s; }
+    .book-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 960px; }
+    .book {
+      position: relative;
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      align-items: center;
+      gap: 20px;
+      min-height: 220px;
+      padding: 28px 30px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,253,247,.72);
+      box-shadow: 0 12px 40px rgba(22,49,45,.05);
+    }
+    .book::after {
+      position: absolute;
+      right: -8px;
+      bottom: -56px;
+      color: rgba(35,104,93,.09);
+      font-family: "Noto Serif CJK SC", "Songti SC", "SimSun", serif;
+      font-size: 190px;
+      line-height: 1;
+      content: attr(data-mark);
+      pointer-events: none;
+    }
+    .book-symbol {
+      display: grid;
+      place-items: center;
+      width: 76px;
+      height: 112px;
+      border: 1px solid rgba(182,141,80,.45);
+      border-radius: 50% 50% 45% 45%;
+      color: var(--jade-dark);
+      background: linear-gradient(155deg, #f8f3e5, #e5d8bd);
+      font-family: "Noto Serif CJK SC", "Songti SC", "SimSun", serif;
+      font-size: 41px;
+      box-shadow: inset 0 0 0 5px rgba(255,255,255,.24), 0 8px 22px rgba(22,49,45,.08);
+    }
+    .book h3 { position: relative; z-index: 1; margin: 0 0 10px; font-size: clamp(22px, 2.5vw, 33px); }
+    .book p { position: relative; z-index: 1; margin: 0; color: var(--ink-soft); font-size: clamp(14px, 1.5vw, 18px); line-height: 1.5; }
+    .book .book-pinyin { margin-bottom: 5px; color: var(--gold); font-family: Georgia, serif; font-size: 14px; font-style: italic; }
+    .term-layout { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: clamp(25px, 6vw, 86px); }
+    .term-block { position: relative; z-index: 1; }
+    .term-glyph {
+      margin: 0 0 5px;
+      color: var(--jade-dark);
+      font-family: "Noto Serif CJK SC", "Songti SC", "SimSun", serif;
+      font-size: clamp(105px, 17vw, 225px);
+      letter-spacing: -.08em;
+      line-height: .94;
+    }
+    .term-reading { margin: 0 0 10px; color: var(--gold); font-family: Georgia, serif; font-size: clamp(18px, 2.4vw, 30px); font-style: italic; }
+    .term-name { margin: 0; color: var(--ink-soft); font-size: clamp(16px, 1.8vw, 22px); letter-spacing: .06em; }
+    .term-meaning {
+      max-width: 570px;
+      margin: 0;
+      font-family: Georgia, "Noto Serif", serif;
+      font-size: clamp(30px, 4.3vw, 56px);
+      line-height: 1.16;
+    }
+    .term-meaning em { color: var(--jade); font-style: normal; }
+    .definition-slide { align-content: center; }
+    .definition-shell {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(130px, 190px) minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(30px, 6vw, 88px);
+      width: min(100%, 1080px);
+      margin: 0 auto;
+    }
+    .definition-mark {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: clamp(126px, 16vw, 205px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(35,104,93,.24);
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 32%, rgba(255,255,255,.92), rgba(198,217,205,.54) 72%);
+      box-shadow: 0 16px 48px rgba(22,49,45,.08), inset 0 0 0 8px rgba(255,255,255,.18);
+      animation: drift 7s ease-in-out infinite;
+    }
+    .definition-mark::before {
+      position: absolute;
+      inset: -11px;
+      border: 1px solid rgba(182,141,80,.28);
+      border-radius: 50%;
+      content: "";
+    }
+    .definition-mark::after {
+      position: absolute;
+      top: 9%;
+      right: 18%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      content: "";
+    }
+    .definition-glyph {
+      color: var(--jade-dark);
+      font-family: "Noto Serif CJK SC", "Songti SC", "SimSun", serif;
+      font-size: clamp(68px, 9vw, 112px);
+      line-height: 1;
+    }
+    .definition-pinyin {
+      position: absolute;
+      right: 19%;
+      bottom: 18%;
+      color: var(--gold);
+      font-family: Georgia, serif;
+      font-size: clamp(13px, 1.4vw, 17px);
+      font-style: italic;
+    }
+    .definition-copy { max-width: 770px; animation: note-in .55s .08s cubic-bezier(.2,.75,.25,1) both; }
+    @keyframes note-in { from { opacity: 0; transform: translateY(11px); } to { opacity: 1; transform: translateY(0); } }
+    .definition-title { margin: 0 0 17px; font-size: clamp(39px, 5vw, 66px); }
+    .definition-text {
+      max-width: 760px;
+      margin: 0;
+      font-family: Georgia, "Noto Serif", serif;
+      font-size: clamp(28px, 3.8vw, 47px);
+      line-height: 1.22;
+    }
+    .definition-text em { color: var(--jade); font-style: normal; }
+    .definition-note {
+      max-width: 650px;
+      margin: 20px 0 0;
+      padding-left: 15px;
+      border-left: 2px solid var(--gold);
+      color: var(--ink-soft);
+      font-size: clamp(15px, 1.55vw, 19px);
+      line-height: 1.45;
+    }
+    .definition-art { position: absolute; z-index: 0; right: -2%; bottom: -13%; width: 36%; opacity: .34; pointer-events: none; }
+    .definition-art svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .art-panel { position: relative; min-height: 320px; display: grid; place-items: center; }
+    .art-panel svg { width: min(100%, 540px); overflow: visible; }
+    .orbit { fill: none; stroke: rgba(35,104,93,.2); stroke-width: 1; transform-origin: center; animation: breathe 8s ease-in-out infinite; }
+    .orbit.delay { animation-delay: -4s; }
+    .soft-fill { fill: rgba(198,217,205,.58); }
+    .gold-fill { fill: rgba(182,141,80,.2); }
+    .jade-stroke { fill: none; stroke: var(--jade); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .gold-stroke { fill: none; stroke: var(--gold); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .fine-stroke { fill: none; stroke: rgba(22,49,45,.28); stroke-width: 1.2; stroke-linecap: round; }
+    .wuwei-layout { grid-template-columns: 1fr 1.15fr; }
+    .flow-caption { position: absolute; right: 3%; bottom: 5%; color: rgba(22,49,45,.54); font-family: Georgia, serif; font-size: 14px; font-style: italic; }
+    .ziran-layout { grid-template-columns: 1fr 1fr; }
+    .story { display: grid; grid-template-columns: 1fr .95fr; align-items: center; gap: clamp(28px, 6vw, 85px); }
+    .story-title { margin-bottom: 17px; }
+    .story-line { max-width: 580px; margin: 0; color: var(--jade-dark); font-family: Georgia, "Noto Serif", serif; font-size: clamp(25px, 3.5vw, 43px); line-height: 1.2; }
+    .story-art { display: grid; place-items: center; min-height: 340px; }
+    .story-art svg { width: min(100%, 500px); overflow: visible; }
+    .closing { text-align: center; justify-items: center; }
+    .closing h2 { margin: 0 0 30px; font-size: clamp(56px, 8.5vw, 112px); }
+    .closing .closing-line { margin: 0; color: var(--ink-soft); font-family: Georgia, "Noto Serif", serif; font-size: clamp(19px, 2.8vw, 34px); }
+    .closing-art { width: min(100%, 520px); margin: 0 auto 8px; }
+    .closing-art svg { display: block; width: 100%; height: auto; }
+    .nav-button {
+      position: absolute;
+      z-index: 5;
+      top: 50%;
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      padding: 0;
+      transform: translateY(-50%);
+      border: 1px solid rgba(22,49,45,.17);
+      border-radius: 50%;
+      color: var(--jade-dark);
+      background: rgba(255,253,247,.77);
+      box-shadow: 0 6px 20px rgba(22,49,45,.08);
+      font-size: 27px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease, transform .2s ease, opacity .2s ease;
+    }
+    .nav-button:hover { transform: translateY(-50%) scale(1.06); color: white; background: var(--jade); }
+    .nav-button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    .nav-button:disabled { opacity: .22; cursor: default; }
+    .nav-button:disabled:hover { transform: translateY(-50%); color: var(--jade-dark); background: rgba(255,253,247,.77); }
+    .nav-prev { left: 17px; }
+    .nav-next { right: 17px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (max-width: 760px) {
+      body { display: block; padding: 0; overflow: auto; background: var(--paper); }
+      .stage { width: 100%; height: 100svh; min-height: 580px; }
+      .deck { width: 100%; height: 100%; min-height: 580px; aspect-ratio: auto; border: 0; border-radius: 0; box-shadow: none; }
+      .slide { padding: 42px 36px 54px; overflow-y: auto; }
+      .cover { grid-template-columns: 1fr; align-content: center; padding-right: 40px; }
+      .cover-art { position: absolute; inset: 0 0 0 32%; min-height: 0; opacity: .68; pointer-events: none; }
+      .cover-art svg { width: 100%; }
+      .cover-glyph { font-size: clamp(200px, 48vw, 310px); }
+      .cover .title-content { align-self: center; }
+      .book-pair { grid-template-columns: 1fr; gap: 13px; }
+      .book { grid-template-columns: 66px 1fr; min-height: 145px; padding: 18px 20px; gap: 17px; }
+      .book-symbol { width: 57px; height: 86px; font-size: 32px; }
+      .book h3 { font-size: 23px; }
+      .book p { font-size: 14px; }
+      .term-layout, .wuwei-layout, .ziran-layout, .story { grid-template-columns: 1fr; gap: 12px; align-content: center; }
+      .definition-slide { align-content: center; }
+      .definition-shell { grid-template-columns: 1fr; gap: 18px; }
+      .definition-mark { width: clamp(102px, 26vw, 136px); margin-left: 8px; }
+      .definition-glyph { font-size: clamp(59px, 15vw, 76px); }
+      .definition-pinyin { right: 18%; bottom: 16%; font-size: 13px; }
+      .definition-title { margin-bottom: 10px; font-size: clamp(35px, 9vw, 48px); }
+      .definition-text { font-size: clamp(26px, 7vw, 36px); }
+      .definition-note { margin-top: 14px; font-size: 15px; }
+      .definition-art { right: -16%; bottom: 1%; width: 74%; opacity: .2; }
+      .term-glyph { font-size: clamp(88px, 22vw, 145px); }
+      .term-block { display: grid; grid-template-columns: auto 1fr; column-gap: 20px; align-items: center; }
+      .term-block .term-glyph { grid-row: span 2; }
+      .term-reading { align-self: end; margin: 0 0 5px; }
+      .term-name { align-self: start; }
+      .term-meaning { font-size: clamp(30px, 8vw, 43px); }
+      .art-panel { min-height: 245px; max-height: 34vh; }
+      .art-panel svg { max-height: 100%; }
+      .story-art { min-height: 235px; max-height: 32vh; }
+      .story-art svg { max-height: 100%; }
+      .story-line { font-size: clamp(27px, 7.6vw, 39px); }
+      .closing { align-content: center; }
+      .closing h2 { font-size: clamp(58px, 15vw, 86px); }
+      .nav-button { top: auto; bottom: 14px; width: 46px; height: 46px; transform: none; }
+      .nav-button:hover { transform: scale(1.05); }
+      .nav-button:disabled:hover { transform: none; }
+      .nav-prev { left: 16px; }
+      .nav-next { right: 16px; }
+    }
+    @media (max-width: 390px) {
+      .slide { padding-left: 27px; padding-right: 27px; }
+      .cover { padding-right: 27px; }
+      .eyebrow { letter-spacing: .14em; }
+      .term-meaning { font-size: 29px; }
+      .book { padding-inline: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+    @media print {
+      @page { size: landscape; margin: 0; }
+      html, body { width: auto; min-height: 0; overflow: visible; background: white !important; }
+      body { display: block; padding: 0; }
+      .stage { width: 100%; height: auto; }
+      .deck { width: 100%; height: auto; aspect-ratio: auto; overflow: visible; border: 0; border-radius: 0; box-shadow: none; }
+      .slide, .slide[hidden] { position: relative; inset: auto; display: grid !important; width: 100%; height: 100vh; min-height: 100vh; padding: 8vh 9vw; break-after: page; page-break-after: always; }
+      .nav-button { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <div class="deck" id="deck" aria-label="Слайды о даосизме">
+      <section class="slide cover" aria-labelledby="slide-1-title">
+        <div class="title-content">
+          <p class="eyebrow">道 · 德 · 無為 · 自然</p>
+          <h1 id="slide-1-title">Даосизм</h1>
+          <p class="subtitle">Искусство не идти против хода вещей</p>
+        </div>
+        <div class="cover-art" aria-hidden="true">
+          <span class="cover-glyph">道</span>
+          <svg viewBox="0 0 520 430" role="presentation">
+            <path class="flow-line" d="M38 256 C118 256 116 156 203 156 S298 263 378 263 S435 190 494 190" />
+            <path class="flow-line alt" d="M31 292 C110 292 142 218 205 218 S295 325 375 325 S439 250 496 250" />
+            <path class="fine-stroke" d="M65 142 C128 105 171 104 220 124" />
+            <path class="fine-stroke" d="M276 102 C344 84 392 101 449 137" />
+            <circle cx="205" cy="156" r="5" fill="#b68d50" />
+            <circle cx="378" cy="263" r="5" fill="#23685d" />
+          </svg>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд" disabled>←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide" aria-labelledby="slide-2-title" hidden>
+        <p class="eyebrow">Два классических текста</p>
+        <h2 id="slide-2-title">Два голоса<br>одной традиции</h2>
+        <div class="book-pair">
+          <article class="book" data-mark="道">
+            <div class="book-symbol" lang="zh-Hant" aria-hidden="true">道德經</div>
+            <div><h3>«Дао дэ цзин»</h3><p class="book-pinyin">Dàodéjīng</p><p>Канон Пути и дэ · краткие главы</p></div>
+          </article>
+          <article class="book" data-mark="莊">
+            <div class="book-symbol" lang="zh-Hant" aria-hidden="true">莊子</div>
+            <div><h3>«Чжуан-цзы»</h3><p class="book-pinyin">Zhuāngzǐ</p><p>Текст мастера Чжуана · притчи и диалоги</p></div>
+          </article>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide" aria-labelledby="slide-3-title" hidden>
+        <div class="term-layout">
+          <div class="term-block">
+            <p class="term-glyph" lang="zh-Hant" aria-hidden="true">道</p>
+            <p class="term-reading">dào</p>
+            <p class="term-name" id="slide-3-title">Дао</p>
+          </div>
+          <div>
+            <p class="term-meaning">Путь.<br><em>Ход перемен.</em></p>
+          </div>
+        </div>
+        <div class="art-panel" aria-hidden="true">
+          <svg viewBox="0 0 700 250" role="presentation">
+            <path class="flow-line" d="M20 125 C145 125 140 45 254 45 S359 125 448 125" />
+            <path class="flow-line alt" d="M20 165 C145 165 149 215 253 215 S355 165 448 165" />
+            <path class="jade-stroke" d="M448 145 C520 145 512 84 603 84" />
+            <path class="gold-stroke" d="M448 145 C520 145 512 206 603 206" />
+            <circle cx="254" cy="45" r="7" class="gold-fill" stroke="#b68d50" stroke-width="2" />
+            <circle cx="254" cy="215" r="7" class="soft-fill" stroke="#23685d" stroke-width="2" />
+            <circle cx="448" cy="145" r="10" fill="#23685d" />
+            <path class="fine-stroke" d="M620 84 l28 0 M620 206 l28 0" />
+          </svg>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide definition-slide" aria-labelledby="dao-definition-title" hidden>
+        <div class="definition-art" aria-hidden="true">
+          <svg viewBox="0 0 520 360" role="presentation">
+            <path class="flow-line" d="M12 166 C98 166 99 76 184 76 S284 166 365 166 S429 110 508 110" />
+            <path class="flow-line alt" d="M12 210 C101 210 121 282 205 282 S292 210 374 210 S438 266 508 266" />
+            <circle cx="184" cy="76" r="6" fill="#b68d50" />
+            <circle cx="365" cy="166" r="7" fill="#23685d" />
+          </svg>
+        </div>
+        <div class="definition-shell">
+          <div class="definition-mark">
+            <span class="definition-glyph" lang="zh-Hant" aria-hidden="true">道</span>
+            <span class="definition-pinyin">dào</span>
+          </div>
+          <div class="definition-copy">
+            <p class="eyebrow">Смысл понятия</p>
+            <h2 class="definition-title" id="dao-definition-title">Дао</h2>
+            <p class="definition-text">Не маршрут на карте, а <em>ход перемен</em>, в котором вещи возникают и меняются.</p>
+            <p class="definition-note">Не приказ и не готовый свод правил.</p>
+          </div>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide" aria-labelledby="slide-4-title" hidden>
+        <div class="term-layout">
+          <div class="term-block">
+            <p class="term-glyph" lang="zh-Hant" aria-hidden="true">德</p>
+            <p class="term-reading">dé</p>
+            <p class="term-name" id="slide-4-title">Дэ</p>
+          </div>
+          <div>
+            <p class="term-meaning">Сила,<br>в которой <em>Путь проявляется.</em></p>
+          </div>
+        </div>
+        <div class="art-panel" aria-hidden="true">
+          <svg viewBox="0 0 700 250" role="presentation">
+            <circle class="orbit" cx="350" cy="125" r="96" />
+            <circle class="orbit delay" cx="350" cy="125" r="65" />
+            <circle cx="350" cy="125" r="28" fill="#b68d50" opacity=".75" />
+            <path class="jade-stroke" d="M350 153 C350 189 350 209 350 235" />
+            <path class="jade-stroke" d="M350 188 C309 185 285 162 276 129 C309 127 339 146 350 188Z" fill="rgba(198,217,205,.6)" />
+            <path class="gold-stroke" d="M350 202 C391 194 417 172 429 142 C395 137 365 156 350 202Z" fill="rgba(182,141,80,.16)" />
+            <path class="fine-stroke" d="M212 125 H268 M432 125 H488" />
+          </svg>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide definition-slide" aria-labelledby="de-definition-title" hidden>
+        <div class="definition-art" aria-hidden="true">
+          <svg viewBox="0 0 520 360" role="presentation">
+            <circle class="orbit" cx="260" cy="180" r="126" />
+            <circle class="orbit delay" cx="260" cy="180" r="88" />
+            <path class="jade-stroke" d="M260 207 C260 254 260 285 260 337" />
+            <path class="jade-stroke" d="M260 257 C216 252 188 226 179 190 C218 188 249 210 260 257Z" fill="rgba(198,217,205,.6)" />
+            <path class="gold-stroke" d="M260 286 C302 276 331 250 343 216 C306 211 275 232 260 286Z" fill="rgba(182,141,80,.16)" />
+            <circle cx="260" cy="175" r="19" fill="#b68d50" opacity=".6" />
+          </svg>
+        </div>
+        <div class="definition-shell">
+          <div class="definition-mark">
+            <span class="definition-glyph" lang="zh-Hant" aria-hidden="true">德</span>
+            <span class="definition-pinyin">dé</span>
+          </div>
+          <div class="definition-copy">
+            <p class="eyebrow">Смысл понятия</p>
+            <h2 class="definition-title" id="de-definition-title">Дэ</h2>
+            <p class="definition-text"><em>Действенная сила</em>, через которую Дао проявляется в конкретной жизни, поступке или вещи.</p>
+            <p class="definition-note">Это не только моральная оценка «хороший» или «плохой».</p>
+          </div>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide" aria-labelledby="slide-5-title" hidden>
+        <div class="term-layout wuwei-layout">
+          <div class="term-block">
+            <p class="term-glyph" lang="zh-Hant" aria-hidden="true">無為</p>
+            <p class="term-reading">wúwéi</p>
+            <p class="term-name" id="slide-5-title">У-вэй</p>
+          </div>
+          <div>
+            <p class="term-meaning">Действовать —<br><em>не принуждать.</em></p>
+          </div>
+        </div>
+        <div class="art-panel" aria-hidden="true">
+          <svg viewBox="0 0 700 280" role="presentation">
+            <path class="orbit" cx="350" cy="140" d="M26 141 C150 140 174 70 255 70 C304 70 312 106 353 110 C403 116 414 67 469 67 C557 67 562 141 674 141" />
+            <path class="flow-line" d="M22 113 C151 113 164 62 251 62 C303 62 313 100 350 102 C398 104 418 60 474 60 C554 60 570 112 678 112" />
+            <path class="flow-line alt" d="M22 174 C151 174 166 224 253 224 C303 224 313 184 350 182 C398 180 418 226 474 226 C554 226 570 174 678 174" />
+            <ellipse cx="350" cy="143" rx="40" ry="56" fill="#d9d0be" stroke="#b68d50" stroke-width="2" />
+            <path class="fine-stroke" d="M92 89 C133 74 171 69 204 71 M501 210 C548 203 579 184 608 167" />
+          </svg>
+          <span class="flow-caption">Путь воды — вокруг, а не сквозь камень</span>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide definition-slide" aria-labelledby="wuwei-definition-title" hidden>
+        <div class="definition-art" aria-hidden="true">
+          <svg viewBox="0 0 520 360" role="presentation">
+            <path class="flow-line" d="M12 112 C110 112 112 58 205 58 C248 58 254 111 280 113 C322 117 326 61 381 61 C444 61 446 116 508 116" />
+            <path class="flow-line alt" d="M12 248 C110 248 112 302 205 302 C248 302 254 249 280 247 C322 243 326 299 381 299 C444 299 446 244 508 244" />
+            <ellipse cx="280" cy="180" rx="31" ry="48" fill="#d9d0be" stroke="#b68d50" stroke-width="2" />
+            <path class="fine-stroke" d="M40 78 C85 67 112 67 147 74 M385 286 C430 277 460 258 481 240" />
+          </svg>
+        </div>
+        <div class="definition-shell">
+          <div class="definition-mark">
+            <span class="definition-glyph" lang="zh-Hant" aria-hidden="true">無為</span>
+            <span class="definition-pinyin">wúwéi</span>
+          </div>
+          <div class="definition-copy">
+            <p class="eyebrow">Смысл понятия</p>
+            <h2 class="definition-title" id="wuwei-definition-title">У-вэй</h2>
+            <p class="definition-text">Точное действие, согласованное с ситуацией и <em>без лишнего принуждения.</em></p>
+            <p class="definition-note">Не бездействие и не отказ от ответственности.</p>
+          </div>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide" aria-labelledby="slide-6-title" hidden>
+        <div class="term-layout ziran-layout">
+          <div class="term-block">
+            <p class="term-glyph" lang="zh-Hans" aria-hidden="true">自然</p>
+            <p class="term-reading">zìrán</p>
+            <p class="term-name" id="slide-6-title">Цзы-жань</p>
+          </div>
+          <div>
+            <p class="term-meaning">«Таково<br><em>само по себе».</em></p>
+          </div>
+        </div>
+        <div class="art-panel" aria-hidden="true">
+          <svg viewBox="0 0 700 260" role="presentation">
+            <ellipse class="orbit" cx="350" cy="130" rx="280" ry="76" />
+            <ellipse class="orbit delay" cx="350" cy="130" rx="210" ry="112" transform="rotate(-12 350 130)" />
+            <path class="jade-stroke" d="M350 219 C350 176 344 147 330 120 C314 91 294 75 272 57" />
+            <path class="jade-stroke" d="M338 139 C300 140 275 128 257 103 C292 92 322 104 338 139Z" fill="rgba(198,217,205,.68)" />
+            <path class="gold-stroke" d="M347 175 C380 158 405 157 433 168 C411 194 382 201 347 175Z" fill="rgba(182,141,80,.18)" />
+            <circle cx="272" cy="57" r="5" fill="#b68d50" />
+            <path class="fine-stroke" d="M141 199 C191 220 236 223 279 211 M435 54 C483 67 519 92 543 121" />
+          </svg>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide definition-slide" aria-labelledby="ziran-definition-title" hidden>
+        <div class="definition-art" aria-hidden="true">
+          <svg viewBox="0 0 520 360" role="presentation">
+            <ellipse class="orbit" cx="260" cy="180" rx="220" ry="105" />
+            <ellipse class="orbit delay" cx="260" cy="180" rx="162" ry="132" transform="rotate(-12 260 180)" />
+            <path class="jade-stroke" d="M260 318 C260 264 254 224 238 189 C220 150 192 123 166 100" />
+            <path class="jade-stroke" d="M247 207 C204 208 176 193 157 164 C196 151 230 166 247 207Z" fill="rgba(198,217,205,.68)" />
+            <path class="gold-stroke" d="M257 267 C292 248 321 248 350 262 C326 290 293 298 257 267Z" fill="rgba(182,141,80,.18)" />
+            <circle cx="166" cy="100" r="6" fill="#b68d50" />
+          </svg>
+        </div>
+        <div class="definition-shell">
+          <div class="definition-mark">
+            <span class="definition-glyph" lang="zh-Hans" aria-hidden="true">自然</span>
+            <span class="definition-pinyin">zìrán</span>
+          </div>
+          <div class="definition-copy">
+            <p class="eyebrow">Смысл понятия</p>
+            <h2 class="definition-title" id="ziran-definition-title">Цзы-жань</h2>
+            <p class="definition-text">Естественный ход, когда явление развивается <em>согласно собственному устройству.</em></p>
+            <p class="definition-note">«Таково само по себе» — без навязанной схемы.</p>
+          </div>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide" aria-labelledby="slide-7-title" hidden>
+        <div class="story">
+          <div>
+            <p class="eyebrow">Притча из «Чжуан-цзы»</p>
+            <h2 class="story-title" id="slide-7-title">Повар Дин</h2>
+            <p class="story-line">Не рубить кость.<br><em>Найти проход.</em></p>
+          </div>
+          <div class="story-art" aria-hidden="true">
+            <svg viewBox="0 0 560 390" role="presentation">
+              <path d="M92 73 C177 35 252 75 276 135 C294 179 269 204 228 212 C190 220 179 253 204 282 C240 325 322 333 395 293 C448 265 466 216 438 182 C415 154 376 159 355 183" fill="none" stroke="#d8d0bf" stroke-width="28" stroke-linecap="round" />
+              <path class="flow-line" d="M76 91 C145 59 219 94 238 139 C255 179 234 195 205 204 C161 217 152 262 184 295 C229 341 317 351 403 307 C467 274 486 214 448 171 C417 136 365 144 332 177 C306 202 299 242 322 266" />
+              <path class="flow-line alt" d="M150 67 C190 50 230 69 252 100" />
+              <circle cx="204" cy="204" r="8" fill="#b68d50" />
+              <circle cx="332" cy="177" r="8" fill="#23685d" />
+              <path class="fine-stroke" d="M62 118 C45 155 49 187 70 211 M468 113 C501 125 518 150 522 177" />
+            </svg>
+          </div>
+        </div>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд">→</button>
+      </section>
+
+      <section class="slide closing" aria-labelledby="slide-8-title" hidden>
+        <div class="closing-art" aria-hidden="true">
+          <svg viewBox="0 0 600 190" role="presentation">
+            <path class="flow-line" d="M34 96 C124 96 128 52 207 52 S284 96 300 96 S376 140 393 140 S474 96 566 96" />
+            <circle cx="207" cy="52" r="16" fill="#f4f0e5" stroke="#b68d50" stroke-width="2" />
+            <circle cx="300" cy="96" r="18" fill="#c6d9cd" stroke="#23685d" stroke-width="2" />
+            <circle cx="393" cy="140" r="16" fill="#f4f0e5" stroke="#b68d50" stroke-width="2" />
+            <circle cx="34" cy="96" r="5" fill="#23685d" />
+            <circle cx="566" cy="96" r="5" fill="#23685d" />
+          </svg>
+        </div>
+        <p class="eyebrow">Дао · дэ · у-вэй · цзы-жань</p>
+        <h2 id="slide-8-title">Не сильнее.<br>Точнее.</h2>
+        <p class="closing-line">Сначала увидеть ход вещей.</p>
+        <button class="nav-button nav-prev" type="button" aria-label="Предыдущий слайд">←</button>
+        <button class="nav-button nav-next" type="button" aria-label="Следующий слайд" disabled>→</button>
+      </section>
+    </div>
+  </main>
+  <div class="sr-only" id="slide-status" aria-live="polite"></div>
+  <script>
+    (() => {
+      const deck = document.getElementById('deck');
+      const slides = Array.from(deck.querySelectorAll('.slide'));
+      const status = document.getElementById('slide-status');
+      let current = 0;
+      let pointerStart = null;
+
+      function show(index) {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach((slide, i) => {
+          slide.hidden = i !== current;
+          slide.setAttribute('aria-hidden', String(i !== current));
+          slide.querySelector('.nav-prev').disabled = current === 0;
+          slide.querySelector('.nav-next').disabled = current === slides.length - 1;
+        });
+        status.textContent = slides[current].querySelector('h1, h2').textContent;
+      }
+
+      deck.addEventListener('click', (event) => {
+        const button = event.target.closest('.nav-button');
+        if (!button || button.disabled) return;
+        show(current + (button.classList.contains('nav-next') ? 1 : -1));
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
+        if (event.key === 'ArrowRight') { event.preventDefault(); show(current + 1); }
+        else if (event.key === 'ArrowLeft') { event.preventDefault(); show(current - 1); }
+      });
+      deck.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'touch') pointerStart = event.clientX;
+      }, { passive: true });
+      deck.addEventListener('pointerup', (event) => {
+        if (pointerStart === null) return;
+        const distance = event.clientX - pointerStart;
+        if (Math.abs(distance) > 60) show(current + (distance < 0 ? 1 : -1));
+        pointerStart = null;
+      }, { passive: true });
+      deck.addEventListener('pointercancel', () => { pointerStart = null; }, { passive: true });
+      show(0);
+    })();
+  </script>
+</body>
+</html>

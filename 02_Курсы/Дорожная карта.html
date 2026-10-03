@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Профессиональная дорожная карта специалиста по информационным системам 09.02.07: требования, колледжная программа, Django и личные дополнения.">
+<meta name="theme-color" content="#0c1c33">
+<title>Дорожная карта специалиста по ИС — 09.02.07</title>
+<style>
+:root{color-scheme:light;--ink:#15283f;--muted:#64748b;--paper:#f5f7fb;--surface:#ffffff;--line:#dce5ef;--navy:#0c1c33;--blue:#2563eb;--teal:#10b4a3;--violet:#7357d9;--gold:#d99a25;--shadow:0 16px 50px rgba(22,44,76,.08);--radius:22px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:105px}body{margin:0;background:radial-gradient(ellipse at 8% 0%,rgba(37,99,235,.08),transparent 32rem),radial-gradient(ellipse at 100% 15%,rgba(16,180,163,.08),transparent 29rem),var(--paper);color:var(--ink);font:16px/1.68 Inter,"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,sans-serif}
+a{color:#2457b6;text-decoration-thickness:1px;text-underline-offset:3px}a:hover{color:#173c81;text-decoration-thickness:2px}button,input{font:inherit}.progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),#53a6ff,var(--violet));z-index:20}
+.shell{max-width:1180px;margin:0 auto;padding:26px 28px 80px}.hero{position:relative;overflow:hidden;border-radius:30px;padding:clamp(30px,6vw,70px);color:#f5f8ff;background:linear-gradient(135deg,#0c1c33 0%,#142d4e 55%,#193f62 100%);box-shadow:0 24px 70px rgba(11,27,49,.2)}.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;pointer-events:none}.hero:before{width:420px;height:420px;right:-90px;top:-230px;background:radial-gradient(circle,rgba(82,171,255,.35),transparent 68%)}.hero:after{width:360px;height:360px;right:16%;bottom:-280px;background:radial-gradient(circle,rgba(16,180,163,.32),transparent 70%)}.hero-content{position:relative;z-index:1;max-width:850px}.eyebrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:#bdd4f2;text-transform:uppercase;letter-spacing:.12em;font-size:.74rem;font-weight:800}.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:#49d4c2;box-shadow:0 0 0 5px rgba(73,212,194,.15)}h1{font-size:clamp(2.1rem,5.6vw,4.3rem);line-height:1.05;letter-spacing:-.045em;margin:23px 0 18px;max-width:800px;color:white}.hero-lead{font-size:clamp(1.05rem,2vw,1.25rem);line-height:1.6;color:#d6e4f4;max-width:790px;margin:0}.hero-chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:27px}.chip{padding:7px 12px;border:1px solid rgba(203,224,250,.25);border-radius:999px;background:rgba(255,255,255,.07);color:#e7f0fb;font-size:.82rem;font-weight:650}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:27px}.action{border:1px solid rgba(217,231,250,.3);border-radius:12px;background:rgba(255,255,255,.09);color:#fff;padding:10px 15px;cursor:pointer;font-weight:700}.action:hover{background:rgba(255,255,255,.17)}
+.toolbar{position:sticky;top:0;z-index:15;margin:16px 0 30px;padding:10px 0;background:rgba(245,247,251,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(220,229,239,.8)}.toolbar-inner{display:flex;align-items:center;gap:14px}.nav{display:flex;gap:7px;overflow:auto;white-space:nowrap;scrollbar-width:thin;flex:1}.nav a{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:#eaf0f8;color:#40536c;text-decoration:none;font-size:.8rem;font-weight:700}.nav a:hover,.nav a.active{background:#dceafe;color:#1646a0}.search{width:min(230px,28vw);border:1px solid var(--line);border-radius:10px;padding:8px 11px;background:white;color:var(--ink);outline:none}.search:focus{border-color:#75a3ef;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.road-section{background:var(--surface);border:1px solid #e5ebf3;border-radius:var(--radius);padding:clamp(22px,4vw,42px);margin:22px 0;box-shadow:var(--shadow)}h2{font-size:clamp(1.55rem,3.2vw,2.25rem);line-height:1.2;letter-spacing:-.03em;margin:0 0 23px;color:#112943}h3{font-size:1.24rem;line-height:1.3;margin:34px 0 12px;color:#173758}h4{margin:24px 0 8px;font-size:1.05rem;color:#234c75}p{margin:0 0 16px}p:last-child{margin-bottom:0}strong{color:#173a60}code{font: .92em ui-monospace,SFMono-Regular,Consolas,monospace;background:#edf2f8;border:1px solid #e2e9f1;border-radius:5px;padding:.12em .36em;color:#37485e;overflow-wrap:anywhere}.callout{padding:19px 21px;margin:21px 0;border-radius:15px;background:#f1f6ff;border:1px solid #dce9ff;border-left:4px solid var(--blue)}.callout-title{font-weight:800;margin-bottom:7px;color:#173b67}.callout p{color:#344b67}.callout p:last-child{margin:0}.callout-abstract{background:linear-gradient(110deg,#edf5ff,#f2fbfa);border-color:#dbe9f2;border-left-color:var(--teal)}.callout-important,.callout-warning{background:#fff8e9;border-color:#f4e5c0;border-left-color:var(--gold)}.callout-note{background:#f5f2ff;border-color:#e7e0ff;border-left-color:var(--violet)}.callout-tip{background:#effbf6;border-color:#d5f0e4;border-left-color:#17a579}.callout-abstract .callout-title{color:#17675f}
+.table-wrap{overflow-x:auto;margin:20px 0 26px;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;min-width:680px;background:white}th,td{padding:13px 15px;text-align:left;vertical-align:top;border-bottom:1px solid #e8edf4}th{background:#edf3fa;color:#274563;font-size:.82rem;text-transform:uppercase;letter-spacing:.035em}tbody tr:nth-child(even){background:#fafbfd}tbody tr:last-child td{border-bottom:0}td:first-child{font-weight:650;color:#203c59}.list-check,.list-numbered{padding-left:1.3rem;margin:10px 0 22px}.list-check li,.list-numbered li{padding-left:.3rem;margin:8px 0}.list-check li::marker{color:var(--teal)}.list-numbered li::marker{color:#4d70be;font-weight:800}.divider{height:1px;border:0;background:linear-gradient(90deg,transparent,#dce5ef,transparent);margin:33px 0}.road-section>p:first-of-type{color:#3f5369}.road-section ul+blockquote,.road-section ol+blockquote{margin-top:22px}.road-section h3+ol{margin-top:10px}.footer{color:var(--muted);text-align:center;padding:32px 12px 10px;font-size:.9rem}.backtop{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border-radius:50%;border:0;background:#19395e;color:white;font-size:1.2rem;box-shadow:0 8px 24px rgba(13,34,58,.25);cursor:pointer;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none}.backtop.visible{opacity:1;transform:none;pointer-events:auto}.hidden-section{display:none!important}.empty-state{display:none;padding:22px;text-align:center;color:var(--muted)}
+@media(max-width:760px){.shell{padding:14px 14px 54px}.hero{border-radius:22px}.toolbar-inner{align-items:stretch;flex-direction:column;gap:8px}.nav{order:2}.search{order:1;width:100%}.road-section{padding:22px 18px;border-radius:18px}.road-section h3{margin-top:28px}.hero-actions{margin-top:20px}.hero-chips{gap:7px}.chip{font-size:.76rem}}
+@media print{body{background:white;color:#111;font-size:10pt}.shell{max-width:none;padding:0}.hero{padding:22px 25px;background:#fff;color:#111;border:1px solid #999;box-shadow:none;border-radius:0}.hero h1,.hero-lead,.eyebrow,.chip{color:#111}.hero:before,.hero:after,.toolbar,.hero-actions,.progress,.backtop{display:none!important}.road-section{box-shadow:none;border:0;border-radius:0;padding:16px 0;margin:0;break-inside:auto}.road-section h2{break-after:avoid}h3{break-after:avoid}table{min-width:0;font-size:8.5pt}th,td{padding:6px;border:1px solid #bbb}.table-wrap{overflow:visible;border:0}a{color:#111;text-decoration:none}.callout{break-inside:avoid}.footer{display:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="reading-progress" aria-hidden="true"></div>
+<div class="shell">
+<header class="hero" id="top">
+<div class="hero-content">
+<div class="eyebrow"><span class="dot"></span> Профессиональный маршрут <span>·</span> 09.02.07</div>
+<h1>Специалист по информационным системам</h1>
+<p class="hero-lead">От требований и бизнес-процессов — к проектированию, разработке, проверке и сопровождению информационных систем. Требования специальности, подтверждённая программа колледжа и личные дополнения показаны раздельно.</p>
+<div class="hero-chips"><span class="chip">Версия от 01.10.2026</span><span class="chip">Приоритет: Django, семестр 01.09–31.12.2026</span><span class="chip">Колледжная программа требует сверки</span></div>
+<div class="hero-actions"><button class="action" onclick="window.print()" type="button">Печать / сохранить PDF</button><a class="action" href="Дорожная%20карта.md" style="text-decoration:none">Открыть Markdown-версию</a></div>
+</div>
+</header>
+<div class="toolbar"><div class="toolbar-inner"><nav class="nav" aria-label="Разделы карты"><a href="#kak-chitat-kartu">Как читать карту</a><a href="#1-trebovaniya-spetsialnosti-chto-v-itoge-nuzhno-umet">1. Требования специальности — что в итоге нужно уметь</a><a href="#2-realnaya-programma-kolledzha-tolko-podtverzhdyonnoe">2. Реальная программа колледжа — только подтверждённое</a><a href="#3-lichnyy-marshrut-posledovatelnost-osvoeniya">3. Личный маршрут — последовательность освоения</a><a href="#4-srochnyy-plan-django-na-semestr">4. Срочный план Django на семестр</a><a href="#5-parallelnye-lichnye-dopolneniya">5. Параллельные личные дополнения</a><a href="#6-priznaki-professionalnogo-osvoeniya">6. Признаки профессионального освоения</a><a href="#istochniki-i-granitsy">Источники и границы</a></nav><input class="search" id="road-search" type="search" placeholder="Найти в карте…" aria-label="Поиск по дорожной карте"></div></div>
+<main id="roadmap">
+<aside class="callout callout-abstract"><div class="callout-title">Цель</div>
+<p>Профессионально освоить специальность <strong>09.02.07 «Информационные системы и программирование»</strong> с выбранной квалификационной целью <strong>«Специалист по информационным системам»</strong>: уметь исследовать задачу организации, спроектировать, разработать или настроить информационную систему, проверить её, ввести в работу и сопровождать.</p>
+<p>Это не замена учебному плану колледжа. Здесь разведены три разных слоя: <strong>требования специальности</strong>, <strong>то, что подтверждено материалами колледжа в хранилище</strong>, и <strong>личное обучение сверх них</strong>. Там, где официальных материалов колледжа пока нет, вместо догадок оставлен запрос на входные данные.</p>
+</aside>
+<section class="road-section" id="kak-chitat-kartu">
+<h2>Как читать карту</h2>
+<div class="table-wrap"><table><thead><tr><th>Метка</th><th>Смысл</th></tr></thead><tbody>
+<tr><td><strong>Требование специальности</strong></td><td>Результат, следующий из ФГОС СПО 09.02.07 и профессионального стандарта 06.015. Стандарт задаёт виды деятельности и результаты, а не обязательный список языков или веб-фреймворков.</td></tr>
+<tr><td><strong>Подтверждено в колледже</strong></td><td>Тема, для которой в хранилище уже есть курс, лекция, практика или запись с пары. Это не доказывает, что известна вся программа обучения.</td></tr>
+<tr><td><strong>Личное дополнение</strong></td><td>Что нужно изучить для профессиональной глубины, для закрытия пробелов или для срочной сдачи работ.</td></tr>
+<tr><td><strong>Открыто</strong></td><td>Нужны учебный план, рабочая программа, материал с пары, решение или личная практика владельца.</td></tr>
+</tbody></table></div>
+<p><strong>Принцип построения:</strong> сначала фундаментальные понятия и задачи, затем их реализация на Python в нескольких фреймворках на небольших сопоставимых примерах, после этого — углублённое изучение Django. Django приоритетен для семестра <strong>01.09.2026–31.12.2026</strong>, но не ограничивает всю профессиональную траекторию.</p>
+<hr class="divider">
+</section>
+<section class="road-section" id="1-trebovaniya-spetsialnosti-chto-v-itoge-nuzhno-umet">
+<h2>1. Требования специальности — что в итоге нужно уметь</h2>
+<p>ФГОС СПО 09.02.07 устанавливает общие и профессиональные компетенции. Содержание дисциплин, модулей и их последовательность разрабатывает сама образовательная организация; сам стандарт <strong>не предписывает Django, Python, Visual Studio или Rust</strong>. В редакции ФГОС, опубликованной на дату составления карты, среди видов деятельности есть разработка и интеграция программных модулей, ревью, сопровождение ПО, проектирование и разработка информационных систем, сопровождение ИС, работа с базами данных и серверами. Профессиональный стандарт 06.015 описывает создание, модификацию и сопровождение ИС, автоматизирующих управление и бизнес-процессы.</p>
+<p>Для личной подготовки эти требования сведены в практические результаты:</p>
+<div class="table-wrap"><table><thead><tr><th>Область результата</th><th>Профессиональный результат</th></tr></thead><tbody>
+<tr><td><strong>Понять организацию и задачу</strong></td><td>Собирать сведения у заказчика и пользователей; исследовать предметную область и бизнес-процесс; отделять потребность от предложенного решения; фиксировать функциональные и нефункциональные требования, ограничения и критерии приёмки.</td></tr>
+<tr><td><strong>Спроектировать ИС</strong></td><td>Выбирать подходящую структуру и границы компонентов; описывать процессы, данные, роли и сценарии; создавать модели и проектную документацию; объяснять компромиссы архитектурных решений.</td></tr>
+<tr><td><strong>Работать с данными</strong></td><td>Спроектировать реляционную схему, ограничения и связи; писать SQL; понимать транзакции, индексы, миграции, резервирование, восстановление и права доступа; подключать приложение к СУБД.</td></tr>
+<tr><td><strong>Разрабатывать</strong></td><td>Переводить требования в алгоритмы и модули; писать читаемый код; пользоваться IDE, отладчиком, системой контроля версий и документацией; интегрировать модули и внешние сервисы.</td></tr>
+<tr><td><strong>Проверять качество</strong></td><td>Планировать проверки, писать модульные и интеграционные тесты, воспроизводить ошибки, ревьюировать код, измерять качество и исправлять дефекты без разрушения уже работающего поведения.</td></tr>
+<tr><td><strong>Вводить в работу и сопровождать</strong></td><td>Настраивать окружение, конфигурацию и права; развёртывать систему; читать логи; выпускать обновления; восстанавливать данные; регистрировать и обрабатывать обращения; оценивать влияние изменений.</td></tr>
+<tr><td><strong>Обеспечивать безопасность</strong></td><td>Защищать данные и учётные записи, проверять ввод и права, безопасно хранить секреты, учитывать резервные копии и персональные данные, знать границы собственных полномочий.</td></tr>
+<tr><td><strong>Работать с людьми и документацией</strong></td><td>Обсуждать требования, согласовывать интерфейс и результаты, работать в команде, вести техническую и пользовательскую документацию, объяснять систему пользователям.</td></tr>
+<tr><td><strong>Развиваться профессионально</strong></td><td>Читать техническую документацию на русском и английском, оценивать источники, сравнивать инструменты по критериям, осваивать новое и обосновывать выбранный способ решения.</td></tr>
+</tbody></table></div>
+<aside class="callout callout-note"><div class="callout-title">Уровень ответственности</div>
+<p>Профстандарт 06.015 включает разные обобщённые трудовые функции и уровни квалификации — от технической поддержки и выполнения работ до архитектуры и управления проектами. Маршрут сначала строит самостоятельный базовый уровень специалиста; архитектурное лидерство, договорная работа и руководство командами — дальнейшая ступень, а не требование «выучить всё сразу».</p>
+</aside>
+<hr class="divider">
+</section>
+<section class="road-section" id="2-realnaya-programma-kolledzha-tolko-podtverzhdyonnoe">
+<h2>2. Реальная программа колледжа — только подтверждённое</h2>
+<p>Ниже отражено то, что уже видно в материалах базы. Это <strong>не полный учебный план</strong> и не точная раскладка по семестрам: утверждённая ППССЗ, календарный график и рабочие программы колледжа в репозитории не найдены. Дисциплины и темы не добавляются по аналогии с чужими колледжами.</p>
+<div class="table-wrap"><table><thead><tr><th>Дисциплина / блок</th><th>Что подтверждено материалами базы</th><th>Связь с профессией и что ещё нужно получить</th></tr></thead><tbody>
+<tr><td><strong>01. Технология разработки ПО</strong></td><td>Жизненный цикл ПО, методологии и командная работа, контроль версий, ИИ в разработке, качество кода и технический долг, тестирование, гибкие методологии. Есть курс и практики; вопросы, ответы и порядок практики 06 дословно сверены с Git-исходником.</td><td>Процессы разработки, командная работа, качество и тестирование. По указанию владельца <code>date</code> практики 06 установлена <code>2026-09-29</code>, как у связанной лекции 08.</td></tr>
+<tr><td><strong>02. Основы алгоритмизации и программирования</strong></td><td>Алгоритмы в общем виде, Python, задачи и мини-проекты; отдельный раздел <strong>«02. Django»</strong> содержит начальный черновик и учебник.</td><td>Главная срочная дисциплина семестра. Изучать Django по порядку, не предполагая, что одного существующего черновика достаточно. Точные задания преподавателя добавлять по ежедневнику владельца.</td></tr>
+<tr><td><strong>03. Написание кода ИС</strong></td><td>Анализ предметной области, основы объектно-ориентированного анализа, CASE-технологии и UML.</td><td>Основа сбора требований и моделирования. Для практической глубины дополнить сценариями использования, требованиями, приёмкой и моделированием процессов — отдельно обозначая личное дополнение.</td></tr>
+<tr><td><strong>04. Психология личности</strong></td><td>Профессиональное самоопределение и стадии становления; есть открытая сверка частей материала с лекцией преподавателя.</td><td>Поддерживает саморазвитие и профессиональную коммуникацию; не подменяет системный анализ. Не дополнять факты о занятиях без материалов преподавателя.</td></tr>
+<tr><td><strong>05. Психология общения</strong></td><td>Введение, структура общения и перенесённые конспекты о коммуникативной, интерактивной и перцептивной сторонах. Часть содержания остаётся черновой и ждёт материалов владельца.</td><td>Полезно для интервьюирования пользователей, переговоров и объяснения решений. Новые факты по дисциплине ждать от владельца.</td></tr>
+<tr><td><strong>06. Моделирование и анализ ПО</strong></td><td>После уточнения владельца в дисциплине оставлена одна самостоятельная вводная по анализу и моделированию ПО (черновик, ждёт проверки); официальная программа и фактические темы занятий не восстановлены. Прежние C++-заметки удалены после сверки и переноса полезных тем.</td><td>Основы C++ изучаются в отдельном готовом маршруте C++20, не в дисциплине 06. Проверить вводную и сообщить об отсутствующих файлах/заметках с пар; новые темы добавлять только по фактическим материалам владельца (В8/Ж6).</td></tr>
+<tr><td><strong>07. Основы философии</strong></td><td>Основные задачи философии, философия Древней Индии и Древнего Китая; создана HTML-презентация о даосизме.</td><td>Общегуманитарная подготовка. Выступление по презентации выполняет владелец; содержание учебных лекций пополнять в рамках оставшихся задач.</td></tr>
+</tbody></table></div>
+<h3 id="chto-trebuetsya-ot-vladeltsa-dlya-tochnoy-sinhronizatsii">Что требуется от владельца для точной синхронизации</h3>
+<ul class="list-check"><li>Учебный план и календарный график <strong>именно своей квалификации и года поступления</strong>, а также рабочие программы профессиональных модулей.</li><li>Задания и записи с занятий Django, C++ и других текущих дисциплин: фото, текст или файлы преподавателя. Личные записи можно сначала оставлять в ежедневнике.</li><li>Материалы по основам проектирования БД из тетради и то, что ещё не перенесено из занятий.</li></ul>
+<p>Когда эти материалы появятся, карту можно расширить таблицей «компетенция ФГОС → модуль/дисциплина колледжа → конкретный результат → пробел» без угадывания часов и содержания.</p>
+<hr class="divider">
+</section>
+<section class="road-section" id="3-lichnyy-marshrut-posledovatelnost-osvoeniya">
+<h2>3. Личный маршрут — последовательность освоения</h2>
+<p>Порядок отражает зависимости знаний. Он не требует закончить один большой курс целиком, прежде чем прикоснуться к следующей теме: независимые практики можно вести параллельно. Сроки ниже — ориентиры личной работы, не расписание колледжа.</p>
+<h3 id="etap-0-sverit-tsel-semestr-i-sredu">Этап 0. Сверить цель, семестр и среду</h3>
+<ol class="list-numbered"><li>Получить задания преподавателя по Django и сверить их с планом колледжа.</li><li>Уточнить версию Python и Django, с которыми реально работает преподаватель; фиксировать версии в собственных проектах.</li><li>Уметь запускать программу, пользоваться терминалом и виртуальным окружением; хранить проект в Git.</li><li>Вести один список пробелов/вопросов, а не дублировать задачи в лекциях и ежедневнике.</li></ol>
+<p><strong>Результат:</strong> ясно, какие работы нужно сдавать и какие знания требуются ближайшими; среда воспроизводима.</p>
+<h3 id="etap-1-programmirovanie-i-inzhenernaya-osnova">Этап 1. Программирование и инженерная основа</h3>
+<ul class="list-check"><li>Алгоритмы, типы данных и структуры данных; функции, коллекции, исключения, файлы, модули и объектная модель.</li><li>Python как основной язык срочного веб-маршрута: читаемый код, отладка, тестирование, управление зависимостями.</li><li>Git и GitHub: коммиты, ветки, слияние, конфликты, pull request и совместная работа. Git остаётся личной задачей владельца, хотя основы контроля версий встречаются в дисциплине 01.</li><li>Параллельно — регулярная практика по C++ после установки Microsoft Visual Studio на Windows. Курс начинается с настройки <strong>Visual Studio, не VS Code</strong>; IDE и язык изучаются вместе.</li><li>Минимальная математика по мере задач: логика, множества, комбинаторика, дискретные структуры, вероятность и статистика; пробелы сверять с учебным планом.</li></ul>
+<p><strong>Уже есть:</strong> основа Python в дисциплине 02, самостоятельная вводная по моделированию и анализу ПО в дисциплине 06, практика по жизненному циклу и Git — в дисциплине 01; полный отдельный маршрут C++20 подготовлен. Инженерные курсы 1–4 собраны, но их повторный аудит открыт: см. <a href="Курсы%20%E2%80%94%20%D0%BE%D0%B1%D0%B7%D0%BE%D1%80.md">Курсы — обзор</a> и <a href="../00_Мета/%D0%91%D1%8D%D0%BA%D0%BB%D0%BE%D0%B3.md#peresmotr-kursov">Бэклог</a>.</p>
+<h3 id="etap-2-sistemnyy-analiz-i-proektirovanie">Этап 2. Системный анализ и проектирование</h3>
+<ul class="list-check"><li>Границы системы, заинтересованные стороны, контекст и цели автоматизации.</li><li>Интервью, наблюдение, анализ документов; функциональные и нефункциональные требования; пользовательские сценарии, критерии приёмки и управление изменениями.</li><li>Моделирование бизнес-процессов и данных; UML как набор моделей для конкретной задачи, а не самоцель; основы архитектуры, интерфейсов и интеграции.</li><li>Прототипирование и оценка решения: что можно настроить в типовой ИС, где нужна доработка и какие риски у изменения.</li><li>Документирование проектных решений и проверка, что реализация соответствует требованиям.</li></ul>
+<p><strong>Уже есть:</strong> дисциплина 03 даёт анализ предметной области, CASE и UML; дисциплина 01 — ЖЦ и методологии. <strong>Личный пробел:</strong> закрепить требования на небольшом сквозном кейсе с интервью, моделями, критериями приёмки и изменением требований.</p>
+<h3 id="etap-3-dannye-i-bazy-dannyh">Этап 3. Данные и базы данных</h3>
+<ol class="list-numbered"><li>Реляционная модель, сущности и связи, ключи, ограничения и нормализация.</li><li>SQL: выборки, объединения, группировки, подзапросы, изменение данных и транзакции.</li><li>СУБД на практике (для личного проекта можно выбрать PostgreSQL; сначала проверить, что требуется в колледже), роли и права, индексы и план запроса.</li><li>Проектирование миграций и связь объектной модели приложения с таблицами; резервирование и безопасное восстановление.</li><li>Защита данных и контроль доступа; правила хранения секретов и чувствительных сведений.</li></ol>
+<p><strong>Открыто:</strong> нужны материалы из тетради по основам проектирования БД. Не заменять их выдуманным пересказом. Для Django изучать ORM после понимания таблиц, ключей и SQL.</p>
+<h3 id="etap-4-veb-bez-freymvorka">Этап 4. Веб без фреймворка</h3>
+<p>До изучения Django освоить базовую модель сети и веб-приложения:</p>
+<ul class="list-check"><li>клиент, сервер, DNS, порт, TCP/TLS на уровне назначений; запрос и ответ HTTP, методы, заголовки, статус-коды;</li><li>URL, маршрутизация, HTML-документ, формы, CSS и адаптивная вёрстка; минимальный JavaScript для поведения интерфейса;</li><li>браузер, серверный шаблон, статические и динамические ресурсы; cookies, сессия, состояние;</li><li>сериализация JSON, REST как стиль проектирования HTTP API, CORS на уровне назначения и границ;</li><li>валидация, сообщения об ошибках и доступность интерфейса.</li></ul>
+<p><strong>Уже есть:</strong> сырой материал с пары по HTML5; к нему добавлены метаданные, но код не переписывался. Учебник по HTML/CSS/JavaScript находится в <code>02_Курсы/Веб/</code>. Начальный веб-курс ещё предстоит собрать; сначала определить нужные главы и актуальность примеров.</p>
+<h3 id="etap-5-obschie-ponyatiya-veb-freymvorkov-i-sravnenie-na-python">Этап 5. Общие понятия веб-фреймворков и сравнение на Python</h3>
+<p>Сначала объяснить понятия независимо от Django, затем сравнить, как одинаковая задача устроена в нескольких Python-фреймворках. Не учить названия API без модели того, какую проблему они решают.</p>
+<div class="table-wrap"><table><thead><tr><th>Понятие</th><th>Что сравнить на небольших примерах</th></tr></thead><tbody>
+<tr><td>Маршрут и обработчик</td><td>URL → функция/обработчик → HTTP-ответ</td></tr>
+<tr><td>Валидация и сериализация</td><td>входные данные, типы, ошибки, JSON и HTML-форма</td></tr>
+<tr><td>Представление и шаблон</td><td>разделение логики обработки и отображения</td></tr>
+<tr><td>Доступ к данным</td><td>SQL/ORM, модели, миграции, транзакции</td></tr>
+<tr><td>Зависимости и настройки</td><td>конфигурация, переменные среды, подключаемые компоненты</td></tr>
+<tr><td>Тестирование и запуск</td><td>тест клиента, тест БД, команда запуска, режим разработки</td></tr>
+</tbody></table></div>
+<p>Для сопоставления подойдут маленькие реализации одной задачи во Flask и FastAPI, затем аналог в Django; окончательный набор зависит от требований занятий. Это не обязательство создавать сейчас три отдельных больших курса. Нужно понять общие роли и отличия — синхронный/асинхронный запрос, типовой жизненный цикл, шаблоны и API — и перейти дальше.</p>
+<h3 id="etap-6-django-prioritet-semestra-01-09-31-12-2026">Этап 6. Django — приоритет семестра 01.09–31.12.2026</h3>
+<p>После этапов 4–5 изучать Django последовательно и привязывать каждый блок к работе преподавателя. Учебник Майтак, Пылов и Протодьяконов уже лежит в разделе <code>02. Django</code>; перед конспектированием нужно сверить его содержание и используемую версию с заданиями курса. Учебник не копировать дословно.</p>
+<p><strong>Порядок углубления:</strong></p>
+<ol class="list-numbered"><li>Устройство проекта, приложения, settings, конфигурация и запуск.</li><li>URLconf, запрос/ответ, views и разделение ответственности; маршруты и обработчики.</li><li>Шаблоны, статические файлы, формы, валидация и сообщения пользователю.</li><li>Модели, ORM, миграции, связи и запросы; затем SQL-представление операций ORM.</li><li>CRUD-сценарий целиком и работа с админ-панелью — понимая, что она ускоряет, а чего не заменяет.</li><li>Пользователи, аутентификация, авторизация, группы и права; защита от CSRF, безопасная обработка ввода и секретов.</li><li>Тесты моделей, представлений, форм и маршрутов; чтение ошибок и отладка.</li><li>Пагинация, фильтрация, загрузки, интеграции и API — в зависимости от заданий колледжа и базовых потребностей проекта.</li><li>Логи, конфигурация production, безопасный запуск, резервирование и сопровождение. Не публиковать тестовые секреты.</li></ol>
+<p><strong>Учебный режим на оставшуюся часть семестра:</strong> сначала закрывать ближайшую работу преподавателя; каждому новому термину дать простое объяснение, затем маленький пример; после — связать понятие с Django и закрепить мини-задачей. Если работа опирается на ещё не объяснённый слой, временно пройти ровно этот слой и вернуться к заданию. Порядок блоков можно сдвигать ради сдачи, но зависимости и пробелы отмечать явно.</p>
+<aside class="callout callout-warning"><div class="callout-title">Чего карта пока не знает</div>
+<p>Точные контрольные точки семестра, используемая версия Django, требования преподавателя к структуре и формату работ, а также уже пройденные на парах темы. До получения списка заданий календарь не заполняется выдуманными датами.</p>
+</aside>
+<h3 id="etap-7-ekspluatatsiya-i-professionalnaya-praktika">Этап 7. Эксплуатация и профессиональная практика</h3>
+<ul class="list-check"><li>Linux и Windows для разработчика: процессы, права, сеть, логи, оболочка, сервисы и конфигурация.</li><li>Сборка и доставка: окружения, зависимости, конфигурация, Git-flow по потребности проекта, CI и автоматические проверки.</li><li>Развёртывание небольшого веб-приложения, обратный прокси и приложение-сервер; контейнеры — после понимания процессов, не вместо него.</li><li>Мониторинг, бэкапы, восстановление, обработка инцидентов и план безопасного обновления.</li><li>Ревью, тестовая стратегия, документация API и инструкции пользователей; сопровождение обращений.</li></ul>
+<p>Это отдельный маршрут после основ разработки. Стандарты описывают сопровождение, установку, измерение качества, тестирование, защиту, обновление и восстановление — личный проект должен показать эти навыки, а не только экран с работающим кодом.</p>
+<h3 id="etap-8-spetsializatsiya-i-dalneyshee-razvitie">Этап 8. Специализация и дальнейшее развитие</h3>
+<p>После устойчивой базы выбрать 1–2 направления глубже: корпоративные ИС и внедрение; системный/бизнес-анализ; базы данных; backend/API; веб-интерфейсы; интеграции; автоматизация тестирования; серверная эксплуатация. Не пытаться одновременно превращать каждое направление в отдельный курс.</p>
+<p>Rust остаётся личной задачей и сравнительным языком для понимания системного программирования; он не заменяет Python, Django или полный курс C++. Углублённые Python-темы <code>slice</code>, <code>TypedDict</code>, декораторы и <code>dataclass</code> должны размещаться в инженерном модуле, а не становиться обязательными темами базовых лекций.</p>
+<hr class="divider">
+</section>
+<section class="road-section" id="4-srochnyy-plan-django-na-semestr">
+<h2>4. Срочный план Django на семестр</h2>
+<p>Семестр идёт <strong>01.09.2026–31.12.2026</strong>. На дату этой версии осталось три месяца; нижняя разбивка — рабочая последовательность, а не календарь колледжа.</p>
+<div class="table-wrap"><table><thead><tr><th>Период / блок</th><th>Что закрыть</th><th>Проверяемый результат</th></tr></thead><tbody>
+<tr><td><strong>Блок A · как можно скорее</strong></td><td>Получить список работ; разобраться в клиент-серверной модели, HTTP, URL, запросе/ответе, HTML-форме и типах данных</td><td>Устно объяснить один полный запрос и показать HTML-страницу/форму без фреймворка</td></tr>
+<tr><td><strong>Блок B · сразу после основы</strong></td><td>Реализовать один небольшой маршрут, обработку данных и JSON/HTML в двух разных Python-фреймворках; коротко сравнить подходы</td><td>Одинаковый мини-сценарий работает в обоих примерах; понятно, где маршрутизация, валидация и ответ</td></tr>
+<tr><td><strong>Блок C · основная часть семестра</strong></td><td>Идти по Django в порядке этапа 6, привязывая темы к фактическим заданиям</td><td>Каждая работа преподавателя разобрана: задача → нужное понятие → Django-код → проверка → объяснение результата</td></tr>
+<tr><td><strong>Блок D · до 31.12.2026</strong></td><td>Повторить связи модели–БД–формы–представления, закрыть пробелы и собрать один аккуратный учебный проект</td><td>Проект воспроизводимо запускается; есть README, миграции и тесты; владелец способен объяснить каждую основную часть</td></tr>
+</tbody></table></div>
+<p>Если появляется ближайший дедлайн, Django-задание временно поднимается выше курса сравнения: сначала разобрать нужную концепцию, выполнить работу, затем вернуться и закрыть сравнение фреймворков. Такой обход не отменяет общий принцип обучения.</p>
+<hr class="divider">
+</section>
+<section class="road-section" id="5-parallelnye-lichnye-dopolneniya">
+<h2>5. Параллельные личные дополнения</h2>
+<div class="table-wrap"><table><thead><tr><th>Задача</th><th>Роль в общей траектории</th><th>Текущее решение</th></tr></thead><tbody>
+<tr><td><strong>Курс C++20 с нуля</strong></td><td>Самостоятельная алгоритмическая практика и общий фундамент системного языка; отдельное направление, не продолжение дисциплины 06</td><td>Вариант A подготовлен: 17 блоков теории, 34 практики, 4 мини-проекта. Старт — Microsoft Visual Studio на Windows, затем WSL2 Ubuntu/g++; остаются проверка Windows/MSVC и добавление тем с пар только по материалам владельца (Ж6).</td></tr>
+<tr><td><strong>Git / GitHub</strong></td><td>История изменений, эксперименты, сотрудничество и сдача проектов</td><td>Личная задача В5. Материал колледжа не снимает необходимости самостоятельно пройти курс и практику.</td></tr>
+<tr><td><strong>HTML / CSS / основы веба</strong></td><td>Нужны до уверенной работы с Django-шаблонами и интерфейсами</td><td>В колледже уже была пара; личный начальный курс полезен, но ещё не собран. См. П4 в <a href="../00_Мета/%D0%91%D1%8D%D0%BA%D0%BB%D0%BE%D0%B3.md#put-k-django">Бэклог</a>.</td></tr>
+<tr><td><strong>Rust</strong></td><td>Сравнение модели памяти, типов и системного программирования</td><td>Личная задача В7 после базовой основы; не вставлять вместо C++ или Django.</td></tr>
+<tr><td><strong>Архив электронных учебников</strong></td><td>Сохранить книги и сделать доступ к ним устойчивым</td><td>Сравнение вариантов в <a href="../00_Мета/%D0%90%D1%80%D1%85%D0%B8%D0%B2_%D1%83%D1%87%D0%B5%D0%B1%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2.md">Архив_учебников</a>. До решения ничего не перемещать и не удалять.</td></tr>
+<tr><td><strong>Основы проектирования БД</strong></td><td>Связать предметную модель с SQL и Django ORM</td><td>Перенести из тетради только после того, как появятся материалы/фото; не сочинять вместо них.</td></tr>
+</tbody></table></div>
+<hr class="divider">
+</section>
+<section class="road-section" id="6-priznaki-professionalnogo-osvoeniya">
+<h2>6. Признаки профессионального освоения</h2>
+<p>Дорожная карта считается пройденной не по числу просмотренных уроков, а когда на самостоятельном учебном кейсе владелец умеет:</p>
+<ul class="list-check"><li>собрать и уточнить задачу, перечислить пользователей и ограничения;</li><li>оформить требования, процесс, модель данных и основные проектные решения;</li><li>выбрать понятный стек и обосновать выбор;</li><li>реализовать приложение, интегрировать данные и внешние компоненты;</li><li>написать автоматические проверки, воспроизвести и исправить дефект;</li><li>использовать Git так, чтобы историю изменений можно было понять и проверить;</li><li>настроить доступы, секреты, логи, развёртывание, обновление и восстановление;</li><li>подготовить документацию для разработчика и пользователя и спокойно показать систему;</li><li>объяснить границы известного и неизвестного, риски и принятые компромиссы.</li></ul>
+<h3 id="otkrytye-punkty">Открытые пункты</h3>
+<ol class="list-numbered"><li>Сопоставить карту с официальным учебным планом и рабочими программами именно твоей группы/квалификации, когда они будут переданы.</li><li>Получить перечень ближайших Django-работ, версии и требования преподавателя; разбить курс на фактические сдачи.</li><li>По возможности проверить подготовленный маршрут C++20 в Windows/Visual Studio/MSVC; новые темы с пар вносить только после получения записей владельца (Ж6).</li><li>Получить записи по проектированию БД и остальным дисциплинам, которые пока представлены только упоминаниями.</li><li>Сохранить личные задачи Git, HTML/CSS и Rust открытыми до их прохождения владельцем.</li></ol>
+<hr class="divider">
+</section>
+<section class="road-section" id="istochniki-i-granitsy">
+<h2>Источники и границы</h2>
+<p>Актуальность ссылок проверена <strong>01.10.2026</strong>. Нормативные формулировки пересказаны своими словами; список выше — учебная карта, а не юридическое заключение.</p>
+<ol class="list-numbered"><li>ФГОС СПО по специальности 09.02.07, приказ Минобрнауки России от 09.12.2016 № 1547, с изменениями по 03.07.2024: <a href="https://base.garant.ru/71577324/" target="_blank" rel="noopener noreferrer">текст в системе ГАРАНТ</a> и <a href="https://www.consultant.ru/document/cons_doc_LAW_210983/bca101ce6ae03ecfe6587ee2adf674b7730ff375/" target="_blank" rel="noopener noreferrer">редакция в КонсультантПлюс</a>.</li><li>Профессиональный стандарт 06.015 «Специалист по информационным системам», приказ Минтруда России от 13.07.2023 № 586н; вступил в силу 01.09.2024 и действует до 01.09.2030: <a href="https://mintrud.gov.ru/docs/mintrud/orders/2723" target="_blank" rel="noopener noreferrer">официальная карточка Минтруда</a>, <a href="http://publication.pravo.gov.ru/document/0001202308170003?index=20" target="_blank" rel="noopener noreferrer">официальное опубликование</a>.</li><li>Учебные материалы этого хранилища: README, оглавления дисциплин и записи в <code>01_Дисциплины/</code>. Они показывают реально имеющуюся базу, но не заменяют учебный план колледжа.</li></ol>
+</section>
+<div class="empty-state" id="empty-state">Ничего не найдено. Попробуй другое слово.</div>
+</main>
+<footer class="footer">Дорожная карта — рабочий документ. Реальную программу колледжа сверять по учебному плану и рабочим программам своего набора.</footer>
+</div>
+<button class="backtop" id="backtop" aria-label="Наверх" title="Наверх">↑</button>
+<script>
+(function(){
+  const progress=document.getElementById('reading-progress');
+  const backtop=document.getElementById('backtop');
+  const links=[...document.querySelectorAll('.nav a')];
+  const sections=[...document.querySelectorAll('.road-section')];
+  const search=document.getElementById('road-search');
+  const empty=document.getElementById('empty-state');
+  function onScroll(){
+    const max=document.documentElement.scrollHeight-window.innerHeight;
+    progress.style.width=(max>0?Math.min(100,window.scrollY/max*100):0)+'%';
+    backtop.classList.toggle('visible',window.scrollY>500);
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  backtop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  if('IntersectionObserver' in window){
+    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+      if(entry.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.hash==='#'+entry.target.id));}
+    }),{rootMargin:'-20% 0px -65% 0px'});
+    sections.forEach(section=>observer.observe(section));
+  }
+  search.addEventListener('input',()=>{
+    const query=search.value.trim().toLocaleLowerCase('ru');let visible=0;
+    sections.forEach(section=>{
+      const match=!query||section.innerText.toLocaleLowerCase('ru').includes(query);
+      section.classList.toggle('hidden-section',!match);if(match)visible++;
+    });
+    links.forEach(a=>{const s=document.querySelector(a.hash);a.style.display=s&&!s.classList.contains('hidden-section')?'':'none';});
+    empty.style.display=visible?'none':'block';
+  });
+})();
+</script>
+</body>
+</html>
