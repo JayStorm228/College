@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="360" viewBox="0 0 700 360">
+  <rect width="700" height="360" fill="#fef7ed" stroke="#e7e5e4"/>
+  <text x="350" y="30" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="20" font-weight="700" fill="#292524">Основные разделы философии</text>
+  <g font-family="Source Sans 3, sans-serif" font-size="13" font-weight="600">
+    <rect x="260" y="60" width="180" height="50" rx="8" fill="#fff" stroke="#b45309" stroke-width="2"/><text x="350" y="88" text-anchor="middle" fill="#292524">Философия</text>
+    <rect x="20" y="150" width="120" height="60" rx="8" fill="#fff" stroke="#b45309"/><text x="80" y="175" text-anchor="middle" fill="#1e40af">1. Онтология</text><text x="80" y="193" text-anchor="middle" fill="#78716c" font-size="11">бытие</text>
+    <rect x="155" y="150" width="120" height="60" rx="8" fill="#fff" stroke="#b45309"/><text x="215" y="175" text-anchor="middle" fill="#1e40af">2. Гносеология</text><text x="215" y="193" text-anchor="middle" fill="#78716c" font-size="11">знание</text>
+    <rect x="290" y="150" width="120" height="60" rx="8" fill="#fff" stroke="#92400e"/><text x="350" y="175" text-anchor="middle" fill="#92400e">3. Этика</text><text x="350" y="193" text-anchor="middle" fill="#78716c" font-size="11">благо/ценности</text>
+    <rect x="425" y="150" width="120" height="60" rx="8" fill="#fff" stroke="#57534e"/><text x="485" y="175" text-anchor="middle" fill="#57534e">4. Логика</text><text x="485" y="193" text-anchor="middle" fill="#78716c" font-size="11">мышление</text>
+    <rect x="560" y="150" width="120" height="60" rx="8" fill="#fff" stroke="#166534"/><text x="620" y="175" text-anchor="middle" fill="#166534">5. Антропология</text><text x="620" y="193" text-anchor="middle" fill="#78716c" font-size="11">человек</text>
+  </g>
+  <g stroke="#b45309" stroke-width="1.5">
+    <line x1="350" y1="110" x2="80" y2="150"/><line x1="350" y1="110" x2="215" y2="150"/><line x1="350" y1="110" x2="350" y2="150"/><line x1="350" y1="110" x2="485" y2="150"/><line x1="350" y1="110" x2="620" y2="150"/>
+    <line x1="140" y1="180" x2="155" y2="180" stroke-dasharray="5 4" stroke="#d6d3d1"/><line x1="275" y1="180" x2="290" y2="180" stroke-dasharray="5 4" stroke="#d6d3d1"/><line x1="410" y1="180" x2="425" y2="180" stroke-dasharray="5 4" stroke="#d6d3d1"/><line x1="545" y1="180" x2="560" y2="180" stroke-dasharray="5 4" stroke="#d6d3d1"/>
+  </g>
+  <text x="350" y="240" text-anchor="middle" font-size="11" fill="#78716c" font-family="Source Sans 3, sans-serif">От бытия → к знанию → к ценностям → к мышлению → к человеку</text>
+  <text x="350" y="260" text-anchor="middle" font-size="11" fill="#78716c">Диаграмма для лекции 01.</text>
+</svg>
