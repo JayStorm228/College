@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="360" viewBox="0 0 700 360">
+  <rect width="700" height="360" fill="#fef7ed" stroke="#e7e5e4"/>
+  <text x="350" y="30" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="20" font-weight="700" fill="#292524">Четыре благородные истины</text>
+  <g font-family="Source Sans 3, sans-serif" font-size="12" font-weight="700">
+    <rect x="40" y="70" width="150" height="70" rx="8" fill="#fee2e2" stroke="#fca5a5"/><text x="115" y="95" text-anchor="middle" fill="#991b1b">1. Дуккха</text><text x="115" y="112" text-anchor="middle" fill="#7c2d12" font-size="11">Жизнь — страдание</text><text x="115" y="128" text-anchor="middle" fill="#78716c" font-size="10">болезнь, смерть</text>
+    <rect x="205" y="70" width="150" height="70" rx="8" fill="#fff7ed" stroke="#fdba74"/><text x="280" y="95" text-anchor="middle" fill="#9a3412">2. Самудая</text><text x="280" y="112" text-anchor="middle" fill="#7c2d12" font-size="11">Причина — жажда</text><text x="280" y="128" text-anchor="middle" fill="#78716c" font-size="10">танха, неведение</text>
+    <rect x="370" y="70" width="150" height="70" rx="8" fill="#dcfce7" stroke="#86efac"/><text x="445" y="95" text-anchor="middle" fill="#166534">3. Ниродха</text><text x="445" y="112" text-anchor="middle" fill="#065f46" font-size="11">Прекращение</text><text x="445" y="128" text-anchor="middle" fill="#78716c" font-size="10">нирвана возможна</text>
+    <rect x="535" y="70" width="150" height="70" rx="8" fill="#dbeafe" stroke="#93c5fd"/><text x="610" y="95" text-anchor="middle" fill="#1e40af">4. Марга</text><text x="610" y="112" text-anchor="middle" fill="#1e3a8a" font-size="11">Восьмеричный путь</text><text x="610" y="128" text-anchor="middle" fill="#78716c" font-size="10">3 культуры</text>
+  </g>
+  <g stroke="#b45309" stroke-width="1.8" marker-end="url(#arr)">
+    <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#b45309"/></marker></defs>
+    <line x1="190" y1="105" x2="205" y2="105"/><line x1="355" y1="105" x2="370" y2="105"/><line x1="520" y1="105" x2="535" y2="105"/>
+    <path d="M 610 140 C 610 180, 115 180, 115 140" fill="none" stroke="#d6d3d1" stroke-dasharray="6 4"/>
+  </g>
+  <g font-size="11" fill="#78716c" text-anchor="middle" font-family="Source Sans 3, sans-serif">
+    <text x="350" y="175">Диагноз → Причина → Прогноз → Рецепт · Будда как врач</text>
+  </g>
+  <g font-size="11" fill="#292524">
+    <text x="40" y="210" font-weight="700">Три культуры Восьмеричного пути:</text>
+    <text x="40" y="228">• Мудрость: воззрение, намерение</text><text x="40" y="245">• Поведение: речь, действие, образ жизни</text><text x="40" y="262">• Медитация: усилие, памятование, сосредоточение</text>
+  </g>
+  <text x="350" y="310" text-anchor="middle" font-size="10" fill="#a8a29e">Диаграмма для лекции 02. Дубль Mermaid в тексте.</text>
+</svg>
