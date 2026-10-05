@@ -64,8 +64,25 @@ def parse_yaml(text: str) -> dict[str, str]:
 
 
 def headings(text: str) -> list[str]:
+    """Заголовки H1 вне блоков кода.
+
+    Строки внутри ``` … ``` не считаются: python/bash-комментарий вида
+    `# APP_NAME=Дневник` формально подходит под маску H1 и иначе попадает
+    в список разделов, из-за чего заметка ложно выглядит укомплектованной.
+    """
     body = FRONTMATTER.sub("", text)
-    return [m.group(1).strip() for m in (HEADING1.match(l) for l in body.splitlines()) if m]
+    out: list[str] = []
+    in_fence = False
+    for line in body.splitlines():
+        if line.lstrip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        m = HEADING1.match(line)
+        if m:
+            out.append(m.group(1).strip())
+    return out
 
 
 def section_missing(hs: list[str], prefix: str) -> bool:
