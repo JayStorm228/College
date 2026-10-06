@@ -1,0 +1,74 @@
+{
+  // ---------- Python ----------
+  "python.languageServer": "Pylance",
+  "python.analysis.languageServerMode": "full",
+  "python.analysis.typeCheckingMode": "standard",
+
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.parameterNames": "literals",
+  "python.analysis.inlayHints.callArgumentNames": "off",
+
+  // ---------- Ruff ----------
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.ruff": "explicit",
+      "source.fixAll.ruff": "explicit"
+    }
+  },
+
+  "ruff.organizeImports": true,
+
+  // ---------- Тесты ----------
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.autoTestDiscoverOnSaveEnabled": true,
+
+  // ---------- Jupyter ----------
+  "jupyter.askForKernelRestart": false,
+  "jupyter.interactiveWindow.creationMode": "single",
+  "jupyter.interactiveWindow.textEditor.executeSelection": true,
+  "notebook.lineNumbers": "on",
+
+  // ---------- Проект ----------
+  "editor.rulers": [100],
+  "editor.wordWrap": "off",
+  "editor.occurrencesHighlight": "singleFile",
+
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.mypy_cache": true,
+    "**/.pytest_cache": true,
+    "**/.venv": true,
+    "**/venv": true
+  },
+
+  "search.exclude": {
+    "**/__pycache__": true,
+    "**/.mypy_cache": true,
+    "**/.pytest_cache": true,
+    "**/.venv": true
+  },
+
+  "errorLens.messageMaxChars": 80,
+
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on",
+    "files.trimTrailingWhitespace": false
+  }
+}

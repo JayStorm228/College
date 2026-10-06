@@ -1,0 +1,26 @@
+{
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": false
+    },
+    "files.trimTrailingWhitespace": false
+  },
+
+  "markdown.preview.fontSize": 16,
+  "markdown.preview.lineHeight": 1.6,
+  "markdown.editor.drop.copyIntoEditor": true,
+
+  "files.exclude": {
+    "**/.obsidian/workspace.json": true,
+    "**/.obsidian/workspace-mobile.json": true
+  },
+  "search.exclude": {
+    "**/.obsidian/workspace.json": true,
+    "**/.obsidian/workspace-mobile.json": true
+  }
+}

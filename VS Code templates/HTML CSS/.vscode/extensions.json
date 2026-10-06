@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "ecmel.vscode-html-css",
+    "ms-vscode.live-server",
+    "esbenp.prettier-vscode",
+    "formulahendry.auto-rename-tag",
+    "kisstkondoros.vscode-gutter-preview"
+  ],
+  "unwantedRecommendations": ["george-alisson.html-preview-vscode"]
+}

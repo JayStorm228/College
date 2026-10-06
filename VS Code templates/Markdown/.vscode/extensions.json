@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "yzhang.markdown-all-in-one",
+    "esbenp.prettier-vscode",
+    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker-russian",
+    "bierner.markdown-preview-github-styles",
+    "bierner.markdown-mermaid"
+  ],
+  "unwantedRecommendations": []
+}
