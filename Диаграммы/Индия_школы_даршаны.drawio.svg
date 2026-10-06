@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="420" viewBox="0 0 780 420">
+  <rect width="780" height="420" fill="#fff7ed" stroke="#e7e5e4"/>
+  <text x="390" y="28" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="18" font-weight="700" fill="#292524">Школы древнеиндийской философии (даршаны)</text>
+  <g font-family="Source Sans 3, sans-serif" font-size="11">
+    <rect x="250" y="45" width="280" height="40" rx="10" fill="#ffedd5" stroke="#f97316"/>
+    <text x="390" y="70" text-anchor="middle" font-weight="700" fill="#9a3412">ДРЕВНЕИНДИЙСКАЯ ФИЛОСОФИЯ</text>
+
+    <rect x="40" y="110" width="330" height="36" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="205" y="133" text-anchor="middle" font-weight="700" fill="#92400e">АСТИКА — признают авторитет вед</text>
+
+    <rect x="410" y="110" width="330" height="36" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+    <text x="575" y="133" text-anchor="middle" font-weight="700" fill="#3730a3">НАСТИКА — не признают веды</text>
+
+    <line x1="390" y1="85" x2="205" y2="110" stroke="#fdba74"/>
+    <line x1="390" y1="85" x2="575" y2="110" stroke="#fdba74"/>
+
+    <g>
+      <rect x="40" y="160" width="105" height="86" rx="8" fill="#fffbeb" stroke="#fbbf24"/>
+      <text x="92" y="180" text-anchor="middle" font-weight="700" fill="#92400e">НЬЯЯ</text>
+      <text x="92" y="198" text-anchor="middle" font-size="9" fill="#78716c">логика,</text>
+      <text x="92" y="210" text-anchor="middle" font-size="9" fill="#78716c">теория познания</text>
+      <text x="92" y="232" text-anchor="middle" font-size="9" fill="#a8a29e">Гаутама</text>
+
+      <rect x="155" y="160" width="105" height="86" rx="8" fill="#fffbeb" stroke="#fbbf24"/>
+      <text x="207" y="180" text-anchor="middle" font-weight="700" fill="#92400e">ВАЙШЕШИКА</text>
+      <text x="207" y="198" text-anchor="middle" font-size="9" fill="#78716c">субстанции</text>
+      <text x="207" y="210" text-anchor="middle" font-size="9" fill="#78716c">и атомы</text>
+      <text x="207" y="232" text-anchor="middle" font-size="9" fill="#a8a29e">Канада</text>
+
+      <rect x="270" y="160" width="100" height="86" rx="8" fill="#fffbeb" stroke="#fbbf24"/>
+      <text x="320" y="180" text-anchor="middle" font-weight="700" fill="#92400e">САНКХЬЯ</text>
+      <text x="320" y="198" text-anchor="middle" font-size="9" fill="#78716c">пуруша</text>
+      <text x="320" y="210" text-anchor="middle" font-size="9" fill="#78716c">и пракрити</text>
+      <text x="320" y="232" text-anchor="middle" font-size="9" fill="#a8a29e">Капила</text>
+
+      <rect x="40" y="256" width="105" height="86" rx="8" fill="#fffbeb" stroke="#fbbf24"/>
+      <text x="92" y="276" text-anchor="middle" font-weight="700" fill="#92400e">ЙОГА</text>
+      <text x="92" y="294" text-anchor="middle" font-size="9" fill="#78716c">практика</text>
+      <text x="92" y="306" text-anchor="middle" font-size="9" fill="#78716c">сосредоточения</text>
+      <text x="92" y="328" text-anchor="middle" font-size="9" fill="#a8a29e">Патанджали</text>
+
+      <rect x="155" y="256" width="105" height="86" rx="8" fill="#fffbeb" stroke="#fbbf24"/>
+      <text x="207" y="276" text-anchor="middle" font-weight="700" fill="#92400e">МИМАНСА</text>
+      <text x="207" y="294" text-anchor="middle" font-size="9" fill="#78716c">толкование</text>
+      <text x="207" y="306" text-anchor="middle" font-size="9" fill="#78716c">ритуала и долга</text>
+      <text x="207" y="328" text-anchor="middle" font-size="9" fill="#a8a29e">Джаймини</text>
+
+      <rect x="270" y="256" width="100" height="86" rx="8" fill="#fffbeb" stroke="#fbbf24"/>
+      <text x="320" y="276" text-anchor="middle" font-weight="700" fill="#92400e">ВЕДАНТА</text>
+      <text x="320" y="294" text-anchor="middle" font-size="9" fill="#78716c">Брахман</text>
+      <text x="320" y="306" text-anchor="middle" font-size="9" fill="#78716c">и Атман</text>
+      <text x="320" y="328" text-anchor="middle" font-size="9" fill="#a8a29e">Бадараяна</text>
+
+      <rect x="410" y="160" width="105" height="86" rx="8" fill="#eef2ff" stroke="#818cf8"/>
+      <text x="462" y="180" text-anchor="middle" font-weight="700" fill="#3730a3">БУДДИЗМ</text>
+      <text x="462" y="198" text-anchor="middle" font-size="9" fill="#78716c">4 истины,</text>
+      <text x="462" y="210" text-anchor="middle" font-size="9" fill="#78716c">анатман, нирвана</text>
+      <text x="462" y="232" text-anchor="middle" font-size="9" fill="#a8a29e">Гаутама</text>
+
+      <rect x="525" y="160" width="105" height="86" rx="8" fill="#eef2ff" stroke="#818cf8"/>
+      <text x="577" y="180" text-anchor="middle" font-weight="700" fill="#3730a3">ДЖАЙНИЗМ</text>
+      <text x="577" y="198" text-anchor="middle" font-size="9" fill="#78716c">джива, аскеза,</text>
+      <text x="577" y="210" text-anchor="middle" font-size="9" fill="#78716c">ахимса</text>
+      <text x="577" y="232" text-anchor="middle" font-size="9" fill="#a8a29e">Махавира</text>
+
+      <rect x="640" y="160" width="100" height="86" rx="8" fill="#eef2ff" stroke="#818cf8"/>
+      <text x="690" y="180" text-anchor="middle" font-weight="700" fill="#3730a3">ЧАРВАКА</text>
+      <text x="690" y="198" text-anchor="middle" font-size="9" fill="#78716c">4 элемента,</text>
+      <text x="690" y="210" text-anchor="middle" font-size="9" fill="#78716c">только восприятие</text>
+      <text x="690" y="232" text-anchor="middle" font-size="9" fill="#a8a29e">локаята</text>
+    </g>
+
+    <text x="390" y="372" text-anchor="middle" font-size="11" fill="#78716c">Критерий деления один: признаёт ли школа авторитет вед</text>
+    <text x="390" y="392" text-anchor="middle" font-size="10" fill="#a8a29e">Школы спорили между собой, изучая аргументы противника прежде вывода</text>
+  </g>
+</svg>

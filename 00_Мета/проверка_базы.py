@@ -48,7 +48,8 @@ TYPES = {"лекция", "практика", "сообщение", "курс", "
 FENCE = re.compile(r"^```(\w*)\s*$")
 HEADING = re.compile(r"^(#{1,6})\s+(.*)$")
 LINK = re.compile(r"!?\[\[([^\]\|#^]+)(?:#([^\]\|]+))?(?:\|[^\]]*)?\]\]")
-ANCHOR = re.compile(r"\^([A-Za-z0-9]{4,})\s*$", re.MULTILINE)
+# Obsidian допускает в идентификаторе блока буквы, цифры и дефис
+ANCHOR = re.compile(r"\^([A-Za-z0-9][A-Za-z0-9-]{3,})\s*$", re.MULTILINE)
 TASK = re.compile(r"^- \[ \] #task(.*)$", re.MULTILINE)
 TASK_PLAIN = re.compile(r"^- \[ \] (?!.*#task)(.*)$", re.MULTILINE)
 
